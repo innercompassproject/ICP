@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Founding Stewards — InnerCompass Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,300;0,6..12,400;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;1,6..12,300;1,6..12,400;1,6..12,700&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+
+:root {
+  --teal:     #3A6073;
+  --teal-d:   #2d4d5e;
+  --teal-dd:  #1e3340;
+  --teal-lt:  #4a7a8f;
+  --olive:    #556B2F;
+  --olive-lt: #6a8440;
+  --olive-d:  #445824;
+  --earth:    #CD853F;
+  --earth-lt: #d99554;
+  --earth-d:  #b8722e;
+  --bg:       #E8E8E8;
+  --bg-d:     #dedede;
+  --white:    #ffffff;
+  --ink:      #1a1a1a;
+  --muted:    #5a5a5a;
+  --soft:     #8a8a8a;
+  --rule:     rgba(0,0,0,.08);
+  --rule-lt:  rgba(0,0,0,.045);
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  background:var(--bg); color:var(--ink);
+  font-family:'Open Sans',sans-serif;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+a { text-decoration:none; color:inherit; }
+::-webkit-scrollbar { width:2px; }
+::-webkit-scrollbar-track { background:var(--olive-d); }
+::-webkit-scrollbar-thumb { background:var(--earth); }
+
+/* ── NAV ── */
+.nav {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  height:58px; display:flex; align-items:center; padding:0 48px;
+  background:rgba(26,38,20,.97); backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(255,255,255,.04);
+}
+.nav-logo {
+  font-family:'Nunito Sans',sans-serif; font-size:13px; font-weight:900;
+  letter-spacing:.22em; text-transform:uppercase; color:rgba(255,255,255,.88);
+}
+.nav-logo span { color:var(--earth); }
+.nav-project { color:rgba(255,255,255,.28); font-weight:300; letter-spacing:.08em; font-size:11px; margin-left:4px; }
+.nav-sep { flex:1; }
+.nav-links { display:flex; }
+.nav-a {
+  font-size:10px; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+  color:rgba(255,255,255,.35); padding:0 18px; height:58px;
+  display:flex; align-items:center; border-bottom:2px solid transparent;
+  transition:color .2s, border-color .2s;
+}
+.nav-a:hover, .nav-a.active { color:rgba(255,255,255,.8); border-bottom-color:var(--earth); }
+.nav-back {
+  font-size:10px; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+  color:rgba(255,255,255,.3); display:flex; align-items:center; gap:8px;
+  transition:color .2s; padding-right:24px; border-right:1px solid rgba(255,255,255,.07);
+  margin-right:8px;
+}
+.nav-back:hover { color:rgba(255,255,255,.65); }
+
+/* ── SHARED ── */
+.W { max-width:1140px; margin:0 auto; padding:0 80px; }
+
+.r { opacity:0; transform:translateY(18px); transition:opacity .65s ease, transform .65s ease; }
+.r.in { opacity:1; transform:none; }
+.d1{transition-delay:.07s} .d2{transition-delay:.14s} .d3{transition-delay:.21s}
+.d4{transition-delay:.28s} .d5{transition-delay:.35s}
+
+.section-tag {
+  font-size:9px; letter-spacing:.26em; text-transform:uppercase; font-weight:600;
+  color:var(--earth); display:flex; align-items:center; gap:10px; margin-bottom:18px;
+}
+.section-tag::before { content:''; display:block; width:20px; height:1.5px; background:var(--earth); }
+.section-tag.olive { color:var(--olive-lt); }
+.section-tag.olive::before { background:var(--olive-lt); }
+.section-tag.light { color:var(--earth-lt); }
+.section-tag.light::before { background:var(--earth-lt); }
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:none} }
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+@keyframes scrollPulse { 0%,100%{opacity:.4} 50%{opacity:.9} }
+@keyframes seedGrow {
+  0% { transform:scale(.85) rotate(-3deg); opacity:0; }
+  100% { transform:scale(1) rotate(0deg); opacity:1; }
+}
+
+/* ── HERO — OLIVE DARK ── */
+.hero {
+  min-height:100vh;
+  background:linear-gradient(165deg, #1a2614 0%, #243019 45%, #1e3340 100%);
+  display:flex; flex-direction:column; justify-content:center;
+  padding:130px 0 90px; position:relative; overflow:hidden;
+}
+
+/* organic texture */
+.hero::before {
+  content:'';
+  position:absolute; inset:0;
+  background-image:
+    radial-gradient(ellipse 60% 80% at 85% 20%, rgba(85,107,47,.18) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 50% at 10% 80%, rgba(205,133,63,.1) 0%, transparent 55%);
+  pointer-events:none;
+}
+.hero-grain {
+  position:absolute; inset:0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  background-size:200px; pointer-events:none; opacity:.5;
+}
+
+/* large organic circle — background element */
+.hero-orb {
+  position:absolute; top:-15%; right:-10%;
+  width:75vw; height:75vw; max-width:800px; max-height:800px;
+  border-radius:50%;
+  border:1px solid rgba(85,107,47,.1);
+  pointer-events:none;
+}
+.hero-orb2 {
+  position:absolute; top:5%; right:5%;
+  width:40vw; height:40vw; max-width:420px; max-height:420px;
+  border-radius:50%;
+  border:1px solid rgba(85,107,47,.06);
+  pointer-events:none;
+}
+
+.hero-inner { position:relative; z-index:2; }
+.hero-seats {
+  display:inline-flex; align-items:center; gap:12px;
+  margin-bottom:36px;
+  opacity:0; animation:fadeUp .6s ease forwards .1s;
+}
+.seat-pill {
+  width:10px; height:10px; border-radius:50%;
+  background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.2);
+}
+.seat-pill.filled { background:var(--earth); border-color:var(--earth); }
+.hero-seats-label {
+  font-size:9.5px; font-weight:600; letter-spacing:.26em; text-transform:uppercase;
+  color:var(--earth-lt);
+}
+
+.hero-h1 {
+  font-family:'Nunito Sans',sans-serif;
+  font-size:clamp(38px,6vw,70px); font-weight:900; line-height:1.04;
+  color:#fff; margin-bottom:28px;
+  opacity:0; animation:fadeUp .9s ease forwards .25s;
+}
+.hero-h1 em { font-style:italic; font-weight:300; color:rgba(106,132,64,.9); }
+.hero-h1 .earth { color:rgba(205,133,63,.85); font-style:italic; font-weight:300; }
+
+.hero-standfirst {
+  font-family:'EB Garamond',serif; font-size:20px; font-style:italic;
+  line-height:1.78; color:rgba(255,255,255,.52); max-width:540px; margin-bottom:44px;
+  opacity:0; animation:fadeUp .8s ease forwards .4s;
+}
+.hero-standfirst strong { font-style:normal; font-weight:500; color:rgba(255,255,255,.76); }
+
+.hero-cta-row {
+  display:flex; gap:12px; flex-wrap:wrap;
+  opacity:0; animation:fadeUp .7s ease forwards .55s;
+}
+.btn-olive {
+  display:inline-flex; align-items:center; gap:9px;
+  padding:15px 30px; background:var(--olive); color:#fff;
+  font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+  transition:all .22s;
+}
+.btn-olive:hover { background:var(--olive-d); transform:translateY(-2px); box-shadow:0 12px 32px rgba(85,107,47,.35); }
+.btn-ghost {
+  display:inline-flex; align-items:center; gap:9px;
+  padding:15px 30px; border:1px solid rgba(255,255,255,.18); color:rgba(255,255,255,.55);
+  font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+  transition:all .22s;
+}
+.btn-ghost:hover { border-color:rgba(255,255,255,.45); color:#fff; transform:translateY(-2px); }
+.btn-icon { transition:transform .2s; }
+.btn-olive:hover .btn-icon, .btn-ghost:hover .btn-icon { transform:translateX(4px); }
+
+.hero-scroll {
+  position:absolute; bottom:44px; left:50%; transform:translateX(-50%); z-index:2;
+  display:flex; flex-direction:column; align-items:center; gap:9px;
+  opacity:0; animation:fadeIn 1s ease forwards 1.4s;
+}
+.hero-scroll-label { font-size:8px; letter-spacing:.22em; text-transform:uppercase; font-weight:600; color:rgba(255,255,255,.16); }
+.hero-scroll-line { width:1px; height:42px; background:linear-gradient(to bottom,rgba(205,133,63,.5),transparent); animation:scrollPulse 2.2s ease-in-out infinite 1.8s; }
+
+/* ── NOT A PARTNER PROGRAM ── */
+.reframe {
+  background:var(--white); padding:96px 0;
+  position:relative; overflow:hidden;
+}
+.reframe-wm {
+  position:absolute; bottom:-40px; right:-20px;
+  font-family:'Nunito Sans',sans-serif;
+  font-size:clamp(160px,20vw,280px); font-weight:900; line-height:1;
+  color:rgba(0,0,0,.028); pointer-events:none; user-select:none;
+  letter-spacing:-.02em;
+}
+.reframe-grid { display:grid; grid-template-columns:400px 1fr; gap:80px; align-items:start; }
+.reframe-left { position:sticky; top:100px; }
+.reframe-h { font-family:'Nunito Sans',sans-serif; font-size:clamp(26px,3.5vw,40px); font-weight:900; line-height:1.07; color:var(--teal-dd); margin-bottom:20px; }
+.reframe-h em { font-style:italic; font-weight:300; color:var(--olive); }
+.reframe-sub { font-family:'EB Garamond',serif; font-size:18px; font-style:italic; line-height:1.72; color:var(--muted); border-left:3px solid var(--olive); padding-left:16px; }
+
+.reframe-right { }
+.reframe-para { font-size:15.5px; line-height:1.95; color:var(--muted); font-weight:300; margin-bottom:26px; }
+.reframe-para strong { color:var(--ink); font-weight:700; }
+.reframe-para em { color:var(--olive); font-style:italic; }
+
+/* comparison table */
+.compare { border:1px solid var(--rule); margin:36px 0; overflow:hidden; }
+.compare-head { display:grid; grid-template-columns:1fr 1fr 1fr; background:var(--bg); border-bottom:1px solid var(--rule); }
+.ch { padding:12px 18px; font-size:8.5px; letter-spacing:.18em; text-transform:uppercase; font-weight:700; color:var(--soft); }
+.ch.olive { color:var(--olive-d); }
+.compare-row { display:grid; grid-template-columns:1fr 1fr 1fr; border-bottom:1px solid var(--rule-lt); }
+.compare-row:last-child { border-bottom:none; }
+.cc { padding:13px 18px; font-size:13px; color:var(--muted); line-height:1.6; font-weight:300; }
+.cc.label { font-size:11px; font-weight:600; color:var(--ink); letter-spacing:.04em; }
+.cc.highlight { color:var(--olive-d); font-weight:600; }
+.cc.dim { color:var(--soft); font-style:italic; }
+
+/* ── THE ROLE ── */
+.role { background:var(--bg); padding:96px 0; }
+.role-h { font-family:'Nunito Sans',sans-serif; font-size:clamp(26px,3.5vw,40px); font-weight:900; line-height:1.07; color:var(--teal-dd); margin-bottom:16px; }
+.role-h em { font-style:italic; font-weight:300; color:var(--olive); }
+.role-intro { font-size:15px; font-weight:300; line-height:1.88; color:var(--muted); max-width:640px; margin-bottom:52px; }
+.role-intro strong { color:var(--ink); font-weight:600; }
+
+.role-cards { display:grid; grid-template-columns:1fr 1fr 1fr; gap:2px; margin-bottom:28px; }
+.role-card {
+  background:var(--white); padding:30px 26px;
+  border:1px solid var(--rule); border-top:3px solid var(--bg-d);
+  transition:border-top-color .22s;
+}
+.role-card:hover { border-top-color:var(--olive); }
+.rc-icon { font-size:26px; margin-bottom:14px; }
+.rc-title { font-family:'Nunito Sans',sans-serif; font-size:17px; font-weight:900; color:var(--teal-dd); margin-bottom:8px; line-height:1.2; }
+.rc-body { font-size:13px; color:var(--muted); line-height:1.75; font-weight:300; }
+.rc-body strong { color:var(--ink); font-weight:600; }
+.rc-commitment { margin-top:14px; padding-top:12px; border-top:1px solid var(--rule); font-size:11px; color:var(--earth-d); font-weight:600; letter-spacing:.08em; }
+
+.role-note {
+  background:var(--teal-dd); padding:24px 32px;
+  display:flex; gap:18px; align-items:flex-start;
+}
+.rn-icon { font-size:20px; flex-shrink:0; margin-top:2px; }
+.rn-title { font-family:'Nunito Sans',sans-serif; font-size:15px; font-weight:800; color:#fff; margin-bottom:5px; }
+.rn-text { font-size:13px; color:rgba(255,255,255,.48); line-height:1.72; font-weight:300; }
+.rn-text strong { color:rgba(255,255,255,.76); font-weight:600; }
+
+/* ── WHAT YOU BUILD ── */
+.builds { background:var(--white); padding:96px 0; }
+.builds-intro { display:grid; grid-template-columns:1fr 1fr; gap:60px; margin-bottom:56px; align-items:start; }
+.builds-h { font-family:'Nunito Sans',sans-serif; font-size:clamp(26px,3.5vw,40px); font-weight:900; line-height:1.07; color:var(--teal-dd); }
+.builds-h em { font-style:italic; font-weight:300; color:var(--olive); }
+.builds-body { font-size:15px; font-weight:300; line-height:1.9; color:var(--muted); padding-top:8px; }
+.builds-body strong { color:var(--ink); font-weight:600; }
+
+.builds-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; }
+.build {
+  padding:34px 30px; background:var(--bg);
+  border:1px solid var(--rule); border-left:3px solid var(--bg-d);
+  transition:border-left-color .22s; position:relative; overflow:hidden;
+}
+.build:hover { border-left-color:var(--olive); }
+.build-n {
+  font-family:'Nunito Sans',sans-serif; font-size:72px; font-weight:900;
+  color:rgba(0,0,0,.04); line-height:1; margin-bottom:12px;
+  position:absolute; top:10px; right:16px; pointer-events:none;
+}
+.build-title { font-family:'Nunito Sans',sans-serif; font-size:18px; font-weight:900; color:var(--teal-dd); margin-bottom:8px; }
+.build-sub { font-size:10px; letter-spacing:.14em; text-transform:uppercase; font-weight:600; color:var(--olive-lt); margin-bottom:11px; }
+.build-body { font-size:13px; color:var(--muted); line-height:1.75; font-weight:300; }
+.build-body strong { color:var(--ink); font-weight:600; }
+
+/* credential callout */
+.credential {
+  margin-top:2px;
+  background:linear-gradient(135deg, var(--olive-d) 0%, #3a4d1f 100%);
+  padding:36px 40px;
+  display:flex; gap:32px; align-items:flex-start;
+}
+.cred-left { flex-shrink:0; }
+.cred-icon { font-size:36px; }
+.cred-right { }
+.cred-title { font-family:'Nunito Sans',sans-serif; font-size:22px; font-weight:900; color:#fff; margin-bottom:10px; }
+.cred-body { font-size:14px; color:rgba(255,255,255,.52); line-height:1.82; font-weight:300; }
+.cred-body strong { color:rgba(255,255,255,.82); font-weight:600; }
+
+/* ── THE HONEST PART ── */
+.honest {
+  background:var(--bg); padding:96px 0;
+}
+.honest-grid { display:grid; grid-template-columns:500px 1fr; gap:80px; align-items:start; }
+.honest-left { }
+.honest-h { font-family:'Nunito Sans',sans-serif; font-size:clamp(24px,3vw,36px); font-weight:900; line-height:1.1; color:var(--teal-dd); margin-bottom:20px; }
+.honest-h em { font-style:italic; font-weight:300; color:var(--olive); }
+.honest-sub { font-family:'EB Garamond',serif; font-size:18px; font-style:italic; line-height:1.72; color:var(--muted); border-left:3px solid var(--olive); padding-left:16px; margin-bottom:24px; }
+.honest-para { font-size:14.5px; color:var(--muted); line-height:1.88; font-weight:300; margin-bottom:18px; }
+.honest-para strong { color:var(--ink); font-weight:600; }
+.honest-para em { color:var(--olive); font-style:italic; }
+
+.honest-right { }
+
+/* commitment items */
+.commit-head { font-size:9px; letter-spacing:.22em; text-transform:uppercase; font-weight:600; color:var(--earth-d); margin-bottom:14px; display:flex; align-items:center; gap:9px; }
+.commit-head::before { content:''; display:block; width:16px; height:1.5px; background:var(--earth-d); }
+
+.commits { list-style:none; margin-bottom:32px; }
+.commit { display:flex; gap:16px; padding:16px 0; border-bottom:1px solid var(--rule); }
+.commit:last-child { border-bottom:none; }
+.commit-icon { width:28px; height:28px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:12px; background:rgba(85,107,47,.1); color:var(--olive); border:1px solid rgba(85,107,47,.18); margin-top:1px; }
+.commit-body { }
+.commit-title { font-size:14px; font-weight:700; color:var(--ink); margin-bottom:4px; }
+.commit-desc { font-size:12.5px; color:var(--muted); line-height:1.68; font-weight:300; }
+
+/* not this */
+.not-this { background:var(--white); border:1px solid var(--rule); padding:22px 24px; }
+.nt-head { font-size:9px; letter-spacing:.18em; text-transform:uppercase; font-weight:600; color:rgba(120,30,30,.7); margin-bottom:12px; }
+.nt-list { list-style:none; }
+.nt-item { display:flex; gap:10px; padding:7px 0; border-bottom:1px solid var(--rule-lt); font-size:12.5px; color:var(--muted); font-weight:300; line-height:1.6; }
+.nt-item:last-child { border-bottom:none; }
+.nt-item::before { content:'✗'; color:#b03030; font-size:11px; font-weight:700; flex-shrink:0; margin-top:1px; }
+
+/* ── THE AGREEMENT ── */
+.agreement { background:var(--teal-dd); padding:88px 0; }
+.agreement-inner { display:grid; grid-template-columns:1fr 1fr; gap:2px; }
+
+.agr-story { padding:52px; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.07); }
+.agr-h { font-family:'Nunito Sans',sans-serif; font-size:clamp(22px,2.8vw,32px); font-weight:900; line-height:1.1; color:#fff; margin-bottom:20px; }
+.agr-h em { font-style:italic; font-weight:300; color:rgba(106,132,64,.9); }
+.agr-body { font-size:14.5px; font-weight:300; line-height:1.9; color:rgba(255,255,255,.46); margin-bottom:24px; }
+.agr-body strong { color:rgba(255,255,255,.76); font-weight:600; }
+.agr-body em { color:rgba(106,132,64,.8); font-style:italic; }
+
+.agr-terms { list-style:none; }
+.agr-term { display:flex; gap:14px; padding:14px 0; border-bottom:1px solid rgba(255,255,255,.05); }
+.agr-term:last-child { border-bottom:none; }
+.agr-term-icon { color:var(--earth-lt); font-size:13px; flex-shrink:0; margin-top:2px; }
+.agr-term-title { font-size:13.5px; color:rgba(255,255,255,.68); font-weight:600; margin-bottom:3px; }
+.agr-term-desc { font-size:12px; color:rgba(255,255,255,.3); line-height:1.65; font-weight:300; }
+
+/* form side */
+.agr-form { padding:52px; background:var(--olive-d); }
+.agr-tag { font-size:9px; letter-spacing:.26em; text-transform:uppercase; font-weight:600; color:rgba(255,255,255,.5); display:flex; align-items:center; gap:10px; margin-bottom:22px; }
+.agr-tag::before { content:''; display:block; width:18px; height:1.5px; background:rgba(255,255,255,.4); }
+.agr-form-h { font-family:'Nunito Sans',sans-serif; font-size:24px; font-weight:900; color:#fff; line-height:1.15; margin-bottom:8px; }
+.agr-form-sub { font-size:13px; color:rgba(255,255,255,.55); line-height:1.65; font-weight:300; margin-bottom:30px; }
+.form { display:flex; flex-direction:column; gap:14px; }
+.field-label { font-size:9px; letter-spacing:.18em; text-transform:uppercase; font-weight:600; color:rgba(255,255,255,.55); display:block; margin-bottom:6px; }
+.field-input, .field-select, .field-textarea {
+  width:100%; padding:13px 16px;
+  background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.18);
+  color:#fff; font-family:'Open Sans',sans-serif; font-size:14px; font-weight:300;
+  outline:none; transition:border-color .2s, background .2s; -webkit-appearance:none;
+}
+.field-input::placeholder, .field-textarea::placeholder { color:rgba(255,255,255,.3); }
+.field-select { color:rgba(255,255,255,.75); cursor:pointer; }
+.field-select option { background:var(--olive-d); color:#fff; }
+.field-textarea { resize:vertical; min-height:80px; line-height:1.6; }
+.field-input:focus,.field-select:focus,.field-textarea:focus { border-color:rgba(255,255,255,.45); background:rgba(255,255,255,.14); }
+.form-btn {
+  padding:16px 28px; background:var(--earth); color:#fff; border:none; cursor:pointer;
+  font-family:'Open Sans',sans-serif; font-size:11px; font-weight:700;
+  letter-spacing:.16em; text-transform:uppercase; transition:all .22s;
+  display:flex; align-items:center; justify-content:center; gap:10px; margin-top:6px;
+}
+.form-btn:hover { background:var(--earth-d); }
+.form-note { font-size:11px; color:rgba(255,255,255,.35); line-height:1.65; text-align:center; margin-top:8px; font-style:italic; }
+.seats-remaining { background:rgba(205,133,63,.12); border:1px solid rgba(205,133,63,.25); padding:10px 16px; text-align:center; margin-bottom:20px; }
+.sr-text { font-size:11px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--earth-lt); }
+.sr-dots { display:flex; gap:6px; justify-content:center; margin-top:7px; }
+.sr-dot { width:9px; height:9px; border-radius:50%; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.2); }
+.sr-dot.filled { background:var(--earth); border-color:var(--earth); }
+
+/* ── WHAT TO EXPECT ── */
+.expect { background:var(--bg); padding:96px 0; }
+.expect-h { font-family:'Nunito Sans',sans-serif; font-size:clamp(24px,3vw,36px); font-weight:900; line-height:1.1; color:var(--teal-dd); margin-bottom:14px; }
+.expect-h em { font-style:italic; font-weight:300; color:var(--olive); }
+.expect-sub { font-size:15px; font-weight:300; line-height:1.82; color:var(--muted); max-width:640px; margin-bottom:52px; }
+.expect-sub strong { color:var(--ink); font-weight:600; }
+
+/* 12-month timeline */
+.phases { display:grid; grid-template-columns:1fr 1fr 1fr; gap:2px; margin-bottom:28px; }
+.phase {
+  background:var(--white); padding:32px 26px;
+  border:1px solid var(--rule); border-top:3px solid var(--bg-d);
+  transition:border-top-color .22s;
+}
+.phase:hover { border-top-color:var(--olive); }
+.phase-period { font-size:9px; letter-spacing:.2em; text-transform:uppercase; font-weight:600; color:var(--earth-d); margin-bottom:10px; }
+.phase-h { font-family:'Nunito Sans',sans-serif; font-size:18px; font-weight:900; color:var(--teal-dd); margin-bottom:10px; line-height:1.2; }
+.phase-body { font-size:13px; color:var(--muted); line-height:1.75; font-weight:300; margin-bottom:14px; }
+.phase-body strong { color:var(--ink); font-weight:600; }
+.phase-milestones { list-style:none; }
+.pm { display:flex; gap:8px; padding:5px 0; border-bottom:1px solid var(--rule-lt); font-size:12px; color:var(--muted); font-weight:300; }
+.pm:last-child { border-bottom:none; }
+.pm::before { content:'·'; color:var(--olive); font-weight:700; flex-shrink:0; }
+
+.phase-12 { background:var(--olive); padding:22px 30px; display:flex; gap:20px; align-items:center; flex-wrap:wrap; }
+.p12-icon { font-size:26px; flex-shrink:0; }
+.p12-body { }
+.p12-title { font-family:'Nunito Sans',sans-serif; font-size:18px; font-weight:900; color:#fff; margin-bottom:5px; }
+.p12-text { font-size:13px; color:rgba(255,255,255,.55); line-height:1.72; font-weight:300; }
+.p12-text strong { color:rgba(255,255,255,.82); font-weight:600; }
+
+/* ── FINAL CTA ── */
+.final {
+  background:linear-gradient(165deg, #1a2614 0%, #243019 55%, #1e3340 100%);
+  padding:120px 0; text-align:center; position:relative; overflow:hidden;
+}
+.final::before {
+  content:'';
+  position:absolute; inset:0;
+  background:radial-gradient(ellipse 80% 70% at 50% 50%, rgba(85,107,47,.2), transparent 70%);
+  pointer-events:none;
+}
+.final-inner { position:relative; z-index:1; max-width:720px; margin:0 auto; }
+.final-ey { font-size:9.5px; letter-spacing:.28em; text-transform:uppercase; font-weight:600; color:var(--earth-lt); margin-bottom:24px; }
+.final-h {
+  font-family:'EB Garamond',serif;
+  font-size:clamp(34px,5.5vw,60px); font-weight:400; font-style:italic;
+  line-height:1.15; color:#fff; margin-bottom:18px;
+}
+.final-h strong { font-style:normal; font-weight:500; }
+.final-h .olive { color:rgba(106,132,64,.9); }
+.final-sub { font-size:15px; color:rgba(255,255,255,.36); line-height:1.88; max-width:520px; margin:0 auto 48px; font-weight:300; }
+.final-btns { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+.final-alt { font-size:12px; color:rgba(255,255,255,.22); margin-top:22px; font-style:italic; }
+.final-alt a { color:rgba(255,255,255,.42); text-decoration:underline; text-decoration-color:rgba(255,255,255,.15); }
+.final-alt a:hover { color:rgba(255,255,255,.68); }
+
+footer {
+  background:#111d0e; border-top:1px solid rgba(255,255,255,.04);
+  padding:36px 80px; display:flex; align-items:center;
+  justify-content:space-between; flex-wrap:wrap; gap:16px;
+}
+.f-logo { font-family:'Nunito Sans',sans-serif; font-size:12px; font-weight:900; letter-spacing:.2em; text-transform:uppercase; color:rgba(255,255,255,.38); }
+.f-logo span { color:var(--earth); }
+.f-tagline { font-family:'EB Garamond',serif; font-size:13px; font-style:italic; color:rgba(255,255,255,.18); }
+.f-meta { font-size:8.5px; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.12); font-weight:600; }
+
+/* ── RESPONSIVE ── */
+@media(max-width:960px){
+  .nav{padding:0 20px;} .nav-links{display:none;}
+  .W{padding:0 24px;}
+  .reframe-grid,.honest-grid{grid-template-columns:1fr;gap:40px;}
+  .reframe-left,.honest-left{position:static;}
+  .role-cards{grid-template-columns:1fr 1fr;}
+  .builds-intro,.builds-grid{grid-template-columns:1fr;}
+  .agreement-inner{grid-template-columns:1fr;}
+  .agr-story,.agr-form{padding:40px 28px;}
+  .phases{grid-template-columns:1fr;}
+  .compare-head,.compare-row{grid-template-columns:1fr;}
+  .compare .ch:not(:first-child),.compare .cc:not(.label){display:none;}
+  footer{flex-direction:column;text-align:center;padding:28px 24px;}
+  .credential{flex-direction:column;gap:16px;}
+}
+@media(max-width:600px){
+  .role-cards{grid-template-columns:1fr;}
+  .builds-grid{grid-template-columns:1fr;}
+  .hero-seats{flex-wrap:wrap;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="./index" class="nav-back">← InnerCompass Project</a>
+  <div class="nav-logo">Inner<span>Compass</span><span class="nav-project">Project</span></div>
+  <div class="nav-sep"></div>
+  <div class="nav-links">
+    <a href="./standard" class="nav-a">The Standard</a>
+    <a href="./build" class="nav-a">The Build</a>
+    <a href="./implementors" class="nav-a">Implementors</a>
+    <a href="./stewards" class="nav-a active">Stewards</a>
+  </div>
+</nav>
+
+
+<!-- ══ HERO ══════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-grain"></div>
+  <div class="hero-orb"></div>
+  <div class="hero-orb2"></div>
+
+  <div class="W hero-inner">
+    <div class="hero-seats">
+      <div class="seat-pill filled"></div>
+      <div class="seat-pill filled"></div>
+      <div class="seat-pill"></div>
+      <div class="seat-pill"></div>
+      <div class="seat-pill"></div>
+      <div class="hero-seats-label">5 Founding Steward Seats · 2 Filled</div>
+    </div>
+
+    <h1 class="hero-h1">
+      You've seen the structural<br>
+      failures <em>from the inside.</em><br>
+      Now help build the<br>
+      <span class="earth">standard that fixes them.</span>
+    </h1>
+
+    <p class="hero-standfirst">
+      Five seats. Named contributors.
+      <strong>Your fingerprints permanently on what ICP becomes.</strong>
+      Not a volunteer programme. Not a certification.
+      The architecture of a standard — built with the people shaping it.
+    </p>
+
+    <div class="hero-cta-row">
+      <a href="#apply" class="btn-olive">Apply for a Steward Seat <span class="btn-icon">→</span></a>
+      <a href="#role" class="btn-ghost">Understand the Role <span class="btn-icon">↓</span></a>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="hero-scroll-label">Read on</div>
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+
+<!-- ══ REFRAME ════════════════════════════════════════════ -->
+<section class="reframe">
+  <div class="reframe-wm">BUILD</div>
+  <div class="W">
+    <div class="reframe-grid">
+
+      <div class="reframe-left r">
+        <div class="section-tag olive">What this actually is</div>
+        <h2 class="reframe-h">
+          This is not<br>
+          a partner programme.<br>
+          <em>Not a volunteer role.</em><br>
+          Not a certification.
+        </h2>
+        <div class="reframe-sub">
+          It is a founding contribution to infrastructure — and that distinction is permanent.
+        </div>
+      </div>
+
+      <div class="reframe-right">
+        <p class="reframe-para r d1">
+          Most organisations looking for practitioners offer one of three things: a revenue share, a certification badge, or an earnest appeal to "help build something meaningful." All three miss the point for the kind of person this is designed for.
+        </p>
+        <p class="reframe-para r d2">
+          The people ICP needs as founding stewards are not looking for another credential on a website. They are looking for <strong>a meaningful role in something that outlasts any individual engagement</strong> — something that carries their thinking, their evidence, their field work into a standard that other founders will build on for decades.
+        </p>
+        <p class="reframe-para r d3">
+          That is a fundamentally different offer. <em>Being one of five founding stewards of a global operating standard for MSMEs is a career-defining identity</em> — if ICP becomes what it is built to become. The credential is not a badge. It is a permanent attribution: this person helped shape how the standard works.
+        </p>
+
+        <div class="compare r d3">
+          <div class="compare-head">
+            <div class="ch">The question</div>
+            <div class="ch">Typical partner programme</div>
+            <div class="ch olive">ICP Founding Steward</div>
+          </div>
+          <div class="compare-row">
+            <div class="cc label">What you contribute</div>
+            <div class="cc dim">Time and referrals</div>
+            <div class="cc highlight">Shape the standard itself</div>
+          </div>
+          <div class="compare-row">
+            <div class="cc label">What you're called</div>
+            <div class="cc dim">Partner / Affiliate</div>
+            <div class="cc highlight">Named founding contributor</div>
+          </div>
+          <div class="compare-row">
+            <div class="cc label">Attribution</div>
+            <div class="cc dim">Logo on a website</div>
+            <div class="cc highlight">Named in Standard v1.0 permanently</div>
+          </div>
+          <div class="compare-row">
+            <div class="cc label">What you build</div>
+            <div class="cc dim">Your client base</div>
+            <div class="cc highlight">Infrastructure that outlasts your clients</div>
+          </div>
+          <div class="compare-row">
+            <div class="cc label">Compensation</div>
+            <div class="cc dim">Commission on referred revenue</div>
+            <div class="cc highlight">No pay now — equity in the mission as it scales</div>
+          </div>
+        </div>
+
+        <p class="reframe-para r d4">
+          We will not pretend the compensation structure is straightforward. <strong>There is no payment right now.</strong> That is honest. What there is — the access, the attribution, the role in shaping what gets built — is a different kind of return. The founders who shaped what became the ISO standard were not paid by the standards body. They were credited. That credit compounds.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ THE ROLE ══════════════════════════════════════════ -->
+<section class="role" id="role">
+  <div class="W">
+    <div class="section-tag r">The actual role</div>
+    <h2 class="role-h r">
+      Three specific<br>
+      <em>responsibilities.</em>
+    </h2>
+    <p class="role-intro r">
+      The Steward role is structured around three activities. Not vague participation — <strong>specific contributions that directly strengthen the standard</strong> and are documented with your name attached to them.
+    </p>
+
+    <div class="role-cards r">
+      <div class="role-card">
+        <div class="rc-icon">🔍</div>
+        <div class="rc-title">Run Kit Conversations</div>
+        <div class="rc-body">Work directly with founders inside your existing community, network, or client base. Run ICP kit conversations. <strong>You get full access to the kit system</strong> and guidance on how to facilitate the journey. Your sessions are where the standard is tested in contexts the founding team can't reach alone.</div>
+        <div class="rc-commitment">2 sessions per month minimum</div>
+      </div>
+      <div class="role-card">
+        <div class="rc-icon">📝</div>
+        <div class="rc-title">Document & Submit Case Studies</div>
+        <div class="rc-body">Every founder journey produces learning. Your job is to <strong>capture that learning in a structured format</strong> — what broke, what held, what the pillar looked like in that specific context. These case studies become the evidence base that makes v1.0 credible. <strong>Your name is on every case study you submit.</strong></div>
+        <div class="rc-commitment">1 structured case study per quarter</div>
+      </div>
+      <div class="role-card">
+        <div class="rc-icon">🏛</div>
+        <div class="rc-title">Standard Refinement Sessions</div>
+        <div class="rc-body">Monthly call with the full steward group and the ICP founding team. <strong>What you're seeing in the field directly shapes what the standard says.</strong> Where a pillar definition isn't holding under real conditions, you bring the evidence and the group decides what changes. This is where the standard evolves from use.</div>
+        <div class="rc-commitment">Monthly 90-minute session</div>
+      </div>
+    </div>
+
+    <div class="role-note r">
+      <div class="rn-icon">⏱</div>
+      <div class="rn-title">Total commitment: 6–8 hours per week</div>
+      <div class="rn-text">Most of that time is work you would do anyway — working with founders, thinking about structural patterns, building your own expertise. <strong>The difference is that ICP provides the framework and you contribute the field evidence back into it.</strong> This is not extra work bolted on top of your practice. It is your practice, with a standard underneath it.</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ WHAT YOU BUILD ═════════════════════════════════════ -->
+<section class="builds">
+  <div class="W">
+    <div class="builds-intro r">
+      <div>
+        <div class="section-tag olive">What you build for yourself</div>
+        <h2 class="builds-h">
+          Four things that<br>
+          <em>compound over time.</em>
+        </h2>
+      </div>
+      <div>
+        <p class="builds-body" style="padding-top:16px;">
+          The Steward role is not transactional. The return is not immediate. But the things you build through it are <strong>permanent, compounding, and yours</strong> — not dependent on ICP's continued success to remain valuable to you.
+        </p>
+      </div>
+    </div>
+
+    <div class="builds-grid r">
+      <div class="build">
+        <div class="build-n">01</div>
+        <div class="build-title">Permanent Attribution</div>
+        <div class="build-sub">Named in ICP Standard v1.0</div>
+        <div class="build-body">Every case study you submit carries your name. The standard document itself credits founding contributors permanently. <strong>When governments, foundations, or development institutions adopt ICP</strong> — and the documentation shows who shaped it — your name is in that record. Not as a logo. As an architect.</div>
+      </div>
+      <div class="build">
+        <div class="build-n">02</div>
+        <div class="build-title">A Structured Framework for Your Practice</div>
+        <div class="build-sub">Full kit system access</div>
+        <div class="build-body">You run better sessions with your existing founders because you now have a <strong>rigorous, evidence-based operating standard</strong> underneath your conversations. The kits replace ad-hoc diagnostic conversations with structured journeys that produce real outputs. Your work gets better. Your clients get more value.</div>
+      </div>
+      <div class="build">
+        <div class="build-n">03</div>
+        <div class="build-title">Evidence You Can Cite</div>
+        <div class="build-sub">Co-authored case studies</div>
+        <div class="build-body">The case studies you contribute are published under your name on the ICP evidence base. They are <strong>citable, documentable proof</strong> of your methodology and field experience — not testimonials from clients, but structured research contributing to a global standard. A different category of credibility.</div>
+      </div>
+      <div class="build">
+        <div class="build-n">04</div>
+        <div class="build-title">Pathway to Compensation</div>
+        <div class="build-sub">As ICP scales, so does the relationship</div>
+        <div class="build-body">There is no payment in Phase 1. That is stated plainly. What there is: a <strong>formal Steward Agreement</strong> that documents the relationship and commits to a structured review at 12 months — where compensation, expanded role, and partnership structure are all on the table. The review is not a vague promise. It is a formal milestone.</div>
+      </div>
+    </div>
+
+    <div class="credential r">
+      <div class="cred-left">
+        <div class="cred-icon">🌱</div>
+      </div>
+      <div class="cred-right">
+        <div class="cred-title">The compounding argument</div>
+        <div class="cred-body">
+          The businesses that matter most were shaped by people who joined before the proof was public. <strong>Being one of five people who helped build the operating standard for MSMEs across emerging markets</strong> — before it had 500 users, before it had institutional adoption, before the standard was v1.0 — is a position that becomes more valuable the more ICP becomes what it is designed to become. You are not helping us build something. You are building something with us. That is a permanent distinction.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ THE HONEST PART ════════════════════════════════════ -->
+<section class="honest">
+  <div class="W">
+    <div class="honest-grid">
+
+      <div class="honest-left r">
+        <div class="section-tag olive">The honest part</div>
+        <h2 class="honest-h">
+          What this asks of you.<br>
+          <em>No softening.</em>
+        </h2>
+        <div class="honest-sub">
+          If you join as a Founding Steward expecting it to be easy or immediately rewarding, it will disappoint you. If you join knowing what it actually requires, it won't.
+        </div>
+        <p class="honest-para">The Steward role works because it asks serious people to do serious work. The field evidence that makes a standard credible doesn't come from enthusiastic participation. It comes from <strong>structured observation, honest documentation, and the discipline to report what didn't work</strong> as clearly as what did.</p>
+        <p class="honest-para">That requires a specific kind of person. Not universally. Not with a massive time commitment. But with <em>consistent, structured presence over 12 months.</em></p>
+      </div>
+
+      <div class="honest-right r d2">
+        <div class="commit-head">What Phase 1 requires from you</div>
+        <ul class="commits">
+          <li class="commit">
+            <div class="commit-icon">⏱</div>
+            <div class="commit-body">
+              <div class="commit-title">6–8 hours per week — consistently</div>
+              <div class="commit-desc">Not 6–8 hours in the first month and then occasional participation. Consistent presence over 12 months. That consistency is what makes the evidence base credible.</div>
+            </div>
+          </li>
+          <li class="commit">
+            <div class="commit-icon">📋</div>
+            <div class="commit-body">
+              <div class="commit-title">Honest documentation — including failures</div>
+              <div class="commit-desc">A standard gets stronger from cases where it broke as much as where it held. You need to be willing to document both, in the structured format, with your name on it.</div>
+            </div>
+          </li>
+          <li class="commit">
+            <div class="commit-icon">🤝</div>
+            <div class="commit-body">
+              <div class="commit-title">Real access to real founders</div>
+              <div class="commit-desc">You need an existing community, client base, or network of founders you can run kit conversations with. This is not a role for someone building their network from scratch.</div>
+            </div>
+          </li>
+          <li class="commit">
+            <div class="commit-icon">📅</div>
+            <div class="commit-body">
+              <div class="commit-title">Monthly sessions — attendance required</div>
+              <div class="commit-desc">The monthly refinement call is where the standard evolves. Missing it consistently means the group is working with incomplete field data. Attendance is a core part of the role.</div>
+            </div>
+          </li>
+          <li class="commit">
+            <div class="commit-icon">📄</div>
+            <div class="commit-body">
+              <div class="commit-title">Signing the Steward Agreement</div>
+              <div class="commit-desc">One page. Clarifies contribution, attribution, confidentiality, and the 12-month review structure. Not complicated — but it makes the relationship formal and fair for both sides.</div>
+            </div>
+          </li>
+        </ul>
+
+        <div class="not-this">
+          <div class="nt-head">This is not the right role if</div>
+          <ul class="nt-list">
+            <li class="nt-item">You don't currently work with founders in a structured capacity</li>
+            <li class="nt-item">You're looking for immediate financial return</li>
+            <li class="nt-item">You want a passive or flexible participation structure</li>
+            <li class="nt-item">You believe in the mission but can't commit 6–8 hours weekly right now</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ THE AGREEMENT & APPLY ══════════════════════════════ -->
+<section class="agreement" id="apply">
+  <div class="W">
+    <div class="agreement-inner r">
+
+      <!-- Left: what you're signing into -->
+      <div class="agr-story">
+        <div class="section-tag light">Phase 1 · 12 months</div>
+        <h2 class="agr-h">
+          A formal agreement.<br>
+          <em>Simple. Honest.<br>Binding both ways.</em>
+        </h2>
+        <p class="agr-body">
+          Every Founding Steward signs a one-page agreement before Phase 1 begins. It is not a legal labyrinth. It is a <strong>clear statement of what each side commits to</strong> — because vague goodwill doesn't survive 12 months of hard work.
+        </p>
+
+        <ul class="agr-terms">
+          <li class="agr-term">
+            <div class="agr-term-icon">→</div>
+            <div>
+              <div class="agr-term-title">What you commit to</div>
+              <div class="agr-term-desc">2 kit sessions per month. 1 case study per quarter. Monthly refinement call attendance. Structured documentation in the ICP format. 12-month Phase 1 duration.</div>
+            </div>
+          </li>
+          <li class="agr-term">
+            <div class="agr-term-icon">→</div>
+            <div>
+              <div class="agr-term-title">What ICP commits to</div>
+              <div class="agr-term-desc">Full kit system access from day one. Named attribution on every case study and in Standard v1.0. Monthly access to the founding team. Formal 12-month review with compensation, expanded role, and partnership structure on the table.</div>
+            </div>
+          </li>
+          <li class="agr-term">
+            <div class="agr-term-icon">→</div>
+            <div>
+              <div class="agr-term-title">Attribution is permanent</div>
+              <div class="agr-term-desc">Even if a steward completes Phase 1 and does not continue, their contribution to Standard v1.0 is credited permanently. Attribution is not contingent on ongoing participation.</div>
+            </div>
+          </li>
+          <li class="agr-term">
+            <div class="agr-term-icon">→</div>
+            <div>
+              <div class="agr-term-title">The 12-month review</div>
+              <div class="agr-term-desc">Phase 1 ends with a formal structured conversation about what comes next — for ICP and for each steward individually. Compensation, expanded role, graceful exit. All options are on the table. None are assumed.</div>
+            </div>
+          </li>
+          <li class="agr-term">
+            <div class="agr-term-icon">→</div>
+            <div>
+              <div class="agr-term-title">Confidentiality is mutual</div>
+              <div class="agr-term-desc">What you learn about individual founders through kit conversations is confidential. What ICP shares in refinement sessions about the standard development is confidential. Both directions. No exceptions.</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Right: application form -->
+      <div class="agr-form">
+        <div class="agr-tag">Apply for a founding seat</div>
+        <div class="agr-form-h">Three seats<br>still available.</div>
+        <div class="agr-form-sub">Applications are reviewed personally. A short conversation follows every application before a seat is confirmed.</div>
+
+        <div class="seats-remaining">
+          <div class="sr-text">Founding seats remaining</div>
+          <div class="sr-dots">
+            <div class="sr-dot filled"></div>
+            <div class="sr-dot filled"></div>
+            <div class="sr-dot"></div>
+            <div class="sr-dot"></div>
+            <div class="sr-dot"></div>
+          </div>
+        </div>
+
+        <form class="form" onsubmit="handleSubmit(event)">
+          <div>
+            <label class="field-label">Your name</label>
+            <input type="text" class="field-input" placeholder="Full name" required>
+          </div>
+          <div>
+            <label class="field-label">Email address</label>
+            <input type="email" class="field-input" placeholder="you@domain.com" required>
+          </div>
+          <div>
+            <label class="field-label">How do you currently work with founders?</label>
+            <input type="text" class="field-input" placeholder="e.g. Business mentor at Terra Bali, coach for 12 early-stage founders">
+          </div>
+          <div>
+            <label class="field-label">How many founders do you actively work with?</label>
+            <select class="field-select">
+              <option value="">Select range</option>
+              <option>1–5 founders</option>
+              <option>6–15 founders</option>
+              <option>16–30 founders</option>
+              <option>30+ founders</option>
+            </select>
+          </div>
+          <div>
+            <label class="field-label">Why does this role make sense for you right now?</label>
+            <textarea class="field-textarea" placeholder="Be direct. What draws you to helping build the standard — not just use it?" required></textarea>
+          </div>
+          <div>
+            <label class="field-label">Can you commit 6–8 hours per week for 12 months?</label>
+            <select class="field-select" required>
+              <option value="">Answer honestly</option>
+              <option>Yes — my current capacity supports this</option>
+              <option>Almost — I'd need to shift one thing to make room</option>
+              <option>Not right now — but I want to follow the build</option>
+            </select>
+          </div>
+          <button type="submit" class="form-btn">Submit Application <span>→</span></button>
+          <div class="form-note">Every application is reviewed personally. You'll hear back within 5 days — and a short conversation follows before any seat is confirmed.</div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ WHAT TO EXPECT ═════════════════════════════════════ -->
+<section class="expect">
+  <div class="W">
+    <div class="section-tag r">Phase 1 · Month by month</div>
+    <h2 class="expect-h r">
+      What the first year<br>
+      <em>actually looks like.</em>
+    </h2>
+    <p class="expect-sub r">Phase 1 runs for 12 months. It has three distinct stages — not arbitrary calendar chunks, but <strong>distinct phases of work with different focuses.</strong> Here is what you're doing and when.</p>
+
+    <div class="phases r">
+      <div class="phase">
+        <div class="phase-period">Months 1–3 · Foundation</div>
+        <div class="phase-h">Learn, calibrate, begin</div>
+        <div class="phase-body">You go through the full kit journey yourself before running it with anyone else. <strong>You cannot facilitate what you haven't experienced.</strong> The first quarter is about deep familiarity with the system.</div>
+        <ul class="phase-milestones">
+          <li class="pm">Complete the full kit journey personally</li>
+          <li class="pm">First 2–3 facilitated sessions with your founders</li>
+          <li class="pm">First structured session notes submitted</li>
+          <li class="pm">Attend all three monthly refinement calls</li>
+        </ul>
+      </div>
+      <div class="phase">
+        <div class="phase-period">Months 4–9 · Active contribution</div>
+        <div class="phase-h">Build evidence, shape the standard</div>
+        <div class="phase-body">The core phase. Regular kit sessions, structured documentation, active contribution to monthly refinement calls. <strong>This is where your field observations most directly change what the standard says.</strong></div>
+        <ul class="phase-milestones">
+          <li class="pm">2 facilitated sessions per month</li>
+          <li class="pm">First co-authored case study submitted and published</li>
+          <li class="pm">Pillar refinement input from your field experience</li>
+          <li class="pm">Second case study submitted (month 6)</li>
+        </ul>
+      </div>
+      <div class="phase">
+        <div class="phase-period">Months 10–12 · Consolidation</div>
+        <div class="phase-h">Toward v1.0</div>
+        <div class="phase-body">The final quarter is about bringing what you've learned into the standard itself. <strong>Your evidence and your framing directly shapes what ICP Standard v1.0 says.</strong> The 12-month review is the formal close of Phase 1.</div>
+        <ul class="phase-milestones">
+          <li class="pm">Third case study — the most developed of the set</li>
+          <li class="pm">Direct contribution to Standard v1.0 draft</li>
+          <li class="pm">Review and consolidation of all contributions</li>
+          <li class="pm">12-month formal review — what comes next</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="phase-12 r">
+      <div class="p12-icon">📍</div>
+      <div class="p12-body">
+        <div class="p12-title">Month 12 — the formal review</div>
+        <div class="p12-text">Phase 1 ends with a structured conversation between each Steward and the ICP founding team. <strong>Compensation, expanded role, continued stewardship, graceful exit</strong> — all options are explicitly on the table. No assumptions. The relationship that made sense in month 1 may have evolved by month 12. The review exists to acknowledge that honestly.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ FINAL CTA ══════════════════════════════════════════ -->
+<section class="final">
+  <div class="W">
+    <div class="final-inner r">
+      <div class="final-ey">InnerCompass Project · Founding Stewards · 3 Seats Remaining</div>
+      <h2 class="final-h">
+        Help build the standard.<br>
+        <span class="olive">Your name on what it becomes.</span>
+      </h2>
+      <p class="final-sub">Three seats still open. Applications reviewed personally. A short conversation follows before any seat is confirmed.</p>
+      <div class="final-btns">
+        <a href="#apply" class="btn-olive">Apply for a Steward Seat <span class="btn-icon">→</span></a>
+        <a href="./standard" class="btn-ghost">Read the Full Standard <span class="btn-icon">→</span></a>
+      </div>
+      <div class="final-alt">
+        Building a business and looking for the structural map? <a href="./implementors">Explore the Implementor path →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<footer>
+  <div class="f-logo">Inner<span>Compass</span> <span style="color:rgba(255,255,255,.22);font-weight:300;letter-spacing:.06em;font-size:10px;margin-left:2px">Project</span></div>
+  <div class="f-tagline">"The operating layer beneath every well-run business."</div>
+  <div class="f-meta">Standard v0.4 · Founding Phase · 2026</div>
+</footer>
+
+
+<script>
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.07 });
+document.querySelectorAll('.r').forEach(el => obs.observe(el));
+
+function handleSubmit(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('.form-btn');
+  btn.textContent = 'Application received — you\'ll hear back within 5 days.';
+  btn.style.background = 'rgba(255,255,255,.15)';
+  btn.style.cursor = 'default';
+}
+</script>
+
+</body>
+</html>
