@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inner Compass Project — Find Your True North</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,300;0,6..12,400;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;1,6..12,300;1,6..12,400;1,6..12,700&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+
+/* ── TOKENS ───────────────────────────────────────────── */
+:root {
+  --teal:     #3A6073;
+  --teal-d:   #2d4d5e;
+  --teal-dd:  #1e3340;
+  --teal-lt:  #4a7a8f;
+  --olive:    #556B2F;
+  --earth:    #CD853F;
+  --earth-lt: #d99554;
+  --earth-d:  #b8722e;
+  --bg:       #E8E8E8;
+  --bg-d:     #dedede;
+  --white:    #ffffff;
+  --ink:      #1a1a1a;
+  --muted:    #5a5a5a;
+  --soft:     #8a8a8a;
+  --rule:     rgba(0,0,0,.08);
+}
+
+/* ── RESET ────────────────────────────────────────────── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; font-size:16px; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Open Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img { display:block; max-width:100%; }
+a { text-decoration:none; color:inherit; }
+
+/* ── SCROLLBAR ────────────────────────────────────────── */
+::-webkit-scrollbar { width:2px; }
+::-webkit-scrollbar-track { background:var(--teal-dd); }
+::-webkit-scrollbar-thumb { background:var(--earth); }
+
+/* ── NAV ──────────────────────────────────────────────── */
+.nav {
+  position: fixed; top:0; left:0; right:0; z-index:100;
+  height: 58px;
+  display: flex; align-items:center;
+  padding: 0 48px;
+  background: rgba(30,51,64,0);
+  backdrop-filter: blur(0px);
+  transition: background .4s, backdrop-filter .4s;
+  border-bottom: 1px solid transparent;
+  transition: all .4s;
+}
+.nav.scrolled {
+  background: rgba(30,51,64,.95);
+  backdrop-filter: blur(16px);
+  border-bottom-color: rgba(255,255,255,.05);
+}
+.nav-logo {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 13px; font-weight:900;
+  letter-spacing: .22em; text-transform:uppercase;
+  color: rgba(255,255,255,.9);
+}
+.nav-logo span { color: var(--earth); }
+.nav-sep { flex:1; }
+.nav-links { display:flex; gap:0; }
+.nav-a {
+  font-size: 10px; font-weight:600;
+  letter-spacing: .14em; text-transform:uppercase;
+  color: rgba(255,255,255,.4);
+  padding: 0 18px; height:58px;
+  display:flex; align-items:center;
+  border-bottom: 2px solid transparent;
+  transition: color .2s, border-color .2s;
+}
+.nav-a:hover { color:rgba(255,255,255,.85); border-bottom-color: var(--earth); }
+.nav-btn {
+  font-size: 10px; font-weight:700;
+  letter-spacing: .14em; text-transform:uppercase;
+  color: #fff; background: var(--earth);
+  padding: 10px 22px; margin-left:12px;
+  transition: background .2s;
+}
+.nav-btn:hover { background: var(--earth-d); }
+
+/* ── OPENING CINEMATIC ────────────────────────────────── */
+/* Full viewport — dark teal — sets the tone before anything else loads */
+.cinematic {
+  min-height: 100vh;
+  background: var(--teal-dd);
+  position: relative;
+  display: flex; flex-direction:column;
+  justify-content: center; align-items:center;
+  overflow: hidden;
+  padding: 80px 48px;
+}
+
+/* subtle grain */
+.cinematic::before {
+  content:'';
+  position:absolute; inset:0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 200px;
+  pointer-events:none; opacity:.5;
+}
+
+/* diagonal line grid — very subtle */
+.cinematic::after {
+  content:'';
+  position:absolute; inset:0;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 38px,
+    rgba(255,255,255,.012) 38px,
+    rgba(255,255,255,.012) 39px
+  );
+  pointer-events:none;
+}
+
+.cin-inner {
+  position:relative; z-index:2;
+  max-width: 960px; width:100%;
+  text-align:left;
+}
+
+/* THE OPENING LINE — huge, editorial, weighted */
+.cin-overline {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 9.5px; font-weight:600;
+  letter-spacing: .3em; text-transform:uppercase;
+  color: var(--earth);
+  margin-bottom: 36px;
+  display:flex; align-items:center; gap:12px;
+  opacity:0; animation: fadeUp .6s ease forwards .1s;
+}
+.cin-overline-dot { width:4px; height:4px; background:var(--earth); border-radius:50%; }
+
+/* The big thesis line — Garamond for weight and age */
+.cin-statement {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: clamp(36px, 6vw, 78px);
+  font-weight: 400; font-style:italic;
+  line-height: 1.1;
+  color: rgba(255,255,255,.92);
+  margin-bottom: 32px;
+  opacity:0; animation: fadeUp .9s ease forwards .3s;
+}
+.cin-statement strong {
+  font-style:normal; font-weight:500;
+  color: var(--earth-lt);
+}
+
+/* Rule */
+.cin-rule {
+  width: 48px; height:1px;
+  background: rgba(205,133,63,.5);
+  margin-bottom: 28px;
+  opacity:0; animation: fadeIn .8s ease forwards .65s;
+}
+
+.cin-body {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 15px; font-weight:300;
+  line-height: 2;
+  color: rgba(255,255,255,.45);
+  max-width: 540px;
+  opacity:0; animation: fadeUp .8s ease forwards .75s;
+}
+.cin-body strong { color:rgba(255,255,255,.72); font-weight:600; }
+
+/* scroll cue */
+.cin-scroll {
+  position:absolute; bottom:44px; left:50%;
+  transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:10px;
+  opacity:0; animation: fadeIn 1s ease forwards 1.6s;
+  z-index:2;
+}
+.cin-scroll-label {
+  font-size:8.5px; letter-spacing:.22em; text-transform:uppercase;
+  font-weight:600; color:rgba(255,255,255,.18);
+}
+.cin-scroll-line {
+  width:1px; height:44px;
+  background: linear-gradient(to bottom, rgba(205,133,63,.6), transparent);
+  animation: scrollPulse 2.2s ease-in-out infinite 2s;
+}
+
+/* floating teal glow behind text */
+.cin-glow {
+  position:absolute; top:-20%; right:-10%;
+  width:70vw; height:70vw; max-width:700px; max-height:700px;
+  background: radial-gradient(ellipse, rgba(58,96,115,.25) 0%, transparent 65%);
+  pointer-events:none; z-index:1;
+}
+.cin-glow2 {
+  position:absolute; bottom:-15%; left:-10%;
+  width:50vw; height:50vw; max-width:500px; max-height:500px;
+  background: radial-gradient(ellipse, rgba(85,107,47,.12) 0%, transparent 65%);
+  pointer-events:none; z-index:1;
+}
+
+/* ── DRIFT STORY SECTION ──────────────────────────────── */
+.drift {
+  background: var(--white);
+  padding: 120px 0 100px;
+  position:relative;
+  overflow:hidden;
+}
+
+/* oversized chapter number watermark */
+.drift-wm {
+  position:absolute; top:-20px; right: -30px;
+  font-family:'Nunito Sans', sans-serif;
+  font-size: clamp(200px, 25vw, 340px);
+  font-weight:900; line-height:1;
+  color: rgba(0,0,0,.025);
+  pointer-events:none; user-select:none;
+  letter-spacing:-.02em;
+}
+
+.W { max-width:1140px; margin:0 auto; padding:0 80px; }
+
+.drift-grid {
+  display:grid;
+  grid-template-columns: 380px 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.drift-left { position:sticky; top:120px; }
+
+.section-tag {
+  font-size:9px; letter-spacing:.26em; text-transform:uppercase;
+  font-weight:600; color:var(--earth);
+  display:flex; align-items:center; gap:10px;
+  margin-bottom:20px;
+}
+.section-tag::before {
+  content:''; display:block;
+  width:20px; height:1.5px;
+  background:var(--earth);
+}
+
+.drift-heading {
+  font-family:'Nunito Sans', sans-serif;
+  font-size: clamp(30px, 4vw, 46px);
+  font-weight:900; line-height:1.06;
+  color: var(--teal-dd);
+  margin-bottom:24px;
+}
+.drift-heading em {
+  font-style:italic; font-weight:300;
+  color: var(--teal);
+}
+
+.drift-standfirst {
+  font-family:'EB Garamond', serif;
+  font-size:19px; line-height:1.75;
+  color: var(--muted);
+  font-style:italic;
+  border-left:3px solid var(--earth);
+  padding-left:18px;
+}
+
+.drift-right { padding-top:4px; }
+
+.drift-para {
+  font-size:16px; line-height:1.95;
+  color: #5a5a5a; font-weight:300;
+  margin-bottom:26px;
+}
+.drift-para:last-of-type { margin-bottom:0; }
+.drift-para strong { color:var(--ink); font-weight:700; }
+.drift-para em { color:var(--teal); font-style:italic; }
+
+/* pull quote inside drift */
+.pull {
+  margin:36px 0;
+  padding:26px 30px;
+  background:var(--bg);
+  border-left:4px solid var(--earth);
+}
+.pull-text {
+  font-family:'EB Garamond', serif;
+  font-size:20px; line-height:1.65;
+  color: var(--teal-dd);
+  font-style:italic; font-weight:400;
+}
+
+/* ── THESIS STRIP ─────────────────────────────────────── */
+.thesis {
+  background: var(--teal);
+  padding: 88px 0;
+  position:relative; overflow:hidden;
+}
+.thesis::before {
+  content:'';
+  position:absolute; inset:0;
+  background: radial-gradient(ellipse 80% 80% at 50% 50%, rgba(205,133,63,.07), transparent 65%);
+  pointer-events:none;
+}
+.thesis-inner {
+  position:relative; z-index:1;
+  max-width:900px; margin:0 auto; padding:0 80px;
+  text-align:center;
+}
+.thesis-eyebrow {
+  font-size:9px; letter-spacing:.28em; text-transform:uppercase;
+  font-weight:600; color:var(--earth-lt);
+  margin-bottom:28px;
+}
+.thesis-h {
+  font-family:'EB Garamond', serif;
+  font-size: clamp(28px, 4.5vw, 52px);
+  font-weight:400; font-style:italic;
+  line-height:1.2;
+  color:#fff;
+  margin-bottom:20px;
+}
+.thesis-h strong { font-style:normal; font-weight:500; }
+.thesis-body {
+  font-size:15px; font-weight:300; line-height:1.9;
+  color:rgba(255,255,255,.5);
+  max-width:620px; margin:0 auto;
+}
+.thesis-body strong { color:rgba(255,255,255,.78); font-weight:600; }
+
+/* ── ARCHITECTURE ─────────────────────────────────────── */
+.arch {
+  background:var(--bg);
+  padding:100px 0;
+}
+.arch-head { margin-bottom:60px; }
+.arch-h {
+  font-family:'Nunito Sans', sans-serif;
+  font-size:clamp(26px,3.5vw,40px);
+  font-weight:900; color:var(--teal-dd);
+  line-height:1.08;
+  margin-bottom:16px;
+}
+.arch-h em { font-style:italic; font-weight:300; color:var(--teal); }
+.arch-sub {
+  font-size:15px; font-weight:300; line-height:1.8;
+  color:var(--muted); max-width:580px;
+}
+
+/* 5 pillars horizontal strip */
+.pillars-strip {
+  display:grid;
+  grid-template-columns: repeat(5,1fr);
+  gap:2px;
+  margin-bottom:40px;
+}
+.pill {
+  background:var(--white);
+  padding:28px 22px;
+  border-top:2px solid var(--bg-d);
+  transition:border-color .22s, background .22s;
+  position:relative;
+}
+.pill:hover { border-top-color: var(--teal); background: rgba(58,96,115,.03); }
+.pill.active { border-top-color: var(--earth); background: rgba(205,133,63,.04); }
+.pill-num {
+  font-family:'Nunito Sans', sans-serif;
+  font-size:42px; font-weight:900;
+  color:rgba(0,0,0,.04); line-height:1;
+  margin-bottom:10px;
+}
+.pill.active .pill-num { color:rgba(205,133,63,.12); }
+.pill-label {
+  font-size:8.5px; letter-spacing:.18em; text-transform:uppercase;
+  font-weight:600; margin-bottom:7px;
+  color:var(--soft);
+}
+.pill.active .pill-label { color:var(--earth-d); }
+.pill-name {
+  font-family:'Nunito Sans', sans-serif;
+  font-size:14px; font-weight:800;
+  color:var(--teal-dd); line-height:1.3;
+  margin-bottom:8px;
+}
+.pill-desc {
+  font-size:12px; color:var(--muted);
+  line-height:1.7; font-weight:300;
+}
+.pill-active-badge {
+  display:none;
+  position:absolute; top:14px; right:14px;
+  font-size:7.5px; letter-spacing:.14em; text-transform:uppercase;
+  font-weight:700; color:var(--earth-d);
+  background:rgba(205,133,63,.1);
+  padding:3px 8px;
+}
+.pill.active .pill-active-badge { display:block; }
+.pill.deferred { opacity:.48; }
+.pill-horizon {
+  font-size:10px; color:var(--soft);
+  font-style:italic; margin-top:8px;
+}
+
+.arch-note {
+  font-size:13px; font-weight:300;
+  color:var(--muted); line-height:1.75;
+  font-style:italic; text-align:center;
+  padding:18px 24px;
+  border-top:1px solid var(--rule);
+  max-width:700px; margin:0 auto;
+}
+.arch-note strong { color:var(--teal); font-style:normal; font-weight:600; }
+
+/* ── TWO DOORS ────────────────────────────────────────── */
+.doors {
+  background:var(--teal-dd);
+  padding:110px 0;
+  position:relative; overflow:hidden;
+}
+.doors::before {
+  content:'';
+  position:absolute; inset:0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size:180px; pointer-events:none; opacity:.4;
+}
+
+.doors-top { text-align:center; max-width:700px; margin:0 auto 72px; }
+.doors-eyebrow {
+  font-size:9px; letter-spacing:.28em; text-transform:uppercase;
+  font-weight:600; color:var(--earth-lt); margin-bottom:20px;
+}
+.doors-h {
+  font-family:'EB Garamond', serif;
+  font-size:clamp(28px,4vw,46px); font-weight:400; font-style:italic;
+  line-height:1.2; color:#fff; margin-bottom:16px;
+}
+.doors-sub {
+  font-size:15px; font-weight:300; line-height:1.82;
+  color:rgba(255,255,255,.38);
+}
+
+.doors-grid {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:2px; position:relative; z-index:1;
+}
+.doors-grid::before {
+  content:'';
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  width:1px; height:70%;
+  background:rgba(255,255,255,.06);
+  pointer-events:none;
+}
+
+.door {
+  padding:54px 52px;
+  background:rgba(255,255,255,.02);
+  border:1px solid rgba(255,255,255,.06);
+  transition:background .3s, border-color .3s;
+  display:flex; flex-direction:column;
+  position:relative; overflow:hidden;
+}
+.door:hover {
+  background:rgba(255,255,255,.05);
+  border-color:rgba(255,255,255,.12);
+}
+/* hover shimmer */
+.door::before {
+  content:''; position:absolute;
+  top:0; left:-100%; width:60%; height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.025),transparent);
+  transition:left .5s;
+}
+.door:hover::before { left:150%; }
+
+.door-num {
+  font-family:'Nunito Sans', sans-serif;
+  font-size:88px; font-weight:900;
+  color:rgba(255,255,255,.03); line-height:1;
+  position:absolute; top:20px; right:28px;
+  pointer-events:none; user-select:none;
+}
+
+.door-tag {
+  font-size:8.5px; letter-spacing:.22em; text-transform:uppercase;
+  font-weight:600; color:var(--earth-lt);
+  margin-bottom:18px; display:flex; align-items:center; gap:9px;
+}
+.door-tag::before {
+  content:''; display:block;
+  width:16px; height:1.5px; background:var(--earth);
+}
+
+.door-title {
+  font-family:'Nunito Sans', sans-serif;
+  font-size:clamp(22px,2.5vw,32px); font-weight:900;
+  color:#fff; line-height:1.1;
+  margin-bottom:20px;
+}
+
+.door-body {
+  font-size:14.5px; font-weight:300; line-height:1.88;
+  color:rgba(255,255,255,.48); flex:1;
+  margin-bottom:32px;
+}
+.door-body strong { color:rgba(255,255,255,.78); font-weight:600; }
+
+/* what you get list */
+.door-gets { list-style:none; margin-bottom:36px; }
+.door-gets li {
+  display:flex; gap:12px; align-items:flex-start;
+  padding:8px 0;
+  border-bottom:1px solid rgba(255,255,255,.05);
+  font-size:13px; color:rgba(255,255,255,.4);
+  font-weight:300; line-height:1.6;
+}
+.door-gets li:last-child { border-bottom:none; }
+.door-gets li::before {
+  content:'→'; color:var(--earth);
+  font-size:11px; flex-shrink:0; margin-top:2px;
+}
+
+.door-cta {
+  display:inline-flex; align-items:center; gap:10px;
+  padding:15px 30px;
+  font-family:'Open Sans', sans-serif;
+  font-size:11px; font-weight:700;
+  letter-spacing:.14em; text-transform:uppercase;
+  transition:all .24s; align-self:flex-start;
+}
+.door-cta.primary {
+  background:var(--earth); color:#fff;
+}
+.door-cta.primary:hover {
+  background:var(--earth-d); transform:translateY(-2px);
+  box-shadow:0 12px 32px rgba(205,133,63,.3);
+}
+.door-cta.secondary {
+  border:1px solid rgba(255,255,255,.18); color:rgba(255,255,255,.6);
+}
+.door-cta.secondary:hover {
+  border-color:rgba(255,255,255,.45); color:#fff;
+  transform:translateY(-2px);
+}
+.door-cta-icon { transition:transform .2s; }
+.door-cta:hover .door-cta-icon { transform:translateX(4px); }
+
+/* ── THE QUESTION ─────────────────────────────────────── */
+/* This is the moment that routes them — "Which describes you?" */
+.question {
+  background:var(--teal-dd);
+  padding:0 0 110px;
+  text-align:center;
+  position:relative; z-index:1;
+}
+.q-text {
+  font-family:'EB Garamond', serif;
+  font-size:clamp(18px,2.5vw,26px);
+  font-style:italic; font-weight:400;
+  color:rgba(255,255,255,.35);
+  padding:40px 0 0;
+}
+.q-text strong {
+  color:rgba(255,255,255,.65); font-style:normal; font-weight:500;
+}
+
+/* ── EVIDENCE TEASER ──────────────────────────────────── */
+.ev-teaser {
+  background:var(--white);
+  padding:88px 0;
+  border-bottom:1px solid var(--rule);
+}
+.ev-top { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:44px; flex-wrap:wrap; gap:20px; }
+.ev-h {
+  font-family:'Nunito Sans', sans-serif;
+  font-size:clamp(22px,3vw,34px); font-weight:900;
+  color:var(--teal-dd); line-height:1.1;
+}
+.ev-h em { font-style:italic; font-weight:300; color:var(--teal); }
+.ev-link {
+  font-size:10px; letter-spacing:.16em; text-transform:uppercase;
+  font-weight:700; color:var(--earth-d);
+  display:flex; align-items:center; gap:7px;
+  white-space:nowrap;
+  transition:gap .2s;
+}
+.ev-link:hover { gap:12px; }
+
+.ev-strip {
+  display:grid;
+  grid-template-columns: repeat(4,1fr);
+  gap:2px;
+}
+.evc {
+  padding:26px 22px;
+  background:var(--bg);
+  border-top:2px solid var(--bg-d);
+  transition:border-color .22s;
+}
+.evc:hover { border-top-color:var(--teal); }
+.evc-geo {
+  font-size:8px; letter-spacing:.18em; text-transform:uppercase;
+  font-weight:600; color:var(--earth-d);
+  margin-bottom:9px; display:flex; align-items:center; gap:6px;
+}
+.evc-dot { width:4px; height:4px; background:var(--earth); border-radius:50%; flex-shrink:0; }
+.evc-name {
+  font-family:'Nunito Sans', sans-serif;
+  font-size:18px; font-weight:900;
+  color:var(--teal-dd); margin-bottom:7px;
+}
+.evc-tags { display:flex; flex-wrap:wrap; gap:3px; margin-bottom:10px; }
+.evc-tag {
+  font-size:7.5px; padding:2px 8px;
+  border:1px solid rgba(58,96,115,.2);
+  color:var(--teal); font-weight:600;
+  text-transform:uppercase; letter-spacing:.06em;
+}
+.evc-body {
+  font-size:12.5px; color:var(--muted);
+  line-height:1.7; font-weight:300;
+}
+
+/* ── TRANSPARENCY STRIP ───────────────────────────────── */
+.transp {
+  background:var(--bg);
+  padding:72px 0;
+}
+.transp-inner {
+  display:flex; align-items:center; gap:56px;
+  flex-wrap:wrap;
+}
+.transp-left { flex:1; min-width:280px; }
+.transp-tag {
+  font-size:9px; letter-spacing:.26em; text-transform:uppercase;
+  font-weight:600; color:var(--earth);
+  display:flex; align-items:center; gap:10px; margin-bottom:16px;
+}
+.transp-tag::before { content:''; display:block; width:18px; height:1.5px; background:var(--earth); }
+.transp-h {
+  font-family:'Nunito Sans', sans-serif;
+  font-size:clamp(22px,2.8vw,32px); font-weight:900;
+  color:var(--teal-dd); line-height:1.1; margin-bottom:14px;
+}
+.transp-h em { font-style:italic; font-weight:300; color:var(--teal); }
+.transp-body {
+  font-size:14.5px; font-weight:300; line-height:1.85; color:var(--muted);
+}
+.transp-body strong { color:var(--ink); font-weight:600; }
+.transp-links { display:flex; gap:3px; margin-top:24px; flex-wrap:wrap; }
+.transp-a {
+  font-size:10px; letter-spacing:.14em; text-transform:uppercase;
+  font-weight:600; padding:10px 18px;
+  border:1px solid var(--rule);
+  color:var(--muted); background:var(--white);
+  transition:all .2s; display:flex; align-items:center; gap:7px;
+}
+.transp-a:hover { color:var(--teal); border-color:var(--teal); }
+.transp-right { display:grid; grid-template-columns:1fr 1fr; gap:2px; flex:0 0 420px; }
+.t-stat {
+  padding:22px 20px; background:var(--white);
+  border:1px solid var(--rule);
+}
+.t-stat-n {
+  font-family:'Nunito Sans', sans-serif;
+  font-size:34px; font-weight:900;
+  color:var(--teal); line-height:1;
+  margin-bottom:6px;
+}
+.t-stat-l {
+  font-size:10.5px; color:var(--soft);
+  line-height:1.5; font-weight:300;
+}
+
+/* ── FOOTER ───────────────────────────────────────────── */
+footer {
+  background:var(--teal-dd);
+  border-top:1px solid rgba(255,255,255,.05);
+  padding:40px 80px;
+  display:flex; align-items:center; justify-content:space-between;
+  flex-wrap:wrap; gap:20px;
+}
+.f-logo {
+  font-family:'Nunito Sans', sans-serif;
+  font-size:12px; font-weight:900;
+  letter-spacing:.2em; text-transform:uppercase;
+  color:rgba(255,255,255,.45);
+}
+.f-logo span { color:var(--earth); }
+.f-tagline {
+  font-family:'EB Garamond', serif;
+  font-size:13px; font-style:italic;
+  color:rgba(255,255,255,.2);
+}
+.f-meta {
+  font-size:8.5px; letter-spacing:.14em; text-transform:uppercase;
+  color:rgba(255,255,255,.14); font-weight:600;
+}
+
+/* ── REVEAL ───────────────────────────────────────────── */
+.r { opacity:0; transform:translateY(20px); transition:opacity .65s ease, transform .65s ease; }
+.r.in { opacity:1; transform:none; }
+.d1{transition-delay:.06s}.d2{transition-delay:.12s}.d3{transition-delay:.18s}
+.d4{transition-delay:.24s}.d5{transition-delay:.30s}
+
+/* ── ANIMATIONS ───────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(18px); }
+  to   { opacity:1; transform:none; }
+}
+@keyframes fadeIn {
+  from { opacity:0; } to { opacity:1; }
+}
+@keyframes scrollPulse {
+  0%,100% { opacity:.4; transform:scaleY(1); }
+  50%     { opacity:.8; transform:scaleY(.7); }
+}
+
+/* ── MOBILE ───────────────────────────────────────────── */
+@media(max-width:960px){
+  .nav { padding:0 20px; }
+  .nav-links { display:none; }
+  .W { padding:0 24px; }
+  .drift-grid { grid-template-columns:1fr; gap:40px; }
+  .drift-left { position:static; }
+  .pillars-strip { grid-template-columns:1fr 1fr; }
+  .pillars-strip .pill:last-child { grid-column:span 2; }
+  .doors-grid { grid-template-columns:1fr; }
+  .ev-strip { grid-template-columns:1fr 1fr; }
+  .transp-inner { flex-direction:column; }
+  .transp-right { flex:none; width:100%; }
+  footer { flex-direction:column; text-align:center; padding:28px 24px; }
+  .cinematic { padding:80px 24px 100px; }
+  .thesis-inner { padding:0 24px; }
+  .doors { padding:72px 0; }
+  .door { padding:40px 28px; }
+}
+@media(max-width:600px){
+  .pillars-strip { grid-template-columns:1fr; }
+  .pillars-strip .pill:last-child { grid-column:auto; }
+  .ev-strip { grid-template-columns:1fr; }
+  .transp-right { grid-template-columns:1fr 1fr; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══════════════════════════════════════════════ -->
+<nav class="nav" id="nav">
+  <div class="nav-logo">Inner<span>Compass</span></div>
+  <div class="nav-sep"></div>
+  <div class="nav-links">
+    <a href="./standard" class="nav-a">The Standard</a>
+    <a href="./build" class="nav-a">The Build</a>
+    <a href="./implementors" class="nav-a">Implementors</a>
+    <a href="./stewards" class="nav-a">Stewards</a>
+  </div>
+  <a href="./implementors" class="nav-btn">Explore Access</a>
+</nav>
+
+
+<!-- ══ 01 — CINEMATIC OPEN ══════════════════════════════ -->
+<section class="cinematic">
+  <div class="cin-glow"></div>
+  <div class="cin-glow2"></div>
+  <div class="cin-inner">
+    <div class="cin-overline">
+      <span class="cin-overline-dot"></span>
+      Inner Compass Project &nbsp;·&nbsp; Standard v0.4 &nbsp;·&nbsp; Built in Bali
+    </div>
+    <h1 class="cin-statement">
+      Optimization without orientation<br>
+      creates <strong>drift.</strong>
+    </h1>
+    <div class="cin-rule"></div>
+    <p class="cin-body">
+      Most businesses don't collapse.<br>
+      They drift — <strong>slowly, invisibly,</strong> while working harder than ever.<br><br>
+      ICP is the operating layer built to stop that.
+    </p>
+  </div>
+  <div class="cin-scroll">
+    <div class="cin-scroll-label">Read on</div>
+    <div class="cin-scroll-line"></div>
+  </div>
+</section>
+
+
+<!-- ══ 02 — THE DRIFT ════════════════════════════════════ -->
+<section class="drift">
+  <div class="drift-wm">DRIFT</div>
+  <div class="W">
+    <div class="drift-grid">
+
+      <div class="drift-left r">
+        <div class="section-tag">The problem</div>
+        <h2 class="drift-heading">
+          A business can be<br>
+          growing and <em>losing<br>
+          its foundation</em><br>at the same time.
+        </h2>
+        <div class="drift-standfirst">
+          The issue is never effort.<br>
+          It is always architecture.
+        </div>
+      </div>
+
+      <div class="drift-right">
+        <p class="drift-para r d1">
+          A company begins with clarity. A founder sees something others don't. A team forms around a shared belief. Then growth begins — revenue increases, headcount expands, opportunities appear everywhere.
+        </p>
+        <p class="drift-para r d2">
+          And slowly, almost invisibly, <strong>something shifts.</strong> Decisions become reactive. Trade-offs become transactional. Purpose becomes language instead of leverage. The organization is optimizing. But it is no longer oriented.
+        </p>
+        <p class="drift-para r d3">
+          <em>That is drift.</em> It is not a crisis event. It is a structural failure that compounds quietly, year on year, until the gap between where the business is and where it was built to go becomes impossible to close without starting again.
+        </p>
+        <div class="pull r d3">
+          <div class="pull-text">"The problem is never effort. Most founders are working incredibly hard — with no clear picture of what specifically is broken, and no structured path to fix it."</div>
+        </div>
+        <p class="drift-para r d4">
+          The Inner Compass Project was built as a <strong>long-horizon response to this structural problem.</strong> Not as a training program. Not as a consultancy. Not as a movement with a hashtag. As the early formation of an operating standard — a framework rigorous enough to tell any founder, anywhere, exactly what is missing from their foundation and what to do about it, in the right order.
+        </p>
+        <p class="drift-para r d5">
+          ICP doesn't work because it invented new principles. It works because it <strong>names what already exists</strong> in every business that has lasted — and makes those principles accessible to founders who have never had a map before.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ 03 — THESIS STRIP ══════════════════════════════════ -->
+<section class="thesis">
+  <div class="thesis-inner r">
+    <div class="thesis-eyebrow">The foundational insight</div>
+    <h2 class="thesis-h">
+      Alignment is not emotional.<br>
+      <strong>It is structural.</strong>
+    </h2>
+    <p class="thesis-body">
+      A system is aligned when purpose filters real decisions. When incentives reinforce long-term value. When strategy constrains opportunity instead of chasing it. When growth <strong>strengthens foundations instead of weakening them.</strong> When these four conditions hold — drift slows. When they break — drift accelerates.
+    </p>
+  </div>
+</section>
+
+
+<!-- ══ 04 — ARCHITECTURE ══════════════════════════════════ -->
+<section class="arch">
+  <div class="W">
+    <div class="arch-head r">
+      <div class="section-tag">The architecture</div>
+      <h2 class="arch-h">
+        A 5-pillar system.<br>
+        <em>Built sequentially.<br>
+        Proof before scale.</em>
+      </h2>
+      <p class="arch-sub">ICP is not a single product. It is a long-horizon architecture. Each pillar activates when the previous one has proof. Right now, only one pillar is active.</p>
+    </div>
+
+    <div class="pillars-strip r">
+      <div class="pill active">
+        <div class="pill-active-badge">Active Now</div>
+        <div class="pill-num">01</div>
+        <div class="pill-label">Pillar One · Live</div>
+        <div class="pill-name">Business Compass</div>
+        <div class="pill-desc">The operating standard for structurally sound MSMEs. 11 diagnostic pillars. AI-guided kit system. Evidence base from 20+ countries.</div>
+      </div>
+      <div class="pill deferred">
+        <div class="pill-num">02</div>
+        <div class="pill-label">Pillar Two · Deferred</div>
+        <div class="pill-name">Youth & Education</div>
+        <div class="pill-desc">Introducing structured entrepreneurial thinking before the business begins — schools, vocational programs, early-stage foundations.</div>
+        <div class="pill-horizon">Activates after Pillar 1 proof</div>
+      </div>
+      <div class="pill deferred">
+        <div class="pill-num">03</div>
+        <div class="pill-label">Pillar Three · Deferred</div>
+        <div class="pill-name">Community Systems</div>
+        <div class="pill-desc">Local implementation infrastructure — community-level standard adoption, facilitation networks, grassroots accountability.</div>
+        <div class="pill-horizon">Activates after Pillar 2</div>
+      </div>
+      <div class="pill deferred">
+        <div class="pill-num">04</div>
+        <div class="pill-label">Pillar Four · Deferred</div>
+        <div class="pill-name">Talent Pipeline</div>
+        <div class="pill-desc">Building a trust-based mobility engine — connecting ICP-aligned businesses with the practitioners, operators, and builders they need.</div>
+        <div class="pill-horizon">Activates after Pillar 3</div>
+      </div>
+      <div class="pill deferred">
+        <div class="pill-num">05</div>
+        <div class="pill-label">Pillar Five · Deferred</div>
+        <div class="pill-name">Global Sustainability</div>
+        <div class="pill-desc">The long arc — ICP principles applied at systemic level: policy, institutional governance, regenerative economic models at scale.</div>
+        <div class="pill-horizon">25-year horizon</div>
+      </div>
+    </div>
+
+    <div class="arch-note r">
+      <strong>Why sequence matters:</strong> Attempting to build all five pillars simultaneously with limited capital produces five weak foundations. Pillar 1 built with proof produces the evidence base — and the credibility — that makes every pillar after it possible.
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ 05 — THE TWO DOORS ═════════════════════════════════ -->
+<section class="doors" id="join">
+  <div class="W">
+
+    <div class="doors-top r">
+      <div class="doors-eyebrow">Two ways to engage right now</div>
+      <h2 class="doors-h">
+        Which describes you?
+      </h2>
+      <p class="doors-sub">ICP is in a disciplined build phase. There are currently two structured pathways — one for founders building businesses, one for practitioners helping build the standard itself.</p>
+    </div>
+
+    <div class="doors-grid r">
+
+      <!-- DOOR 1 — IMPLEMENTOR -->
+      <div class="door">
+        <div class="door-num">1</div>
+        <div class="door-tag">Founder · Operator · Builder</div>
+        <h3 class="door-title">You're building a business.<br>Something structural feels off.</h3>
+        <p class="door-body">
+          You're working hard. Revenue might even be growing. But decisions feel reactive. The team isn't moving the way it should. The brand doesn't fully reflect what you've built. There's a gap between the business you're running and the business you set out to build — and you've never had a <strong>complete map of what's structurally missing.</strong>
+        </p>
+        <ul class="door-gets">
+          <li>A guided AI kit journey through your brand, values, model, and strategy</li>
+          <li>Specific outputs: Brand Compass, VMV document, Business Model Reality, Brand Strategy</li>
+          <li>A clear picture of which ICP pillars are broken and what to fix first</li>
+          <li>Founding Rate access — the rate that closes after the first 50 founders</li>
+        </ul>
+        <a href="./implementors" class="door-cta primary">
+          Explore the Implementor Path <span class="door-cta-icon">→</span>
+        </a>
+      </div>
+
+      <!-- DOOR 2 — STEWARD -->
+      <div class="door">
+        <div class="door-num">2</div>
+        <div class="door-tag">Mentor · Practitioner · Ecosystem Builder</div>
+        <h3 class="door-title">You work with founders.<br>You think in systems.</h3>
+        <p class="door-body">
+          You've seen the same structural failures ICP names — across the businesses you mentor, advise, or build programs for. You're not looking for another certification or partner program. You want <strong>a meaningful role in building something that outlasts any individual engagement.</strong> Five seats. Real contribution. Your name on what gets built.
+        </p>
+        <ul class="door-gets">
+          <li>Named Steward role — founding contributor to ICP Standard v1.0</li>
+          <li>Full access to the kit system to run with your community</li>
+          <li>Co-authorship on case studies that shape the standard</li>
+          <li>6–8 hours/week — structured, not open-ended. Most of it accelerates your own work.</li>
+        </ul>
+        <a href="./stewards" class="door-cta secondary">
+          Explore the Steward Path <span class="door-cta-icon">→</span>
+        </a>
+      </div>
+
+    </div>
+
+    <div class="question r">
+      <p class="q-text">If you're not sure which you are — <strong>start with the Standard.</strong> Read it. Then you'll know.</p>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══ 06 — EVIDENCE TEASER ══════════════════════════════ -->
+<section class="ev-teaser">
+  <div class="W">
+    <div class="ev-top r">
+      <h2 class="ev-h">
+        ICP didn't invent<br>
+        these principles.<br>
+        <em>It named them.</em>
+      </h2>
+      <a href="./standard#evidence" class="ev-link">
+        Full evidence base →
+      </a>
+    </div>
+    <div class="ev-strip r">
+      <div class="evc">
+        <div class="evc-geo"><div class="evc-dot"></div>Egypt · 1977</div>
+        <div class="evc-name">Sekem</div>
+        <div class="evc-tags"><span class="evc-tag">Purpose</span><span class="evc-tag">Ecosystem</span><span class="evc-tag">Regeneration</span></div>
+        <div class="evc-body">Desert land. One specific purpose. Forty years later — global exports, a university, thousands employed. Every ICP pillar operating before ICP existed.</div>
+      </div>
+      <div class="evc">
+        <div class="evc-geo"><div class="evc-dot"></div>India · 1959</div>
+        <div class="evc-name">Lijjat Papad</div>
+        <div class="evc-tags"><span class="evc-tag">Ownership Culture</span><span class="evc-tag">Systems</span></div>
+        <div class="evc-body">Seven women. Eighty borrowed rupees. Equal ownership from day one. Six decades later — 45,000 members, $160M+ revenue. No founder ceiling ever built.</div>
+      </div>
+      <div class="evc">
+        <div class="evc-geo"><div class="evc-dot"></div>West Africa · Centuries</div>
+        <div class="evc-name">The Tontine</div>
+        <div class="evc-tags"><span class="evc-tag">Ecosystem Integrity</span><span class="evc-tag">Governance</span></div>
+        <div class="evc-body">Community savings circles sustained for centuries. No institution. No legal contract. Repayment rates exceeding formal banks. ICP's oldest proof.</div>
+      </div>
+      <div class="evc">
+        <div class="evc-geo"><div class="evc-dot"></div>Kenya</div>
+        <div class="evc-name">M-Pesa</div>
+        <div class="evc-tags"><span class="evc-tag">Customer Clarity</span><span class="evc-tag">Innovation</span></div>
+        <div class="evc-body">Failed at its original hypothesis. Listened to what users actually did. Adapted. Became national financial infrastructure. Innovation as disciplined listening.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ 07 — TRANSPARENCY STRIP ═══════════════════════════ -->
+<section class="transp">
+  <div class="W">
+    <div class="transp-inner r">
+      <div class="transp-left">
+        <div class="transp-tag">Radical transparency</div>
+        <h2 class="transp-h">
+          Everything is<br>
+          <em>published openly.</em>
+        </h2>
+        <p class="transp-body">
+          ICP is a standard being built in public. The pillars, the evidence, the roadmap, what's being deferred and why — all of it is documented and available. <strong>Trust is built through transparency, not through claims.</strong> Read the full standard before deciding anything.
+        </p>
+        <div class="transp-links">
+          <a href="./standard" class="transp-a">The Standard →</a>
+          <a href="./build" class="transp-a">The Roadmap →</a>
+          <a href="./standard#evidence" class="transp-a">Evidence Base →</a>
+        </div>
+      </div>
+      <div class="transp-right">
+        <div class="t-stat">
+          <div class="t-stat-n">v0.4</div>
+          <div class="t-stat-l">Current version. Living document. Moving toward v1.0 through real-world use.</div>
+        </div>
+        <div class="t-stat">
+          <div class="t-stat-n">11</div>
+          <div class="t-stat-l">Diagnostic pillars. 7 foundation, 4 growth. All publicly documented.</div>
+        </div>
+        <div class="t-stat">
+          <div class="t-stat-n">500</div>
+          <div class="t-stat-l">Founder goal by end 2026. Starting inside Terra Bali. No invented timelines.</div>
+        </div>
+        <div class="t-stat">
+          <div class="t-stat-n">5</div>
+          <div class="t-stat-l">Founding Steward seats. Named contributors to Standard v1.0. Applications open.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ FOOTER ═════════════════════════════════════════════ -->
+<footer>
+  <div class="f-logo">Inner<span>Compass</span></div>
+  <div class="f-tagline">"The operating layer beneath every well-run business."</div>
+  <div class="f-meta">Standard v0.4 · Built in Bali · 2026</div>
+</footer>
+
+
+<script>
+// Nav scroll state
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive:true });
+
+// Scroll reveal
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('in');
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.r').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>
