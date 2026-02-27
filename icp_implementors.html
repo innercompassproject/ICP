@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Implementors — InnerCompass Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,300;0,6..12,400;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;1,6..12,300;1,6..12,400;1,6..12,700&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+
+:root {
+  --teal:     #3A6073;
+  --teal-d:   #2d4d5e;
+  --teal-dd:  #1e3340;
+  --teal-lt:  #4a7a8f;
+  --olive:    #556B2F;
+  --earth:    #CD853F;
+  --earth-lt: #d99554;
+  --earth-d:  #b8722e;
+  --bg:       #E8E8E8;
+  --bg-d:     #dedede;
+  --white:    #ffffff;
+  --ink:      #1a1a1a;
+  --muted:    #5a5a5a;
+  --soft:     #8a8a8a;
+  --rule:     rgba(0,0,0,.08);
+  --rule-lt:  rgba(0,0,0,.05);
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Open Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+a { text-decoration:none; color:inherit; }
+::-webkit-scrollbar { width:2px; }
+::-webkit-scrollbar-track { background:var(--teal-dd); }
+::-webkit-scrollbar-thumb { background:var(--earth); }
+
+/* ── NAV ── */
+.nav {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  height:58px; display:flex; align-items:center; padding:0 48px;
+  background:rgba(30,51,64,.96); backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+.nav-logo {
+  font-family:'Nunito Sans',sans-serif; font-size:13px; font-weight:900;
+  letter-spacing:.22em; text-transform:uppercase; color:rgba(255,255,255,.9);
+}
+.nav-logo span { color:var(--earth); }
+.nav-sep { flex:1; }
+.nav-links { display:flex; }
+.nav-a {
+  font-size:10px; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+  color:rgba(255,255,255,.38); padding:0 18px; height:58px;
+  display:flex; align-items:center; border-bottom:2px solid transparent;
+  transition:color .2s, border-color .2s;
+}
+.nav-a:hover, .nav-a.active { color:rgba(255,255,255,.82); border-bottom-color:var(--earth); }
+.nav-back {
+  font-size:10px; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+  color:rgba(255,255,255,.35); display:flex; align-items:center; gap:8px;
+  transition:color .2s; padding-right:24px; border-right:1px solid rgba(255,255,255,.08);
+  margin-right:8px;
+}
+.nav-back:hover { color:rgba(255,255,255,.7); }
+
+/* ── SHARED ── */
+.W { max-width:1140px; margin:0 auto; padding:0 80px; }
+.section-tag {
+  font-size:9px; letter-spacing:.26em; text-transform:uppercase; font-weight:600;
+  color:var(--earth); display:flex; align-items:center; gap:10px; margin-bottom:18px;
+}
+.section-tag::before { content:''; display:block; width:20px; height:1.5px; background:var(--earth); }
+.section-tag.light { color:var(--earth-lt); }
+.section-tag.light::before { background:var(--earth-lt); }
+
+.r { opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease; }
+.r.in { opacity:1; transform:none; }
+.d1{transition-delay:.07s} .d2{transition-delay:.14s} .d3{transition-delay:.21s}
+.d4{transition-delay:.28s} .d5{transition-delay:.35s}
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:none} }
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+@keyframes scrollPulse { 0%,100%{opacity:.4} 50%{opacity:.9} }
+
+/* ── HERO ── */
+.hero {
+  min-height:100vh; background:var(--teal);
+  display:flex; flex-direction:column; justify-content:center;
+  padding:130px 0 90px; position:relative; overflow:hidden;
+}
+.hero-grid { position:absolute; inset:0; background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.03) 1px,transparent 0); background-size:40px 40px; pointer-events:none; }
+.hero-glow { position:absolute; top:-10%; right:-5%; width:65vw; height:65vw; max-width:700px; max-height:700px; background:radial-gradient(ellipse,rgba(205,133,63,.12) 0%,transparent 65%); pointer-events:none; }
+.hero-glow2 { position:absolute; bottom:-20%; left:-10%; width:50vw; height:50vw; max-width:500px; background:radial-gradient(ellipse,rgba(30,51,64,.6) 0%,transparent 65%); pointer-events:none; }
+.hero-inner { position:relative; z-index:2; }
+.hero-pre {
+  display:inline-flex; align-items:center; gap:10px;
+  font-size:9.5px; font-weight:600; letter-spacing:.26em; text-transform:uppercase;
+  color:var(--earth-lt); margin-bottom:32px;
+  opacity:0; animation:fadeUp .6s ease forwards .1s;
+}
+.hero-pre-dot { width:5px; height:5px; background:var(--earth); border-radius:50%; }
+.hero-h1 {
+  font-family:'Nunito Sans',sans-serif;
+  font-size:clamp(38px,6vw,70px); font-weight:900; line-height:1.04;
+  color:#fff; margin-bottom:28px;
+  opacity:0; animation:fadeUp .9s ease forwards .25s;
+}
+.hero-h1 em { font-style:italic; font-weight:300; color:rgba(205,133,63,.85); }
+.hero-standfirst {
+  font-family:'EB Garamond',serif; font-size:20px; font-style:italic;
+  line-height:1.75; color:rgba(255,255,255,.55); max-width:540px; margin-bottom:44px;
+  opacity:0; animation:fadeUp .8s ease forwards .4s;
+}
+.hero-standfirst strong { font-style:normal; font-weight:500; color:rgba(255,255,255,.78); }
+.hero-cta-row {
+  display:flex; gap:12px; flex-wrap:wrap;
+  opacity:0; animation:fadeUp .7s ease forwards .55s;
+}
+.btn-primary {
+  display:inline-flex; align-items:center; gap:9px;
+  padding:15px 30px; background:var(--earth); color:#fff;
+  font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+  transition:all .22s;
+}
+.btn-primary:hover { background:var(--earth-d); transform:translateY(-2px); box-shadow:0 12px 32px rgba(205,133,63,.3); }
+.btn-ghost {
+  display:inline-flex; align-items:center; gap:9px;
+  padding:15px 30px; border:1px solid rgba(255,255,255,.2); color:rgba(255,255,255,.6);
+  font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+  transition:all .22s;
+}
+.btn-ghost:hover { border-color:rgba(255,255,255,.5); color:#fff; transform:translateY(-2px); }
+.btn-icon { transition:transform .2s; }
+.btn-primary:hover .btn-icon, .btn-ghost:hover .btn-icon { transform:translateX(4px); }
+
+.hero-stats {
+  display:flex; gap:48px; margin-top:60px; flex-wrap:wrap;
+  opacity:0; animation:fadeIn .9s ease forwards .8s;
+}
+.hs { }
+.hs-n { font-family:'Nunito Sans',sans-serif; font-size:34px; font-weight:900; color:#fff; line-height:1; }
+.hs-l { font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.3); margin-top:5px; font-weight:400; }
+.hs-div { width:1px; background:rgba(255,255,255,.1); align-self:stretch; }
+
+/* scroll cue */
+.hero-scroll { position:absolute; bottom:44px; left:50%; transform:translateX(-50%); z-index:2; display:flex; flex-direction:column; align-items:center; gap:9px; opacity:0; animation:fadeIn 1s ease forwards 1.4s; }
+.hero-scroll-label { font-size:8px; letter-spacing:.22em; text-transform:uppercase; font-weight:600; color:rgba(255,255,255,.18); }
+.hero-scroll-line { width:1px; height:42px; background:linear-gradient(to bottom,rgba(205,133,63,.6),transparent); animation:scrollPulse 2.2s ease-in-out infinite 1.8s; }
+
+/* ── WHO ── */
+.who { background:var(--white); padding:100px 0; }
+.who-grid { display:grid; grid-template-columns:380px 1fr; gap:80px; align-items:start; }
+.who-left { position:sticky; top:100px; }
+.who-h { font-family:'Nunito Sans',sans-serif; font-size:clamp(28px,3.5vw,42px); font-weight:900; line-height:1.07; color:var(--teal-dd); margin-bottom:20px; }
+.who-h em { font-style:italic; font-weight:300; color:var(--teal); }
+.who-sub { font-family:'EB Garamond',serif; font-size:18px; font-style:italic; line-height:1.7; color:var(--muted); border-left:3px solid var(--earth); padding-left:16px; }
+.who-right { }
+.who-para { font-size:15.5px; line-height:1.95; color:var(--muted); font-weight:300; margin-bottom:26px; }
+.who-para:last-of-type { margin-bottom:0; }
+.who-para strong { color:var(--ink); font-weight:700; }
+.who-para em { color:var(--teal); font-style:italic; }
+
+/* self-selection checks */
+.checks { margin:36px 0; border:1px solid var(--rule); background:var(--bg); }
+.check-head { padding:16px 24px; border-bottom:1px solid var(--rule); }
+.check-head-label { font-size:9px; letter-spacing:.22em; text-transform:uppercase; font-weight:600; color:var(--earth-d); }
+.check-list { list-style:none; }
+.check-item {
+  display:flex; gap:14px; padding:14px 24px;
+  border-bottom:1px solid var(--rule-lt); align-items:flex-start;
+}
+.check-item:last-child { border-bottom:none; }
+.check-icon { width:18px; height:18px; border-radius:50%; flex-shrink:0; margin-top:2px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; }
+.check-icon.yes { background:rgba(85,107,47,.12); color:var(--olive); }
+.check-icon.no { background:rgba(100,20,20,.08); color:#a03030; }
+.check-text { font-size:13.5px; color:var(--muted); line-height:1.65; font-weight:300; }
+.check-text strong { color:var(--ink); font-weight:700; }
+
+/* ── ORIENTATION CALL ── */
+.orient { background:var(--teal-dd); padding:96px 0; }
+.orient-inner { display:grid; grid-template-columns:1fr 1fr; gap:3px; }
+.orient-story { padding:52px 52px; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.07); }
+.orient-form { padding:52px 52px; background:var(--earth); }
+
+.orient-tag { font-size:9px; letter-spacing:.26em; text-transform:uppercase; font-weight:600; color:var(--earth-lt); display:flex; align-items:center; gap:10px; margin-bottom:22px; }
+.orient-tag::before { content:''; display:block; width:20px; height:1.5px; background:var(--earth-lt); }
+.orient-tag.on-earth { color:rgba(255,255,255,.65); }
+.orient-tag.on-earth::before { background:rgba(255,255,255,.5); }
+
+.orient-h { font-family:'Nunito Sans',sans-serif; font-size:clamp(24px,3vw,36px); font-weight:900; line-height:1.07; color:#fff; margin-bottom:20px; }
+.orient-h em { font-style:italic; font-weight:300; color:var(--earth-lt); }
+.orient-body { font-size:15px; font-weight:300; line-height:1.9; color:rgba(255,255,255,.5); margin-bottom:28px; }
+.orient-body strong { color:rgba(255,255,255,.78); font-weight:600; }
+.orient-body em { color:var(--earth-lt); font-style:italic; }
+
+.what-happens { list-style:none; margin-bottom:32px; }
+.wh { display:flex; gap:16px; padding:14px 0; border-bottom:1px solid rgba(255,255,255,.06); }
+.wh:last-child { border-bottom:none; }
+.wh-num { font-family:'Nunito Sans',sans-serif; font-size:13px; font-weight:900; color:var(--earth); flex-shrink:0; width:22px; padding-top:1px; }
+.wh-text { font-size:13.5px; color:rgba(255,255,255,.48); line-height:1.65; font-weight:300; }
+.wh-text strong { color:rgba(255,255,255,.75); font-weight:600; }
+
+.terra-note { background:rgba(255,255,255,.05); border-left:3px solid var(--earth); padding:16px 20px; }
+.terra-note-label { font-size:8px; letter-spacing:.2em; text-transform:uppercase; font-weight:600; color:var(--earth-lt); margin-bottom:6px; }
+.terra-note-text { font-size:13px; color:rgba(255,255,255,.45); line-height:1.7; font-weight:300; }
+.terra-note-text em { color:rgba(255,255,255,.65); font-style:italic; }
+
+/* form side */
+.orient-form-h { font-family:'Nunito Sans',sans-serif; font-size:24px; font-weight:900; color:#fff; line-height:1.1; margin-bottom:8px; }
+.orient-form-sub { font-size:13px; color:rgba(255,255,255,.7); line-height:1.65; margin-bottom:30px; font-weight:300; }
+.form { display:flex; flex-direction:column; gap:14px; }
+.field-label { font-size:9px; letter-spacing:.18em; text-transform:uppercase; font-weight:600; color:rgba(255,255,255,.6); display:block; margin-bottom:6px; }
+.field-input, .field-select, .field-textarea {
+  width:100%; padding:13px 16px;
+  background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.2);
+  color:#fff; font-family:'Open Sans',sans-serif; font-size:14px; font-weight:300;
+  outline:none; transition:border-color .2s, background .2s;
+  -webkit-appearance:none;
+}
+.field-input::placeholder { color:rgba(255,255,255,.35); }
+.field-textarea::placeholder { color:rgba(255,255,255,.35); }
+.field-select { color:rgba(255,255,255,.8); cursor:pointer; }
+.field-select option { background:var(--teal-dd); color:#fff; }
+.field-textarea { resize:vertical; min-height:90px; line-height:1.6; }
+.field-input:focus, .field-select:focus, .field-textarea:focus {
+  border-color:rgba(255,255,255,.5); background:rgba(255,255,255,.16);
+}
+.form-btn {
+  padding:16px 28px; background:var(--teal-dd); color:#fff; border:none; cursor:pointer;
+  font-family:'Open Sans',sans-serif; font-size:11px; font-weight:700;
+  letter-spacing:.16em; text-transform:uppercase; transition:all .22s;
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  margin-top:6px;
+}
+.form-btn:hover { background:#000; }
+.form-note { font-size:11px; color:rgba(255,255,255,.45); line-height:1.65; text-align:center; margin-top:8px; font-style:italic; }
+
+/* ── THE JOURNEY ── */
+.journey { background:var(--bg); padding:96px 0; }
+.journey-head { max-width:680px; margin-bottom:60px; }
+.journey-h { font-family:'Nunito Sans',sans-serif; font-size:clamp(26px,3.5vw,40px); font-weight:900; color:var(--teal-dd); line-height:1.07; margin-bottom:16px; }
+.journey-h em { font-style:italic; font-weight:300; color:var(--teal); }
+.journey-body { font-size:15px; font-weight:300; line-height:1.88; color:var(--muted); }
+.journey-body strong { color:var(--ink); font-weight:600; }
+
+/* journey timeline */
+.timeline { position:relative; padding-left:44px; }
+.timeline::before { content:''; position:absolute; left:12px; top:20px; bottom:20px; width:2px; background:linear-gradient(to bottom,var(--earth),rgba(205,133,63,.1)); }
+
+.jstep { margin-bottom:3px; position:relative; }
+.jstep-dot {
+  position:absolute; left:-32px; top:28px;
+  width:14px; height:14px; border-radius:50%;
+  border:2px solid var(--earth); background:var(--bg);
+  transition:background .2s;
+}
+.jstep:hover .jstep-dot { background:var(--earth); }
+.jstep-dot.core { background:var(--earth); box-shadow:0 0 0 4px rgba(205,133,63,.15); }
+.jstep-inner {
+  background:var(--white); border:1px solid var(--rule);
+  padding:26px 28px; border-left:3px solid var(--rule);
+  cursor:pointer; transition:border-color .22s;
+  display:grid; grid-template-columns:1fr auto; gap:20px; align-items:start;
+}
+.jstep:hover .jstep-inner { border-left-color:var(--teal); }
+.jstep.core .jstep-inner { border-left-color:var(--earth); }
+.jstep-badge {
+  font-size:8px; letter-spacing:.18em; text-transform:uppercase;
+  font-weight:600; padding:3px 9px; display:inline-block; margin-bottom:10px;
+}
+.jstep-badge.core-b { background:rgba(205,133,63,.1); color:var(--earth-d); }
+.jstep-badge.exec-b { background:rgba(58,96,115,.08); color:var(--teal); }
+.jstep-badge.optional-b { background:rgba(0,0,0,.04); color:var(--soft); }
+.jstep-title { font-family:'Nunito Sans',sans-serif; font-size:19px; font-weight:900; color:var(--teal-dd); margin-bottom:7px; }
+.jstep-desc { font-size:13.5px; color:var(--muted); line-height:1.75; font-weight:300; }
+.jstep-output {
+  flex-shrink:0; padding:10px 14px;
+  background:var(--bg); border:1px solid var(--rule);
+  text-align:right; min-width:160px;
+}
+.jstep-output-label { font-size:7.5px; letter-spacing:.16em; text-transform:uppercase; font-weight:600; color:var(--earth-d); margin-bottom:5px; }
+.jstep-output-name { font-family:'Nunito Sans',sans-serif; font-size:12.5px; font-weight:800; color:var(--teal-dd); line-height:1.3; }
+
+.journey-compound { background:var(--teal); padding:24px 32px; margin-top:28px; display:flex; gap:20px; align-items:flex-start; }
+.jc-icon { font-size:22px; flex-shrink:0; margin-top:2px; }
+.jc-body { }
+.jc-title { font-family:'Nunito Sans',sans-serif; font-size:16px; font-weight:800; color:#fff; margin-bottom:5px; }
+.jc-text { font-size:13px; color:rgba(255,255,255,.5); line-height:1.72; font-weight:300; }
+.jc-text strong { color:rgba(255,255,255,.78); font-weight:600; }
+
+/* ── WHAT YOU WALK AWAY WITH ── */
+.outputs { background:var(--white); padding:96px 0; }
+.outputs-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; margin-top:48px; }
+.output {
+  padding:34px 30px; background:var(--bg);
+  border:1px solid var(--rule); border-top:3px solid var(--bg-d);
+  transition:border-top-color .22s;
+}
+.output:hover { border-top-color:var(--teal); }
+.output-num { font-family:'Nunito Sans',sans-serif; font-size:56px; font-weight:900; color:rgba(0,0,0,.05); line-height:1; margin-bottom:10px; }
+.output-title { font-family:'Nunito Sans',sans-serif; font-size:20px; font-weight:900; color:var(--teal-dd); margin-bottom:8px; }
+.output-sub { font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; font-weight:600; color:var(--earth-d); margin-bottom:12px; }
+.output-desc { font-size:13.5px; color:var(--muted); line-height:1.75; font-weight:300; }
+.output-desc strong { color:var(--ink); font-weight:600; }
+
+.outputs-note { margin-top:28px; padding:22px 28px; background:var(--bg); border:1px solid var(--rule); display:flex; gap:16px; align-items:flex-start; }
+.on-icon { font-size:20px; flex-shrink:0; margin-top:2px; }
+.on-body { }
+.on-title { font-family:'Nunito Sans',sans-serif; font-size:15px; font-weight:800; color:var(--teal-dd); margin-bottom:5px; }
+.on-text { font-size:13.5px; color:var(--muted); line-height:1.72; font-weight:300; }
+.on-text strong { color:var(--ink); font-weight:600; }
+
+/* ── PRICING ── */
+.pricing { background:var(--bg); padding:96px 0; }
+.pricing-inner { display:grid; grid-template-columns:1fr 1fr; gap:2px; }
+.price-card { padding:52px 48px; background:var(--white); border:1px solid var(--rule); position:relative; overflow:hidden; }
+.price-card.founding { background:var(--teal-dd); border:none; }
+.price-wm {
+  position:absolute; top:-10px; right:-10px;
+  font-family:'Nunito Sans',sans-serif; font-size:130px; font-weight:900;
+  color:rgba(255,255,255,.03); line-height:1; pointer-events:none;
+}
+.price-tag { font-size:9px; letter-spacing:.22em; text-transform:uppercase; font-weight:600; margin-bottom:18px; display:flex; align-items:center; gap:9px; }
+.price-tag::before { content:''; display:block; width:18px; height:1.5px; }
+.price-card .price-tag { color:var(--earth-d); }
+.price-card .price-tag::before { background:var(--earth-d); }
+.price-card.founding .price-tag { color:var(--earth-lt); }
+.price-card.founding .price-tag::before { background:var(--earth-lt); }
+
+.price-h { font-family:'Nunito Sans',sans-serif; font-size:clamp(22px,2.5vw,30px); font-weight:900; line-height:1.1; margin-bottom:14px; }
+.price-card .price-h { color:var(--teal-dd); }
+.price-card.founding .price-h { color:#fff; }
+
+.price-amount { margin-bottom:20px; }
+.price-amount-n { font-family:'Nunito Sans',sans-serif; font-size:clamp(44px,6vw,64px); font-weight:900; line-height:1; }
+.price-card .price-amount-n { color:var(--teal-dd); }
+.price-card.founding .price-amount-n { color:#fff; }
+.price-amount-period { font-size:15px; color:var(--soft); font-weight:300; margin-top:4px; }
+.price-card.founding .price-amount-period { color:rgba(255,255,255,.38); }
+.price-amount-total { font-size:12px; letter-spacing:.1em; font-weight:600; color:var(--earth-d); margin-top:6px; text-transform:uppercase; }
+.price-card.founding .price-amount-total { color:var(--earth-lt); }
+
+.price-separator { width:100%; height:1px; background:var(--rule); margin:20px 0; }
+.price-card.founding .price-separator { background:rgba(255,255,255,.07); }
+
+.price-list { list-style:none; margin-bottom:28px; }
+.price-li { display:flex; gap:12px; padding:8px 0; border-bottom:1px solid var(--rule-lt); font-size:13.5px; line-height:1.6; font-weight:300; }
+.price-li:last-child { border-bottom:none; }
+.price-card .price-li { color:var(--muted); }
+.price-card.founding .price-li { color:rgba(255,255,255,.42); border-bottom-color:rgba(255,255,255,.05); }
+.price-li::before { content:'→'; color:var(--earth); font-size:11px; flex-shrink:0; margin-top:2px; }
+.price-card.founding .price-li::before { color:var(--earth-lt); }
+
+.price-note { font-size:12px; font-style:italic; line-height:1.7; }
+.price-card .price-note { color:var(--soft); }
+.price-card.founding .price-note { color:rgba(255,255,255,.3); }
+
+.price-future-label { font-size:9px; letter-spacing:.2em; text-transform:uppercase; font-weight:600; color:var(--soft); margin-bottom:10px; }
+.price-future-n { font-family:'Nunito Sans',sans-serif; font-size:52px; font-weight:900; color:rgba(0,0,0,.06); line-height:1; margin-bottom:6px; text-decoration:line-through; }
+.price-future-desc { font-size:13px; color:var(--soft); font-weight:300; line-height:1.7; }
+
+.founding-cta-row { margin-top:36px; }
+
+/* ── WHAT IT ASKS ── */
+.asks { background:var(--teal); padding:80px 0; }
+.asks-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; margin-top:48px; }
+.ask { padding:30px 28px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.07); border-top:2px solid rgba(255,255,255,.07); transition:border-top-color .22s; }
+.ask:hover { border-top-color:var(--earth); }
+.ask-icon { font-size:24px; margin-bottom:14px; }
+.ask-title { font-family:'Nunito Sans',sans-serif; font-size:17px; font-weight:900; color:#fff; margin-bottom:8px; }
+.ask-body { font-size:13px; color:rgba(255,255,255,.42); line-height:1.75; font-weight:300; }
+.ask-body strong { color:rgba(255,255,255,.72); font-weight:600; }
+
+/* ── FINAL CTA ── */
+.final-cta { background:var(--teal-dd); padding:120px 0; text-align:center; position:relative; overflow:hidden; }
+.final-glow { position:absolute; inset:0; background:radial-gradient(ellipse 80% 70% at 50% 50%,rgba(58,96,115,.5),transparent 70%); pointer-events:none; }
+.final-inner { position:relative; z-index:1; max-width:720px; margin:0 auto; }
+.final-ey { font-size:9.5px; letter-spacing:.28em; text-transform:uppercase; font-weight:600; color:var(--earth-lt); margin-bottom:24px; }
+.final-h { font-family:'EB Garamond',serif; font-size:clamp(34px,5.5vw,60px); font-weight:400; font-style:italic; line-height:1.15; color:#fff; margin-bottom:18px; }
+.final-h strong { font-style:normal; font-weight:500; color:var(--earth-lt); }
+.final-sub { font-size:15px; color:rgba(255,255,255,.38); line-height:1.88; max-width:500px; margin:0 auto 48px; font-weight:300; }
+.final-btns { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+.final-alt { font-size:12px; color:rgba(255,255,255,.25); margin-top:20px; font-style:italic; }
+.final-alt a { color:rgba(255,255,255,.45); text-decoration:underline; text-decoration-color:rgba(255,255,255,.2); }
+.final-alt a:hover { color:rgba(255,255,255,.7); }
+
+footer { background:var(--teal-dd); border-top:1px solid rgba(255,255,255,.05); padding:36px 80px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+.f-logo { font-family:'Nunito Sans',sans-serif; font-size:12px; font-weight:900; letter-spacing:.2em; text-transform:uppercase; color:rgba(255,255,255,.4); }
+.f-logo span { color:var(--earth); }
+.f-tagline { font-family:'EB Garamond',serif; font-size:13px; font-style:italic; color:rgba(255,255,255,.2); }
+.f-meta { font-size:8.5px; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.13); font-weight:600; }
+
+/* ── RESPONSIVE ── */
+@media(max-width:960px){
+  .nav { padding:0 20px; } .nav-links { display:none; }
+  .W { padding:0 24px; }
+  .who-grid { grid-template-columns:1fr; gap:36px; }
+  .who-left { position:static; }
+  .orient-inner { grid-template-columns:1fr; }
+  .orient-story,.orient-form { padding:40px 28px; }
+  .pricing-inner { grid-template-columns:1fr; }
+  .asks-grid { grid-template-columns:1fr 1fr; }
+  .outputs-grid { grid-template-columns:1fr; }
+  .jstep-inner { grid-template-columns:1fr; }
+  .jstep-output { min-width:auto; text-align:left; }
+  footer { flex-direction:column; text-align:center; padding:28px 24px; }
+}
+@media(max-width:600px){
+  .asks-grid { grid-template-columns:1fr; }
+  .hero-stats { gap:28px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="./index" class="nav-back">← InnerCompass Project</a>
+  <div class="nav-logo">Inner<span>Compass</span> <span style="color:rgba(255,255,255,.3);font-weight:300;letter-spacing:.1em;font-size:11px;margin-left:4px">Project</span></div>
+  <div class="nav-sep"></div>
+  <div class="nav-links">
+    <a href="./standard" class="nav-a">The Standard</a>
+    <a href="./build" class="nav-a">The Build</a>
+    <a href="./implementors" class="nav-a active">Implementors</a>
+    <a href="./stewards" class="nav-a">Stewards</a>
+  </div>
+</nav>
+
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="W hero-inner">
+
+    <div class="hero-pre">
+      <span class="hero-pre-dot"></span>
+      InnerCompass Project &nbsp;·&nbsp; Founding Implementors &nbsp;·&nbsp; First 50
+    </div>
+
+    <h1 class="hero-h1">
+      You know something<br>
+      structural is off.<br>
+      <em>This is the map<br>you've been missing.</em>
+    </h1>
+
+    <p class="hero-standfirst">
+      A guided journey through the exact foundations your business needs —
+      <strong>specific to your stage, honest about what's broken,</strong>
+      built to compound from the first conversation.
+    </p>
+
+    <div class="hero-cta-row">
+      <a href="#orientation" class="btn-primary">Book Your Orientation Call <span class="btn-icon">→</span></a>
+      <a href="#journey" class="btn-ghost">See the Full Journey <span class="btn-icon">↓</span></a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hs"><div class="hs-n">45</div><div class="hs-l">Min. orientation call</div></div>
+      <div class="hs-div"></div>
+      <div class="hs"><div class="hs-n">6</div><div class="hs-l">Kit journey</div></div>
+      <div class="hs-div"></div>
+      <div class="hs"><div class="hs-n">4</div><div class="hs-l">Actionable outputs</div></div>
+      <div class="hs-div"></div>
+      <div class="hs"><div class="hs-n">50</div><div class="hs-l">Founding rate seats</div></div>
+    </div>
+
+  </div>
+  <div class="hero-scroll">
+    <div class="hero-scroll-label">Continue</div>
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+
+<!-- ══ WHO THIS IS FOR ══ -->
+<section class="who">
+  <div class="W">
+    <div class="who-grid">
+
+      <div class="who-left r">
+        <div class="section-tag">Who this is for</div>
+        <h2 class="who-h">
+          This is for founders<br>
+          who are <em>already doing<br>
+          the work</em> — and know<br>
+          something isn't adding up.
+        </h2>
+        <div class="who-sub">
+          Not beginners. Not idea-stage.<br>
+          Founders who are in it, and ready to understand exactly what's structurally missing.
+        </div>
+      </div>
+
+      <div class="who-right">
+        <p class="who-para r d1">
+          You have a business. It might even be generating revenue. But decisions feel harder than they should. The brand doesn't fully reflect what you've built. The team doesn't move with the same clarity you have in your head. You're working harder than ever — and the compound isn't arriving.
+        </p>
+        <p class="who-para r d2">
+          You've probably tried training programs, consultants, accelerator cohorts. Some of it helped. None of it gave you <strong>a complete picture of what's actually broken and what to fix first.</strong> Because none of it was built around a coherent operating standard — just fragments of good thinking that never connected into a system.
+        </p>
+        <p class="who-para r d3">
+          The Implementor path is for the founder who is <em>ready to stop guessing at the structure</em> and start building on foundations that will hold.
+        </p>
+
+        <div class="checks r d3">
+          <div class="check-head">
+            <div class="check-head-label">This path is right for you if</div>
+          </div>
+          <ul class="check-list">
+            <li class="check-item">
+              <div class="check-icon yes">✓</div>
+              <div class="check-text">You have an operating business — even early stage — with <strong>real customers, real decisions, and real structural questions</strong></div>
+            </li>
+            <li class="check-item">
+              <div class="check-icon yes">✓</div>
+              <div class="check-text">You can commit <strong>3–5 hours per week</strong> to working through the kit journey with genuine honesty</div>
+            </li>
+            <li class="check-item">
+              <div class="check-icon yes">✓</div>
+              <div class="check-text">You want outputs you can actually use — not insights to sit on, but documents that <strong>change how you make decisions</strong></div>
+            </li>
+            <li class="check-item">
+              <div class="check-icon yes">✓</div>
+              <div class="check-text">You're willing to answer uncomfortable questions honestly — <strong>the kits reflect what you put in</strong>, nothing more</div>
+            </li>
+            <li class="check-item">
+              <div class="check-icon no">✗</div>
+              <div class="check-text">This is not for idea-stage businesses with no customers — <strong>the diagnostic requires something real to diagnose</strong></div>
+            </li>
+            <li class="check-item">
+              <div class="check-icon no">✗</div>
+              <div class="check-text">This is not for founders looking for <strong>motivation, mentorship, or community</strong> — ICP is a structural operating tool, not a support network</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ ORIENTATION CALL ══ -->
+<section class="orient" id="orientation">
+  <div class="W">
+    <div class="orient-inner r">
+
+      <!-- Left: story -->
+      <div class="orient-story">
+        <div class="orient-tag">Step one — before anything</div>
+        <h2 class="orient-h">
+          A 45-minute call.<br>
+          <em>With me. Directly.</em><br>
+          No cost. No obligation.
+        </h2>
+        <p class="orient-body">
+          Before you commit to the full kit journey, we get on a call together. Not a sales call. Not a discovery session dressed up as something else. <strong>An honest 45-minute conversation</strong> where I map your specific structural situation against the ICP standard and tell you exactly where I see the gaps — and whether the Implementor path is the right tool for them.
+        </p>
+        <p class="orient-body">
+          If it's not right for you, I'll tell you that too. <em>ICP only works when it's used on the right problem.</em> The orientation exists to make sure that's the case before anyone commits time or money.
+        </p>
+
+        <ul class="what-happens">
+          <li class="wh">
+            <div class="wh-num">01</div>
+            <div class="wh-text"><strong>You walk me through your business.</strong> Not a pitch — the real picture. Where it is now, where you're stuck, what you've already tried.</div>
+          </li>
+          <li class="wh">
+            <div class="wh-num">02</div>
+            <div class="wh-text"><strong>I map your gaps against the 11 ICP pillars</strong> in real time — identifying which foundations are solid, which are broken, and which are the structural root of everything else.</div>
+          </li>
+          <li class="wh">
+            <div class="wh-num">03</div>
+            <div class="wh-text"><strong>You leave with a clear diagnostic picture</strong> — regardless of whether you continue. That alone is worth the 45 minutes.</div>
+          </li>
+          <li class="wh">
+            <div class="wh-num">04</div>
+            <div class="wh-text">If the fit is right, <strong>I'll walk you through exactly what the Founding Rate journey involves</strong> and what you'll walk away with.</div>
+          </li>
+        </ul>
+
+        <div class="terra-note">
+          <div class="terra-note-label">How we're building this</div>
+          <div class="terra-note-text">
+            ICP is currently being refined through active work with business owners inside <em>Terra Bali</em> and through direct founder engagements in the region. Every orientation call strengthens the standard. Every founder who goes through the journey contributes to what v1.0 becomes.
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: form -->
+      <div class="orient-form">
+        <div class="orient-tag on-earth">Book your orientation call</div>
+        <div class="orient-form-h">45 minutes.<br>No cost. No pitch.</div>
+        <div class="orient-form-sub">Tell me about your business and I'll send you available times within 48 hours.</div>
+
+        <form class="form" onsubmit="handleSubmit(event)">
+          <div>
+            <label class="field-label">Your name</label>
+            <input type="text" class="field-input" placeholder="Full name" required>
+          </div>
+          <div>
+            <label class="field-label">Email address</label>
+            <input type="email" class="field-input" placeholder="you@yourbusiness.com" required>
+          </div>
+          <div>
+            <label class="field-label">Business name & what you do</label>
+            <input type="text" class="field-input" placeholder="e.g. Kera Studio — brand design for food companies">
+          </div>
+          <div>
+            <label class="field-label">Where are you based?</label>
+            <input type="text" class="field-input" placeholder="City, Country">
+          </div>
+          <div>
+            <label class="field-label">The one thing that feels most structurally off</label>
+            <textarea class="field-textarea" placeholder="In one or two sentences — what is the core structural problem you're trying to solve?" required></textarea>
+          </div>
+          <div>
+            <label class="field-label">How did you find ICP?</label>
+            <select class="field-select">
+              <option value="">Select one</option>
+              <option>Terra Bali community</option>
+              <option>LinkedIn / social media</option>
+              <option>Referred by someone</option>
+              <option>Organic search</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <button type="submit" class="form-btn">
+            Request Orientation Call <span>→</span>
+          </button>
+          <div class="form-note">I personally review every request and respond within 48 hours.</div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ THE KIT JOURNEY ══ -->
+<section class="journey" id="journey">
+  <div class="W">
+    <div class="journey-head r">
+      <div class="section-tag">The kit journey</div>
+      <h2 class="journey-h">
+        Six guided AI conversations.<br>
+        <em>One compound journey.</em>
+      </h2>
+      <p class="journey-body">
+        Each kit is a structured AI conversation that asks the questions you've been avoiding, surfaces what you know but haven't articulated clearly, and produces an output you can act on. <strong>They connect to each other.</strong> What you discover in the first kit shapes every conversation after it. This is a system, not a series of sessions.
+      </p>
+    </div>
+
+    <div class="timeline r">
+
+      <div class="jstep core">
+        <div class="jstep-dot core"></div>
+        <div class="jstep-inner">
+          <div>
+            <div class="jstep-badge core-b">Core · Start Here</div>
+            <div class="jstep-title">Brand Inner Compass</div>
+            <div class="jstep-desc">Where everything begins. The root of the business — why it exists, what it stands for, what makes it genuinely different. Not crafted for a pitch. Not polished for an investor. The honest answer that makes every downstream decision faster and clearer.</div>
+          </div>
+          <div class="jstep-output">
+            <div class="jstep-output-label">You walk away with</div>
+            <div class="jstep-output-name">Brand Compass Document</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="jstep core">
+        <div class="jstep-dot core"></div>
+        <div class="jstep-inner">
+          <div>
+            <div class="jstep-badge core-b">Core</div>
+            <div class="jstep-title">Vision, Mission & Values</div>
+            <div class="jstep-desc">Most VMV exercises produce words that sound good and make decisions poorly. This kit applies the pressure test: if your VMV can't resolve a genuinely hard trade-off, it needs rewriting until it can. The output is a VMV document that actually functions.</div>
+          </div>
+          <div class="jstep-output">
+            <div class="jstep-output-label">You walk away with</div>
+            <div class="jstep-output-name">Operational VMV Document</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="jstep core">
+        <div class="jstep-dot core"></div>
+        <div class="jstep-inner">
+          <div>
+            <div class="jstep-badge core-b">Core · The Hardest One</div>
+            <div class="jstep-title">Business Model & Value Reality</div>
+            <div class="jstep-desc">Where most founders discover the gap between what they think they're selling and what people will actually pay for. This kit does not protect your assumptions. It tests them — specifically, honestly, with no room to avoid the answer.</div>
+          </div>
+          <div class="jstep-output">
+            <div class="jstep-output-label">You walk away with</div>
+            <div class="jstep-output-name">Economic Truth Summary</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="jstep core">
+        <div class="jstep-dot core"></div>
+        <div class="jstep-inner">
+          <div>
+            <div class="jstep-badge core-b">Core</div>
+            <div class="jstep-title">Brand Strategy</div>
+            <div class="jstep-desc">Where you compete, how you compete, and what you're willing to stop doing to be excellent at what actually matters. Strategy is subtraction. This kit identifies what to eliminate so that what remains becomes defensible.</div>
+          </div>
+          <div class="jstep-output">
+            <div class="jstep-output-label">You walk away with</div>
+            <div class="jstep-output-name">One-Page Brand Strategy</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="jstep">
+        <div class="jstep-dot"></div>
+        <div class="jstep-inner">
+          <div>
+            <div class="jstep-badge exec-b">Execution</div>
+            <div class="jstep-title">Messaging Clarity</div>
+            <div class="jstep-desc">Translates your strategy into language. What you say, to whom, in what order — and why it earns attention rather than just occupies space. Builds from everything the core kits produced.</div>
+          </div>
+          <div class="jstep-output">
+            <div class="jstep-output-label">You walk away with</div>
+            <div class="jstep-output-name">Messaging Compass</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="jstep">
+        <div class="jstep-dot"></div>
+        <div class="jstep-inner">
+          <div>
+            <div class="jstep-badge exec-b">Operations</div>
+            <div class="jstep-title">Operations Alignment</div>
+            <div class="jstep-desc">Where the brand meets daily behavior. Decision principles, trade-off logic, cultural norms. The systems that make your values operational — not decorative — so the business functions clearly whether you're in the room or not.</div>
+          </div>
+          <div class="jstep-output">
+            <div class="jstep-output-label">You walk away with</div>
+            <div class="jstep-output-name">Operational Compass</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="journey-compound r">
+      <div class="jc-icon">🔗</div>
+      <div class="jc-body">
+        <div class="jc-title">The compounding effect</div>
+        <div class="jc-text">These six kits are not a checklist. They are a <strong>single connected journey</strong> — each output feeds the next. A founder who completes all six walks away with something most businesses never have: a coherent, documented foundation that makes every future decision faster, cheaper, and less likely to be wrong.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ WHAT YOU WALK AWAY WITH ══ -->
+<section class="outputs">
+  <div class="W">
+    <div class="section-tag r">What you actually get</div>
+    <h2 class="journey-h r" style="max-width:600px;margin-bottom:12px;">
+      Four documents.<br>
+      <em>One coherent foundation.</em>
+    </h2>
+    <p class="journey-body r" style="max-width:600px;margin-bottom:0;">These are not reports. They are working instruments — built to sit on your desk and make decisions faster, not to sit in a folder after a workshop.</p>
+
+    <div class="outputs-grid r">
+      <div class="output">
+        <div class="output-num">01</div>
+        <div class="output-title">Brand Compass</div>
+        <div class="output-sub">From Brand Inner Compass + VMV kits</div>
+        <div class="output-desc">Your business's true north — the origin, the emotional signature, the non-negotiables, the values hierarchy under pressure. <strong>The filter that exists before any strategy.</strong> Referenced every time you face a decision the spreadsheet can't answer.</div>
+      </div>
+      <div class="output">
+        <div class="output-num">02</div>
+        <div class="output-title">Economic Truth Summary</div>
+        <div class="output-sub">From Business Model Reality kit</div>
+        <div class="output-desc">An honest picture of the business model's current reality versus its assumptions. <strong>Where the value exchange is real. Where it is fictional.</strong> Where the risk is concentrated. What changes first. Most founders find this the most uncomfortable and most useful output of the entire journey.</div>
+      </div>
+      <div class="output">
+        <div class="output-num">03</div>
+        <div class="output-title">One-Page Brand Strategy</div>
+        <div class="output-sub">From Brand Strategy kit</div>
+        <div class="output-desc">Where you compete. How you compete. What you've decided to stop doing. <strong>A single page that makes every downstream decision faster and clearer</strong> — product, hiring, pricing, partnerships. The most referenced document in the set.</div>
+      </div>
+      <div class="output">
+        <div class="output-num">04</div>
+        <div class="output-title">Operational Compass</div>
+        <div class="output-sub">From Messaging + Operations kits</div>
+        <div class="output-desc">How your values become behavior. What your team says, how they decide, what they protect. <strong>The business operating without you present</strong> — and making decisions you'd recognize as yours. The foundation for building a team that doesn't need to ask you everything.</div>
+      </div>
+    </div>
+
+    <div class="outputs-note r">
+      <div class="on-icon">📋</div>
+      <div class="on-body">
+        <div class="on-title">These outputs are yours. Permanently.</div>
+        <div class="on-text">Every document produced through the kit journey belongs to you — no licensing, no platform dependency, no subscription required to access them after the journey ends. <strong>They are working documents built for your business.</strong> Use them, share them with your team, build from them. That's the point.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ PRICING ══ -->
+<section class="pricing" id="pricing">
+  <div class="W">
+    <div class="section-tag r">Access & pricing</div>
+    <h2 class="journey-h r" style="max-width:600px;margin-bottom:12px;">
+      The Founding Rate.<br>
+      <em>It closes after 50.</em>
+    </h2>
+    <p class="journey-body r" style="max-width:600px;margin-bottom:36px;">The first 50 founders access ICP at a rate that reflects where the standard is today — v0.4, being refined through real use. This rate will not exist after the first 50 are in. That is not urgency marketing. That is the honest structure of how standards get built.</p>
+
+    <div class="pricing-inner r">
+
+      <!-- FOUNDING RATE -->
+      <div class="price-card founding">
+        <div class="price-wm">FR</div>
+        <div class="price-tag">Founding Rate · 50 seats only</div>
+        <div class="price-h">Founding Implementor Access</div>
+        <div class="price-amount">
+          <div class="price-amount-n">$500</div>
+          <div class="price-amount-period">per month · 6-month journey</div>
+          <div class="price-amount-total">$3,000 total investment</div>
+        </div>
+        <div class="price-separator"></div>
+        <ul class="price-list">
+          <li class="price-li">Complete 6-kit guided journey — all four core kits plus execution and operations</li>
+          <li class="price-li">45-minute personal orientation call before commitment — with the ICP founder, directly</li>
+          <li class="price-li">Four working output documents: Brand Compass, Economic Truth Summary, Brand Strategy, Operational Compass</li>
+          <li class="price-li">ICP pillar diagnostic — clear map of which foundations are solid and which need work</li>
+          <li class="price-li">Named Founding Implementor status — documented contribution to Standard v1.0</li>
+          <li class="price-li">Access to all standard updates through v1.0 — no additional cost</li>
+        </ul>
+        <div class="price-note">Payment is structured over 6 months — $500/month — aligned with the journey timeline. No lump-sum required.</div>
+        <div class="founding-cta-row">
+          <a href="#orientation" class="btn-primary" style="display:inline-flex;">Book Orientation Call — Start Here <span class="btn-icon" style="margin-left:8px">→</span></a>
+        </div>
+      </div>
+
+      <!-- FUTURE RATE -->
+      <div class="price-card">
+        <div class="price-tag">Standard Rate · After first 50</div>
+        <div class="price-h">Full Implementor Access</div>
+        <div class="price-future-label">Future rate</div>
+        <div class="price-future-n">$15K</div>
+        <div class="price-future-desc">
+          After the first 50 Founding Implementors complete the journey, ICP will have case studies, documented outcomes, and a refined v1.0 standard. The rate after that reflects what the standard has proven. The Founding Rate exists because we're not there yet — and the founders who help get us there deserve to access it before the proof is public.
+        </div>
+        <div class="price-separator"></div>
+        <div class="price-future-desc" style="font-style:italic;font-size:13px;color:var(--soft);line-height:1.7;">
+          "We're not asking you to trust a finished product. We're inviting you to be part of finishing it — at the rate that reflects that partnership. The value you receive right now is real. The rate reflects where the standard is, not where it's going."
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ WHAT IT ASKS ══ -->
+<section class="asks">
+  <div class="W">
+    <div class="section-tag light r">What this asks of you</div>
+    <h2 class="orient-h r" style="max-width:600px;margin-bottom:14px;">
+      ICP works if you<br>
+      <em>work it honestly.</em>
+    </h2>
+    <p class="orient-body r" style="max-width:580px;margin-bottom:48px;">The kit system is only as useful as the honesty you bring to it. A founder who answers the questions they wish were true will get outputs based on fiction. These are the conditions this works under.</p>
+
+    <div class="asks-grid r">
+      <div class="ask">
+        <div class="ask-icon">⏱</div>
+        <div class="ask-title">3–5 hours per week</div>
+        <div class="ask-body">The journey unfolds over 6 months. Each kit takes <strong>90–120 minutes of focused work</strong> — not rushing to complete it, but sitting with the questions long enough to answer them honestly. This is not passive consumption.</div>
+      </div>
+      <div class="ask">
+        <div class="ask-icon">🪞</div>
+        <div class="ask-title">Radical honesty</div>
+        <div class="ask-body">The kits ask uncomfortable questions about your model, your market, your values under pressure. <strong>The system reflects what you put in.</strong> Founders who bring their real picture walk away with something they can use. Founders who bring their best pitch walk away with an expensive mirror.</div>
+      </div>
+      <div class="ask">
+        <div class="ask-icon">🏗</div>
+        <div class="ask-title">A real business to work on</div>
+        <div class="ask-body">The diagnostic requires something real to diagnose. <strong>You need customers, decisions, and structural questions that are live — not hypothetical.</strong> Idea-stage businesses should wait until there is something concrete to pressure-test.</div>
+      </div>
+      <div class="ask">
+        <div class="ask-icon">📐</div>
+        <div class="ask-title">Willingness to change what's not working</div>
+        <div class="ask-body">The journey will almost certainly surface something you've been avoiding. <strong>That discovery is the point — not a side effect.</strong> Founders who arrive already certain their model is correct tend to find the experience frustrating rather than useful.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ FINAL CTA ══ -->
+<section class="final-cta">
+  <div class="final-glow"></div>
+  <div class="W">
+    <div class="final-inner r">
+      <div class="final-ey">InnerCompass Project · Founding Implementors</div>
+      <h2 class="final-h">
+        The map you've been<br>
+        <strong>building without.</strong>
+      </h2>
+      <p class="final-sub">Start with a 45-minute call. No cost. No commitment. Leave with a clear picture of what's structurally missing — whether or not you continue.</p>
+      <div class="final-btns">
+        <a href="#orientation" class="btn-primary">Book Your Orientation Call <span class="btn-icon">→</span></a>
+        <a href="./standard" class="btn-ghost">Read the Full Standard <span class="btn-icon">→</span></a>
+      </div>
+      <div class="final-alt">
+        Not a founder? Looking to help build the standard itself? <a href="./stewards">Explore the Steward path →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<footer>
+  <div class="f-logo">Inner<span>Compass</span> <span style="color:rgba(255,255,255,.25);font-weight:300;letter-spacing:.06em;font-size:10px;margin-left:2px">Project</span></div>
+  <div class="f-tagline">"The operating layer beneath every well-run business."</div>
+  <div class="f-meta">Standard v0.4 · Founding Phase · 2026</div>
+</footer>
+
+
+<script>
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.07 });
+document.querySelectorAll('.r').forEach(el => obs.observe(el));
+
+function handleSubmit(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('.form-btn');
+  btn.textContent = 'Request sent — you\'ll hear from me within 48 hours.';
+  btn.style.background = 'rgba(255,255,255,.15)';
+  btn.style.cursor = 'default';
+}
+</script>
+
+</body>
+</html>
