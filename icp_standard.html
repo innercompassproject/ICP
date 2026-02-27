@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Standard — InnerCompass Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,300;0,6..12,400;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;1,6..12,300;1,6..12,400;1,6..12,700&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+
+:root {
+  --teal:    #3A6073;
+  --teal-d:  #2d4d5e;
+  --teal-dd: #1e3340;
+  --teal-lt: #4a7a8f;
+  --olive:   #556B2F;
+  --earth:   #CD853F;
+  --earth-lt:#d99554;
+  --earth-d: #b8722e;
+  --bg:      #E8E8E8;
+  --bg-d:    #dedede;
+  --white:   #ffffff;
+  --ink:     #1a1a1a;
+  --muted:   #5a5a5a;
+  --soft:    #8a8a8a;
+  --rule:    rgba(0,0,0,.08);
+  --rule-lt: rgba(0,0,0,.045);
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--ink);font-family:'Open Sans',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+::-webkit-scrollbar{width:2px;}
+::-webkit-scrollbar-track{background:var(--teal-dd);}
+::-webkit-scrollbar-thumb{background:var(--earth);}
+
+/* ── NAV ── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;height:58px;display:flex;align-items:center;padding:0 48px;background:rgba(30,51,64,.96);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.05);}
+.nav-logo{font-family:'Nunito Sans',sans-serif;font-size:13px;font-weight:900;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.88);}
+.nav-logo span{color:var(--earth);}
+.nav-project{color:rgba(255,255,255,.28);font-weight:300;letter-spacing:.08em;font-size:11px;margin-left:4px;}
+.nav-sep{flex:1;}
+.nav-links{display:flex;}
+.nav-a{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.35);padding:0 18px;height:58px;display:flex;align-items:center;border-bottom:2px solid transparent;transition:color .2s,border-color .2s;}
+.nav-a:hover,.nav-a.active{color:rgba(255,255,255,.8);border-bottom-color:var(--earth);}
+.nav-back{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.3);display:flex;align-items:center;gap:8px;transition:color .2s;padding-right:24px;border-right:1px solid rgba(255,255,255,.07);margin-right:8px;}
+.nav-back:hover{color:rgba(255,255,255,.65);}
+
+/* ── SHARED ── */
+.W{max-width:1140px;margin:0 auto;padding:0 80px;}
+.r{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease;}
+.r.in{opacity:1;transform:none;}
+.d1{transition-delay:.06s}.d2{transition-delay:.12s}.d3{transition-delay:.18s}
+.d4{transition-delay:.24s}.d5{transition-delay:.30s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* ── STICKY TOC ── */
+.toc{position:fixed;top:58px;left:0;width:220px;height:calc(100vh - 58px);overflow-y:auto;background:var(--teal-dd);border-right:1px solid rgba(255,255,255,.04);padding:32px 0;z-index:50;transform:translateX(-100%);transition:transform .3s;}
+.toc.open{transform:none;}
+.toc-toggle{position:fixed;top:70px;left:0;z-index:60;width:28px;height:44px;background:var(--earth);display:flex;align-items:center;justify-content:center;cursor:pointer;border-radius:0 4px 4px 0;transition:background .2s;}
+.toc-toggle:hover{background:var(--earth-d);}
+.toc-toggle svg{width:14px;height:14px;fill:none;stroke:#fff;stroke-width:2;}
+.toc-head{font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;color:rgba(255,255,255,.28);padding:0 22px;margin-bottom:12px;}
+.toc-a{display:block;padding:8px 22px;font-size:11.5px;color:rgba(255,255,255,.35);font-weight:400;border-left:2px solid transparent;transition:color .18s,border-color .18s;line-height:1.4;}
+.toc-a:hover{color:rgba(255,255,255,.7);border-left-color:rgba(255,255,255,.2);}
+.toc-a.active{color:rgba(255,255,255,.85);border-left-color:var(--earth);}
+.toc-a.sub{padding-left:32px;font-size:11px;color:rgba(255,255,255,.25);}
+.toc-a.sub:hover{color:rgba(255,255,255,.55);}
+.toc-sep{height:1px;background:rgba(255,255,255,.05);margin:12px 22px;}
+
+/* ── HERO ── */
+.hero{background:var(--teal-dd);padding:120px 0 80px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(-45deg,transparent,transparent 48px,rgba(255,255,255,.008) 48px,rgba(255,255,255,.008) 49px);pointer-events:none;}
+.hero-glow{position:absolute;top:-15%;right:-5%;width:60vw;height:60vw;max-width:640px;background:radial-gradient(ellipse,rgba(58,96,115,.3) 0%,transparent 65%);pointer-events:none;}
+.hero-inner{position:relative;z-index:2;}
+.hero-pre{font-size:9.5px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--earth-lt);margin-bottom:28px;display:flex;align-items:center;gap:12px;opacity:0;animation:fadeUp .6s ease forwards .1s;}
+.hero-pre::before{content:'';display:block;width:20px;height:1.5px;background:var(--earth);}
+.hero-h{font-family:'Nunito Sans',sans-serif;font-size:clamp(36px,5.5vw,66px);font-weight:900;line-height:1.05;color:#fff;margin-bottom:24px;opacity:0;animation:fadeUp .9s ease forwards .25s;}
+.hero-h em{font-style:italic;font-weight:300;color:rgba(205,133,63,.85);}
+.hero-standfirst{font-family:'EB Garamond',serif;font-size:19px;font-style:italic;line-height:1.75;color:rgba(255,255,255,.5);max-width:600px;opacity:0;animation:fadeUp .8s ease forwards .4s;}
+.hero-standfirst strong{font-style:normal;font-weight:500;color:rgba(255,255,255,.75);}
+.hero-meta{display:flex;gap:32px;margin-top:44px;flex-wrap:wrap;opacity:0;animation:fadeIn .9s ease forwards .7s;}
+.hm{display:flex;align-items:center;gap:10px;}
+.hm-dot{width:6px;height:6px;border-radius:50%;background:var(--earth);}
+.hm-text{font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:rgba(255,255,255,.3);}
+.hm-text strong{color:rgba(255,255,255,.58);font-weight:700;}
+
+/* ── SECTION SCAFFOLD ── */
+.std-section{padding:88px 0;scroll-margin-top:70px;}
+.std-section.alt{background:var(--white);}
+.std-section.dark{background:var(--teal-dd);}
+.std-section.teal{background:var(--teal);}
+
+.section-eyebrow{font-size:9px;letter-spacing:.28em;text-transform:uppercase;font-weight:600;color:var(--earth);display:flex;align-items:center;gap:10px;margin-bottom:18px;}
+.section-eyebrow::before{content:'';display:block;width:20px;height:1.5px;background:var(--earth);}
+.section-eyebrow.light{color:var(--earth-lt);}
+.section-eyebrow.light::before{background:var(--earth-lt);}
+
+.section-h{font-family:'Nunito Sans',sans-serif;font-size:clamp(26px,3.5vw,42px);font-weight:900;line-height:1.07;color:var(--teal-dd);margin-bottom:14px;}
+.section-h.on-dark{color:#fff;}
+.section-h em{font-style:italic;font-weight:300;color:var(--teal);}
+.section-h.on-dark em{color:var(--earth-lt);}
+.section-intro{font-size:15px;font-weight:300;line-height:1.9;color:var(--muted);max-width:660px;margin-bottom:44px;}
+.section-intro strong{color:var(--ink);font-weight:600;}
+.section-intro.on-dark{color:rgba(255,255,255,.45);}
+.section-intro.on-dark strong{color:rgba(255,255,255,.75);}
+
+/* ── WHAT IS ICP ── */
+.what-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:36px;}
+.what-card{padding:30px 26px;background:var(--bg);border:1px solid var(--rule);border-top:3px solid var(--bg-d);transition:border-top-color .22s;}
+.what-card:hover{border-top-color:var(--teal);}
+.what-card.is{border-top-color:var(--olive);}
+.what-card.not{border-top-color:rgba(150,40,40,.3);}
+.wc-label{font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-bottom:12px;}
+.wc-label.is{color:#556B2F;}
+.wc-label.not{color:rgba(130,40,40,.7);}
+.wc-list{list-style:none;}
+.wc-li{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--rule-lt);font-size:13.5px;color:var(--muted);line-height:1.6;font-weight:300;}
+.wc-li:last-child{border-bottom:none;}
+.wc-li::before{flex-shrink:0;margin-top:2px;font-size:11px;font-weight:700;}
+.wc-li.is::before{content:'✓';color:#556B2F;}
+.wc-li.not::before{content:'✗';color:rgba(130,40,40,.7);}
+.wc-li strong{color:var(--ink);font-weight:700;}
+
+/* ── 11 PILLARS ── */
+.tier-label{padding:10px 20px;margin-bottom:2px;font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;}
+.tier-label.foundation{background:rgba(58,96,115,.08);color:var(--teal-d);}
+.tier-label.growth{background:rgba(85,107,47,.08);color:#445824;}
+
+/* accordion pillar */
+.pillar{background:var(--white);border:1px solid var(--rule);border-left:3px solid var(--bg-d);margin-bottom:2px;cursor:pointer;transition:border-left-color .22s;}
+.pillar:hover,.pillar.open{border-left-color:var(--teal);}
+.pillar.growth-p:hover,.pillar.growth-p.open{border-left-color:#556B2F;}
+.pillar-head{display:grid;grid-template-columns:52px 1fr auto 44px;align-items:center;padding:18px 20px;gap:16px;}
+.pn{font-family:'Nunito Sans',sans-serif;font-size:28px;font-weight:900;color:rgba(0,0,0,.06);line-height:1;}
+.pillar.open .pn{color:rgba(58,96,115,.18);}
+.pm-wrap{}
+.pt{font-size:9px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--earth-d);margin-bottom:3px;}
+.pname{font-family:'Nunito Sans',sans-serif;font-size:17px;font-weight:900;color:var(--teal-dd);line-height:1.2;}
+.psub{font-size:12px;color:var(--muted);font-weight:300;margin-top:3px;}
+.p-std{font-size:10px;font-weight:600;color:var(--teal);letter-spacing:.06em;align-self:center;}
+.p-icon{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--rule);display:flex;align-items:center;justify-content:center;color:var(--soft);font-size:14px;transition:all .22s;flex-shrink:0;}
+.pillar.open .p-icon{background:var(--teal);border-color:var(--teal);color:#fff;transform:rotate(45deg);}
+
+/* pillar body */
+.pillar-body{display:none;padding:0 20px 28px;border-top:1px solid var(--rule);}
+.pillar.open .pillar-body{display:block;}
+.pb-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0;}
+.state{padding:16px 18px;border-top:2px solid;}
+.state.broken{border-top-color:rgba(160,50,50,.35);background:rgba(160,50,50,.03);}
+.state.aligned{border-top-color:var(--olive);background:rgba(85,107,47,.03);}
+.state-label{font-size:8px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-bottom:7px;}
+.state.broken .state-label{color:rgba(140,40,40,.7);}
+.state.aligned .state-label{color:#445824;}
+.state-text{font-size:12.5px;color:var(--muted);line-height:1.72;font-weight:300;}
+.state-text strong{color:var(--ink);font-weight:600;}
+.principle-box{background:var(--bg);padding:14px 18px;margin-bottom:16px;border-left:3px solid var(--earth);}
+.pb-label{font-size:8px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;color:var(--earth-d);margin-bottom:6px;}
+.pb-text{font-size:13px;color:var(--muted);line-height:1.75;font-weight:300;font-style:italic;}
+.pb-text strong{color:var(--ink);font-style:normal;font-weight:700;}
+.evidence-label{font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--soft);margin:16px 0 10px;}
+.ev-cards{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.ev-card{background:var(--bg);padding:12px 14px;border:1px solid var(--rule);}
+.ev-card.feat{grid-column:span 2;background:rgba(58,96,115,.04);border-color:rgba(58,96,115,.12);}
+.ev-geo{font-size:8px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--earth-d);margin-bottom:4px;display:flex;align-items:center;gap:5px;}
+.ev-dot{width:4px;height:4px;background:var(--earth);border-radius:50%;flex-shrink:0;}
+.ev-name{font-family:'Nunito Sans',sans-serif;font-size:14px;font-weight:900;color:var(--teal-dd);margin-bottom:5px;}
+.ev-desc{font-size:12px;color:var(--muted);line-height:1.7;font-weight:300;}
+.ev-proof{font-size:10.5px;color:var(--teal);font-weight:600;margin-top:6px;font-style:italic;}
+
+/* ── EVIDENCE BASE ── */
+#evidence{scroll-margin-top:70px;}
+.evidence-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;margin-bottom:28px;}
+.ev-main{padding:32px 28px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);}
+.ev-main.featured{grid-column:span 3;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12);}
+.ev-country{font-size:8px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--earth-lt);margin-bottom:8px;display:flex;align-items:center;gap:7px;}
+.ev-country-dot{width:5px;height:5px;border-radius:50%;background:var(--earth);flex-shrink:0;}
+.ev-main-name{font-family:'Nunito Sans',sans-serif;font-size:clamp(18px,2.5vw,26px);font-weight:900;color:#fff;margin-bottom:10px;}
+.ev-main.featured .ev-main-name{font-size:clamp(22px,3.5vw,38px);}
+.ev-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px;}
+.ev-tag{font-size:7.5px;padding:2px 9px;border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.4);font-weight:600;text-transform:uppercase;letter-spacing:.06em;}
+.ev-story{font-size:13px;color:rgba(255,255,255,.4);line-height:1.8;font-weight:300;}
+.ev-story strong{color:rgba(255,255,255,.72);font-weight:600;}
+.ev-main.featured .ev-story{font-size:14.5px;}
+.ev-proof-strip{margin-top:14px;padding:10px 14px;background:rgba(205,133,63,.1);border-left:3px solid var(--earth);}
+.ev-proof-text{font-size:11.5px;color:var(--earth-lt);font-weight:600;font-style:italic;}
+.ev-note{font-size:11px;color:rgba(255,255,255,.22);margin-top:12px;font-style:italic;}
+
+/* reference row */
+.ev-refs{display:grid;grid-template-columns:repeat(6,1fr);gap:2px;margin-top:2px;}
+.evr{padding:16px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.05);transition:background .2s;}
+.evr:hover{background:rgba(255,255,255,.05);}
+.evr-flag{font-size:20px;margin-bottom:7px;}
+.evr-pillar{font-size:7.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--earth-lt);margin-bottom:4px;}
+.evr-name{font-family:'Nunito Sans',sans-serif;font-size:13px;font-weight:800;color:rgba(255,255,255,.65);margin-bottom:3px;}
+.evr-note{font-size:11px;color:rgba(255,255,255,.28);font-weight:300;}
+
+/* ── ROADMAP ── */
+.roadmap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:40px;}
+.rm-phase{background:var(--white);border:1px solid var(--rule);padding:28px 24px;border-top:3px solid var(--bg-d);transition:border-top-color .22s;}
+.rm-phase:hover{border-top-color:var(--teal);}
+.rm-phase.current{border-top-color:var(--earth);}
+.rm-period{font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:var(--earth-d);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.rm-period::before{content:'';display:block;width:6px;height:6px;border-radius:50%;background:var(--earth-d);}
+.rm-phase.current .rm-period{color:var(--earth);}
+.rm-phase.current .rm-period::before{background:var(--earth);box-shadow:0 0 0 3px rgba(205,133,63,.2);}
+.rm-phase.future .rm-period::before{background:var(--bg-d);}
+.rm-phase.future .rm-period{color:var(--soft);}
+.rm-h{font-family:'Nunito Sans',sans-serif;font-size:18px;font-weight:900;color:var(--teal-dd);margin-bottom:8px;line-height:1.2;}
+.rm-body{font-size:13px;color:var(--muted);line-height:1.75;font-weight:300;margin-bottom:14px;}
+.rm-body strong{color:var(--ink);font-weight:600;}
+.rm-items{list-style:none;}
+.rm-item{display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--rule-lt);font-size:12px;color:var(--muted);line-height:1.6;font-weight:300;}
+.rm-item:last-child{border-bottom:none;}
+.rm-item::before{content:'·';color:var(--earth);font-weight:700;flex-shrink:0;}
+.rm-phase.future .rm-item::before{color:var(--soft);}
+.rm-phase.future .rm-h{color:var(--soft);}
+
+/* deferred note */
+.deferred-box{background:var(--bg);border:1px solid var(--rule);padding:22px 28px;margin-top:28px;display:flex;gap:16px;align-items:flex-start;}
+.db-icon{font-size:20px;flex-shrink:0;margin-top:2px;}
+.db-title{font-family:'Nunito Sans',sans-serif;font-size:15px;font-weight:800;color:var(--teal-dd);margin-bottom:5px;}
+.db-body{font-size:13px;color:var(--muted);line-height:1.72;font-weight:300;}
+.db-body strong{color:var(--ink);font-weight:600;}
+
+/* ── PROMISE ── */
+.promise-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:36px;}
+.prom{padding:30px 26px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);}
+.prom-icon{font-size:24px;margin-bottom:12px;}
+.prom-title{font-family:'Nunito Sans',sans-serif;font-size:17px;font-weight:900;color:#fff;margin-bottom:8px;}
+.prom-body{font-size:13px;color:rgba(255,255,255,.4);line-height:1.75;font-weight:300;}
+.prom-body strong{color:rgba(255,255,255,.72);font-weight:600;}
+
+.not-promise{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);padding:24px 28px;margin-top:24px;}
+.np-label{font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:rgba(200,80,80,.6);margin-bottom:14px;}
+.np-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.np-li{display:flex;gap:9px;font-size:13px;color:rgba(255,255,255,.3);line-height:1.6;font-weight:300;}
+.np-li::before{content:'✗';color:rgba(180,60,60,.6);font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px;}
+
+/* ── VERSION BLOCK ── */
+.version-block{background:var(--bg);border:1px solid var(--rule);padding:28px 32px;margin-top:44px;}
+.vb-head{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:16px;}
+.vb-badge{font-family:'Nunito Sans',sans-serif;font-size:32px;font-weight:900;color:var(--teal-dd);}
+.vb-meta{font-size:12px;color:var(--muted);line-height:1.65;font-weight:300;}
+.vb-meta strong{color:var(--ink);font-weight:600;}
+.vb-sep{flex:1;}
+.vb-date{font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--soft);}
+.vb-body{font-size:14px;color:var(--muted);line-height:1.85;font-weight:300;}
+.vb-body strong{color:var(--ink);font-weight:600;}
+.vb-body em{color:var(--teal);font-style:italic;}
+
+/* ── BOTTOM CTAs ── */
+.std-ctas{padding:80px 0;background:var(--bg);}
+.cta-row{display:grid;grid-template-columns:1fr 1fr;gap:2px;}
+.cta-card{padding:40px 36px;display:flex;flex-direction:column;}
+.cta-card.dark{background:var(--teal-dd);}
+.cta-card.earth-bg{background:var(--earth);}
+.cta-tag{font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;margin-bottom:16px;}
+.cta-card.dark .cta-tag{color:var(--earth-lt);}
+.cta-card.earth-bg .cta-tag{color:rgba(255,255,255,.7);}
+.cta-h{font-family:'Nunito Sans',sans-serif;font-size:26px;font-weight:900;line-height:1.1;color:#fff;margin-bottom:10px;}
+.cta-body{font-size:14px;color:rgba(255,255,255,.45);line-height:1.8;font-weight:300;flex:1;margin-bottom:28px;}
+.cta-body strong{color:rgba(255,255,255,.75);font-weight:600;}
+.cta-card.earth-bg .cta-body{color:rgba(255,255,255,.65);}
+.btn-white{display:inline-flex;align-items:center;gap:9px;padding:14px 26px;background:#fff;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-dd);transition:all .22s;align-self:flex-start;}
+.btn-white:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(0,0,0,.18);}
+.btn-dark{display:inline-flex;align-items:center;gap:9px;padding:14px 26px;background:var(--teal-dd);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fff;transition:all .22s;align-self:flex-start;}
+.btn-dark:hover{background:#000;transform:translateY(-2px);}
+.btn-icon{transition:transform .2s;}
+.btn-white:hover .btn-icon,.btn-dark:hover .btn-icon{transform:translateX(4px);}
+
+footer{background:var(--teal-dd);border-top:1px solid rgba(255,255,255,.05);padding:36px 80px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+.f-logo{font-family:'Nunito Sans',sans-serif;font-size:12px;font-weight:900;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.4);}
+.f-logo span{color:var(--earth);}
+.f-tagline{font-family:'EB Garamond',serif;font-size:13px;font-style:italic;color:rgba(255,255,255,.2);}
+.f-meta{font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.13);font-weight:600;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:960px){
+  .nav{padding:0 20px;}.nav-links{display:none;}
+  .W{padding:0 24px;}
+  .toc{display:none;}.toc-toggle{display:none;}
+  .what-grid{grid-template-columns:1fr;}
+  .pb-grid,.ev-cards{grid-template-columns:1fr;}
+  .ev-card.feat{grid-column:auto;}
+  .evidence-grid{grid-template-columns:1fr 1fr;}
+  .ev-main.featured{grid-column:span 2;}
+  .ev-refs{grid-template-columns:repeat(3,1fr);}
+  .roadmap-grid{grid-template-columns:1fr;}
+  .promise-grid{grid-template-columns:1fr;}
+  .np-list{grid-template-columns:1fr;}
+  .cta-row{grid-template-columns:1fr;}
+  .pillar-head{grid-template-columns:36px 1fr 32px;}
+  .p-std{display:none;}
+  footer{flex-direction:column;text-align:center;padding:28px 24px;}
+}
+@media(max-width:600px){
+  .evidence-grid{grid-template-columns:1fr;}
+  .ev-main.featured{grid-column:auto;}
+  .ev-refs{grid-template-columns:repeat(2,1fr);}
+}
+</style>
+</head>
+<body>
+
+<!-- TOC toggle -->
+<div class="toc-toggle" onclick="toggleToc()" title="Table of contents">
+  <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+</div>
+
+<!-- Sticky TOC -->
+<aside class="toc" id="toc">
+  <div class="toc-head">In this document</div>
+  <a href="#what" class="toc-a">What ICP is</a>
+  <a href="#pillars" class="toc-a">The 11 Pillars</a>
+  <a href="#pillars" class="toc-a sub">— 7 Foundation</a>
+  <a href="#growth-pillars" class="toc-a sub">— 4 Growth</a>
+  <div class="toc-sep"></div>
+  <a href="#evidence" class="toc-a">Evidence Base</a>
+  <div class="toc-sep"></div>
+  <a href="#roadmap" class="toc-a">Build Roadmap</a>
+  <a href="#version" class="toc-a">Version History</a>
+  <div class="toc-sep"></div>
+  <a href="#promise" class="toc-a">The Promise</a>
+  <div class="toc-sep"></div>
+  <a href="#join" class="toc-a">Access ICP</a>
+</aside>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="./index" class="nav-back">← InnerCompass Project</a>
+  <div class="nav-logo">Inner<span>Compass</span><span class="nav-project">Project</span></div>
+  <div class="nav-sep"></div>
+  <div class="nav-links">
+    <a href="./standard" class="nav-a active">The Standard</a>
+    <a href="./build" class="nav-a">The Build</a>
+    <a href="./implementors" class="nav-a">Implementors</a>
+    <a href="./stewards" class="nav-a">Stewards</a>
+  </div>
+</nav>
+
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="W hero-inner">
+    <div class="hero-pre">InnerCompass Project · Standard v0.4 · Published openly</div>
+    <h1 class="hero-h">
+      Everything ICP is.<br>
+      <em>Documented completely.</em><br>
+      Nothing held back.
+    </h1>
+    <p class="hero-standfirst">
+      This page is the full operating standard — all 11 pillars, the complete evidence base, the honest roadmap, and what ICP promises and does not promise. <strong>Read it before deciding anything.</strong>
+    </p>
+    <div class="hero-meta">
+      <div class="hm"><div class="hm-dot"></div><div class="hm-text">Version <strong>v0.4</strong></div></div>
+      <div class="hm"><div class="hm-dot"></div><div class="hm-text"><strong>11</strong> Diagnostic pillars</div></div>
+      <div class="hm"><div class="hm-dot"></div><div class="hm-text">Evidence from <strong>20+</strong> countries</div></div>
+      <div class="hm"><div class="hm-dot"></div><div class="hm-text">Last updated <strong>Feb 2026</strong></div></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ WHAT ICP IS ══ -->
+<section id="what" class="std-section alt">
+  <div class="W">
+    <div class="section-eyebrow r">Definition</div>
+    <h2 class="section-h r">What ICP is.<br><em>And what it is not.</em></h2>
+    <p class="section-intro r">Before reading the pillars, understand what kind of thing ICP is — and what it deliberately is not. The distinction matters because the wrong expectation produces the wrong use.</p>
+
+    <div class="what-grid r">
+      <div class="what-card is">
+        <div class="wc-label is">ICP is</div>
+        <ul class="wc-list">
+          <li class="wc-li is"><strong>An operating standard</strong> — a framework for diagnosing and building business foundations, not a methodology to execute once and file away</li>
+          <li class="wc-li is"><strong>A living document</strong> — v0.4 today, moving toward v1.0 through real-world use. The standard evolves as field evidence accumulates</li>
+          <li class="wc-li is"><strong>Evidence-grounded</strong> — every pillar backed by real businesses from real geographies, not Western theory repackaged for different contexts</li>
+          <li class="wc-li is"><strong>Structure-focused</strong> — ICP names the structural causes of business failure, not the surface symptoms. The root, not the branch</li>
+          <li class="wc-li is"><strong>Sequenced</strong> — the 11 pillars have a logical order. Foundation pillars must hold before growth pillars can compound</li>
+          <li class="wc-li is"><strong>Tool-agnostic</strong> — ICP principles apply regardless of what technology, market, or operating model a business uses</li>
+        </ul>
+      </div>
+      <div class="what-card not">
+        <div class="wc-label not">ICP is not</div>
+        <ul class="wc-list">
+          <li class="wc-li not">A training program — ICP does not teach general business skills or principles</li>
+          <li class="wc-li not">A consultancy — ICP does not build foundations for you. It provides the map; you do the work</li>
+          <li class="wc-li not">A certification — completing the kit journey does not produce a badge. It produces a better-structured business</li>
+          <li class="wc-li not">A community or network — ICP is a structural tool, not a support system or peer group</li>
+          <li class="wc-li not">A guarantee — a business with all 11 pillars aligned can still fail for reasons outside the standard's scope. Structural clarity improves odds; it does not eliminate risk</li>
+          <li class="wc-li not">Complete — v0.4 is an honest early version. Some pillars are more developed than others. The standard says so where that is the case</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="margin-top:28px;padding:22px 28px;background:var(--bg);border:1px solid var(--rule);border-left:3px solid var(--earth);" class="r">
+      <div style="font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--earth-d);margin-bottom:8px;">The underlying principle</div>
+      <div style="font-family:'EB Garamond',serif;font-size:18px;font-style:italic;line-height:1.72;color:var(--teal-dd);">
+        "ICP is built on one foundational observation: <strong style="font-style:normal;">nothing downstream fixes identity confusion upstream.</strong> A business with a broken purpose produces broken strategy. A business with broken customer clarity produces broken products. The standard exists to name the upstream structural problem — the one that makes every other fix temporary."
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ 11 PILLARS ══ -->
+<section id="pillars" class="std-section">
+  <div class="W">
+    <div class="section-eyebrow r">The standard</div>
+    <h2 class="section-h r">11 diagnostic pillars.<br><em>Seven foundations. Four growth.</em></h2>
+    <p class="section-intro r">Foundation pillars are non-negotiable at every stage of business. Growth pillars become structurally critical as scale introduces new demands — governance, sustainability, innovation, and positioning. Click any pillar to see the principle, the broken state, the aligned state, and the real-world evidence.</p>
+
+    <!-- FOUNDATION PILLARS -->
+    <div class="tier-label foundation r">Foundation Pillars — Required at Every Stage</div>
+
+    <!-- P1 -->
+    <div class="pillar r" onclick="togglePillar(this)">
+      <div class="pillar-head">
+        <div class="pn">01</div>
+        <div class="pm-wrap">
+          <div class="pt">Foundation · Pillar 1</div>
+          <div class="pname">Rooted Purpose & Identity</div>
+          <div class="psub">Why the business exists — specific enough to make decisions</div>
+        </div>
+        <div class="p-std">The compass before the map</div>
+        <div class="p-icon">+</div>
+      </div>
+      <div class="pillar-body">
+        <div class="principle-box">
+          <div class="pb-label">The Principle</div>
+          <div class="pb-text">Purpose is not a vision statement. It is the <strong>specific, operational reason</strong> this business exists in this form, serving these people, right now. A purpose specific enough to say no to an opportunity is real. A purpose that welcomes every opportunity is not a purpose — it is an aspiration. Aspirations don't make decisions. Purpose does.</div>
+        </div>
+        <div class="pb-grid">
+          <div class="state broken">
+            <div class="state-label">Broken State</div>
+            <div class="state-text">The why is vague or interchangeable — could describe any business in the sector. Decisions get made on instinct, founder gut, or most-recent-pressure. Strategy is driven by opportunity, not by identity. The team cannot explain why the business does some things and not others. <strong>Growth accelerates drift.</strong></div>
+          </div>
+          <div class="state aligned">
+            <div class="state-label">Aligned State</div>
+            <div class="state-text">The why is specific enough to be a filter. Opportunities are evaluated against identity, not just against revenue. The team can explain what the business will not do — and why. Purpose is operationally visible in how decisions are made, not just in documents. <strong>Growth strengthens the foundation.</strong></div>
+          </div>
+        </div>
+        <div class="evidence-label">Evidence — Lived Before ICP Named It</div>
+        <div class="ev-cards">
+          <div class="ev-card feat">
+            <div class="ev-geo"><div class="ev-dot"></div>Egypt · Founded 1977</div>
+            <div class="ev-name">Sekem</div>
+            <div class="ev-desc">Ibrahim Abouleish returned from Europe with a purpose specific enough to make every decision: human development in harmony with nature and society in Egypt. That purpose chose the land, the crops, the school, the medicines, the university. Forty years later — global exports, thousands employed, a university, a hospital. All from one honest, specific why that predated any strategy.</div>
+            <div class="ev-proof">Forty years of compounding from one operational purpose. Not a vision statement. A decision filter.</div>
+          </div>
+          <div class="ev-card">
+            <div class="ev-geo"><div class="ev-dot"></div>India · Single purpose</div>
+            <div class="ev-name">Aravind Eye Care</div>
+            <div class="ev-desc">Founded with one purpose — eliminate needless blindness in India. Every decision filtered through that specific commitment: pricing, staffing model, surgical volume, training. Purpose produced the innovation, not the other way around.</div>
+            <div class="ev-proof">One purpose, applied consistently, produced world-leading surgical efficiency.</div>
+          </div>
+          <div class="ev-card">
+            <div class="ev-geo"><div class="ev-dot"></div>Kenya · 30 years</div>
+            <div class="ev-name">Zucchini Greengrocers</div>
+            <div class="ev-desc">One principle applied as identity: pay farmers fairly, on time, always. That single purpose shaped supplier relationships, product quality, and customer trust for three decades. No VC. No formal strategy document.</div>
+            <div class="ev-proof">One principle. Thirty years. No other strategy necessary.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- P2 -->
+    <div class="pillar r" onclick="togglePillar(this)">
+      <div class="pillar-head">
+        <div class="pn">02</div>
+        <div class="pm-wrap">
+          <div class="pt">Foundation · Pillar 2</div>
+          <div class="pname">Vision, Mission & Values in Practice</div>
+          <div class="psub">The documents that work — not the ones that sound good</div>
+        </div>
+        <div class="p-std">Decision architecture</div>
+        <div class="p-icon">+</div>
+      </div>
+      <div class="pillar-body">
+        <div class="principle-box">
+          <div class="pb-label">The Principle</div>
+          <div class="pb-text">Most VMV exercises produce words. A VMV framework is only real if it can resolve a genuinely hard trade-off — if it cannot, it needs rewriting until it can. The test: give your VMV to three people and ask them to independently use it to decide a genuinely difficult situation. <strong>If they arrive at the same decision, the VMV works. If they don't, it's decoration.</strong></div>
+        </div>
+        <div class="pb-grid">
+          <div class="state broken">
+            <div class="state-label">Broken State</div>
+            <div class="state-text">VMV exists as a document, not as a decision tool. Nobody references it when making hard choices. Stated values and rewarded behaviors are different things — everyone knows this except possibly leadership. VMV is performative. Meetings and retreats revisit it periodically. Nothing changes.</div>
+          </div>
+          <div class="state aligned">
+            <div class="state-label">Aligned State</div>
+            <div class="state-text">VMV is cited in real decisions. A team member can reference mission to push back on an opportunity. Values hierarchy under pressure is known and consistent across leadership. The VMV passes the decision test — it resolves hard trade-offs the same way across the team.</div>
+          </div>
+        </div>
+        <div class="evidence-label">Evidence</div>
+        <div class="ev-cards">
+          <div class="ev-card feat">
+            <div class="ev-geo"><div class="ev-dot"></div>Global · Mission-as-filter</div>
+            <div class="ev-name">Patagonia</div>
+            <div class="ev-desc">Mission statement — "We're in business to save our home planet" — is specific enough to filter product decisions, supply chain decisions, and investor decisions. When Patagonia declined to IPO, the mission was the reason cited by leadership. <strong>A mission specific enough to refuse a billion-dollar outcome is a real mission.</strong></div>
+            <div class="ev-proof">Mission declined a billion-dollar outcome. That is how you know it is real.</div>
+          </div>
+          <div class="ev-card">
+            <div class="ev-geo"><div class="ev-dot"></div>Global · 2014</div>
+            <div class="ev-name">Microsoft under Nadella</div>
+            <div class="ev-desc">Inherited a culturally broken company. His first move was replacing a fixed mindset with a growth mindset as the operating norm — not as a value on a wall, but as the standard by which behavior was evaluated. Market cap tripled in five years. The VMV changed first. Everything else followed.</div>
+            <div class="ev-proof">Culture reset from one operational value. Market cap tripled.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- P3 -->
+    <div class="pillar r" onclick="togglePillar(this)">
+      <div class="pillar-head">
+        <div class="pn">03</div>
+        <div class="pm-wrap">
+          <div class="pt">Foundation · Pillar 3</div>
+          <div class="pname">Leadership That Builds Forward</div>
+          <div class="psub">Leadership that creates capacity, not dependency</div>
+        </div>
+        <div class="p-std">Distributed strength</div>
+        <div class="p-icon">+</div>
+      </div>
+      <div class="pillar-body">
+        <div class="principle-box">
+          <div class="pb-label">The Principle</div>
+          <div class="pb-text">The most common and most expensive leadership failure in MSMEs is not incompetence. It is <strong>structural centralization</strong> — a business built so thoroughly around one person that it cannot function, grow, or survive without them. The leadership pillar asks: does this leader build capability in others, or does this leader create dependency? One is leadership. The other is management of a personal empire.</div>
+        </div>
+        <div class="pb-grid">
+          <div class="state broken">
+            <div class="state-label">Broken State</div>
+            <div class="state-text">Founder is the bottleneck for all significant decisions. Team waits for approval. No second-tier leadership developing. The business's maximum capacity is the founder's personal bandwidth. Scale creates stress, not strength. Departure risk is existential.</div>
+          </div>
+          <div class="state aligned">
+            <div class="state-label">Aligned State</div>
+            <div class="state-text">Decisions are made at the level where the most relevant information exists. Leaders develop other leaders. The business functions clearly when the founder is absent. Capability compounds across the organization rather than concentrating at the top.</div>
+          </div>
+        </div>
+        <div class="evidence-label">Evidence</div>
+        <div class="ev-cards">
+          <div class="ev-card feat">
+            <div class="ev-geo"><div class="ev-dot"></div>India · Founded 1959</div>
+            <div class="ev-name">Lijjat Papad</div>
+            <div class="ev-desc">Seven women, 80 borrowed rupees, a Mumbai rooftop. Leadership distributed from day one — every member equal owner, every member equal decision-maker. No founder ceiling was ever built because no founder hierarchy was ever established. Today: 45,000 women, $160M+ annual revenue, six decades of continuous operation. <strong>The capacity was in every participant from the beginning.</strong> It just needed a structure that didn't constrain it.</div>
+            <div class="ev-proof">No founder ceiling ever built. Started with less than $1. Six decades compounding.</div>
+          </div>
+          <div class="ev-card">
+            <div class="ev-geo"><div class="ev-dot"></div>Nigeria · Distributed teams</div>
+            <div class="ev-name">Andela</div>
+            <div class="ev-desc">Built distributed engineering talent across Africa by developing not just technical skills but leadership capacity in those they trained. The investment in distributed capability, not centralized management, became the business model itself.</div>
+            <div class="ev-proof">Leadership distribution as the product. Scale without central bottleneck.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- P4 -->
+    <div class="pillar r" onclick="togglePillar(this)">
+      <div class="pillar-head">
+        <div class="pn">04</div>
+        <div class="pm-wrap">
+          <div class="pt">Foundation · Pillar 4</div>
+          <div class="pname">Culture of Ownership & Meaning</div>
+          <div class="psub">The daily behavior the system rewards — not the poster on the wall</div>
+        </div>
+        <div class="p-std">System not decoration</div>
+        <div class="p-icon">+</div>
+      </div>
+      <div class="pillar-body">
+        <div class="principle-box">
+          <div class="pb-label">The Principle</div>
+          <div class="pb-text">Culture is not the values poster. It is <strong>the daily behavior the system rewards and protects</strong>. The gap between declared values and rewarded behavior is visible to everyone in the organization — except, frequently, leadership. That gap is the actual culture. It cannot be papered over with retreats, offsites, or revised values documents. It can only be changed by changing what the system rewards.</div>
+        </div>
+        <div class="pb-grid">
+          <div class="state broken">
+            <div class="state-label">Broken State</div>
+            <div class="state-text">People execute tasks without understanding why. Compliance rewarded, initiative punished. The declared culture and the operating culture are different — everyone knows this. Team does the minimum to avoid consequences, not to achieve outcomes. Culture retreats produce energy for two weeks. Nothing actually changes.</div>
+          </div>
+          <div class="state aligned">
+            <div class="state-label">Aligned State</div>
+            <div class="state-text">People make decisions as if the business were their own. The system rewards behavior that reflects values and corrects behavior that contradicts them — consistently, not selectively. Culture is demonstrated in daily decisions, not declared in documents. New team members absorb it through observation, not orientation.</div>
+          </div>
+        </div>
+        <div class="evidence-label">Evidence</div>
+        <div class="ev-cards">
+          <div class="ev-card feat">
+            <div class="ev-geo"><div class="ev-dot"></div>Bangladesh</div>
+            <div class="ev-name">Grameen Bank</div>
+            <div class="ev-desc">Built around one belief that became operational: poor women are trustworthy and creditworthy if given dignity and community accountability. That belief became hiring criteria, product design, branch culture, and repayment structure. Repayment rates consistently exceeding traditional banks. <strong>The internal culture reflected the external mission — fully lived, not performed.</strong></div>
+            <div class="ev-proof">Culture as operational infrastructure. Repayment rates higher than traditional banks.</div>
+          </div>
+          <div class="ev-card">
+            <div class="ev-geo"><div class="ev-dot"></div>Nigeria · Community culture</div>
+            <div class="ev-name">Farmcrowdy</div>
+            <div class="ev-desc">Built platform culture around one principle: farmers are partners, not recipients. Every communication designed to make farmers feel like participants. That cultural decision became the distribution mechanism — farmers who felt ownership recruited other farmers.</div>
+            <div class="ev-proof">Ownership feeling created organic growth. Culture was the distribution.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- P5 -->
+    <div class="pillar r" onclick="togglePillar(this)">
+      <div class="pillar-head">
+        <div class="pn">05</div>
+        <div class="pm-wrap">
+          <div class="pt">Foundation · Pillar 5</div>
+          <div class="pname">Ecosystem Integrity</div>
+          <div class="psub">Every relationship — supplier, partner, community — either strengthens or weakens the ecosystem</div>
+        </div>
+        <div class="p-std">Mutual strength</div>
+        <div class="p-icon">+</div>
+      </div>
+      <div class="pillar-body">
+        <div class="principle-box">
+          <div class="pb-label">The Principle</div>
+          <div class="pb-text">A business exists inside a web of relationships — suppliers, customers, community, partners, environment. <strong>Ecosystem integrity is the discipline of ensuring every party in that web is stronger for being in it.</strong> Extractive relationships produce short-term efficiency and long-term fragility. Generative relationships produce short-term constraint and long-term resilience. The test before every relationship decision: does this make the ecosystem stronger or weaker?</div>
+        </div>
+        <div class="pb-grid">
+          <div class="state broken">
+            <div class="state-label">Broken State</div>
+            <div class="state-text">Suppliers treated as cost centers, squeezed for margin. Community relationships transactional or non-existent. Partnerships extractive — one party carries disproportionate risk. The business optimizes for its own position in every relationship, weakening the system it depends on.</div>
+          </div>
+          <div class="state aligned">
+            <div class="state-label">Aligned State</div>
+            <div class="state-text">Before every relationship decision, the question is asked: does this make everyone in the ecosystem stronger? Long-term relationships are prioritized over short-term optimization. Supplier success is treated as business success. The business is known for leaving its ecosystem better than it found it.</div>
+          </div>
+        </div>
+        <div class="evidence-label">Evidence</div>
+        <div class="ev-cards">
+          <div class="ev-card feat">
+            <div class="ev-geo"><div class="ev-dot"></div>West Africa · Centuries old</div>
+            <div class="ev-name">The Tontine System</div>
+            <div class="ev-desc">Community savings circles sustained for centuries with no institution, no legal contract — only mutual accountability and transparent participation. Repayment rates consistently exceeding formal banks. ICP's oldest evidence. <strong>These principles are not Western innovations. They are human operating principles observed across cultures and centuries.</strong> The West did not invent ecosystem integrity. It forgot it.</div>
+            <div class="ev-proof">Centuries. No contract. No institution. Higher performance than formal banks.</div>
+          </div>
+          <div class="ev-card">
+            <div class="ev-geo"><div class="ev-dot"></div>Kenya · 30 years</div>
+            <div class="ev-name">Zucchini Greengrocers</div>
+            <div class="ev-desc">One principle applied to supplier relationships for three decades: pay farmers fairly, on time, always. Farmers gave best produce. Customers noticed the quality. No VC. No formal strategy. One pillar of ecosystem integrity, compounded over thirty years, became the entire competitive advantage.</div>
+            <div class="ev-proof">One principle. Three decades. No other strategy was needed.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- P6 -->
+    <div class="pillar r" onclick="togglePillar(this)">
+      <div class="pillar-head">
+        <div class="pn">06</div>
+        <div class="pm-wrap">
+          <div class="pt">Foundation · Pillar 6</div>
+          <div class="pname">Financial Intelligence & Discipline</div>
+          <div class="psub">Not accounting — the business knowing its real financial position at all times</div>
+        </div>
+        <div class="p-std">Visibility before strategy</div>
+        <div class="p-icon">+</div>
+      </div>
+      <div class="pillar-body">
+        <div class="principle-box">
+          <div class="pb-label">The Principle</div>
+          <div class="pb-text">Financial intelligence is not the same as accounting. Accounting records what happened. Financial intelligence means <strong>the business knows its real position — revenue, margin, runway, burn, unit economics — at all times, not just at quarterly review</strong>. Most MSME failures don't come from bad products or wrong markets. They come from founders who did not know their actual position until it was too late to act on it.</div>
+        </div>
+        <div class="pb-grid">
+          <div class="state broken">
+            <div class="state-label">Broken State</div>
+            <div class="state-text">Financial position known once a month, quarterly, or never clearly. Revenue and profitability confused. Unit economics unknown or estimated. Cash position discovered by checking the bank account. Growth assumed to mean health. Founder finds out the real position at the crisis, not before it.</div>
+          </div>
+          <div class="state aligned">
+            <div class="state-label">Aligned State</div>
+            <div class="state-text">Financial position known in real time. Unit economics understood and tracked. Runway calculated and updated monthly. Revenue and margin tracked separately. Every major decision is informed by clear financial data. The founder can state the real margin on their core product without looking it up.</div>
+          </div>
+        </div>
+        <div class="evidence-label">Evidence</div>
+        <div class="ev-cards">
+          <div class="ev-card feat">
+            <div class="ev-geo"><div class="ev-dot"></div>Kenya · Financial visibility</div>
+            <div class="ev-name">M-Pesa</div>
+            <div class="ev-desc">Transformed financial intelligence for micro-businesses not by teaching accounting but by making cashflow visible in real time. Before M-Pesa, a market trader had no reliable way to know their actual position — money was physical, opaque, and hard to track. M-Pesa made every transaction visible, traceable, and instantly accessible. <strong>Financial intelligence doesn't require a CFO. It requires visibility.</strong></div>
+            <div class="ev-proof">Visibility as the product. Financial intelligence for millions without a CFO.</div>
+          </div>
+          <div class="ev-card">
+            <div class="ev-geo"><div class="ev-dot"></div>India · Unit economics</div>
+            <div class="ev-name">Aravind Eye Care</div>
+            <div class="ev-desc">Understood its unit economics so precisely it could price services across a four-tier system — free, subsidized, cost-recovery, and profit — while remaining financially sustainable. Financial intelligence made radical pricing possible without financial recklessness.</div>
+            <div class="ev-proof">Four-tier pricing system sustained by unit economics clarity. Free and profitable simultaneously.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- P7 -->
+    <div class="pillar r" onclick="togglePillar(this)">
+      <div class="pillar-head">
+        <div class="pn">07</div>
+        <div class="pm-wrap">
+          <div class="pt">Foundation · Pillar 7</div>
+          <div class="pname">Customer & Market Clarity</div>
+          <div class="psub">Who, specifically — not a demographic, not a category, one clear person with one real problem</div>
+        </div>
+        <div class="p-std">Specificity over reach</div>
+        <div class="p-icon">+</div>
+      </div>
+      <div class="pillar-body">
+        <div class="principle-box">
+          <div class="pb-label">The Principle</div>
+          <div class="pb-text">"Small businesses" is not a customer. It is a demographic. Demographics don't make decisions. <strong>The most common failure in this pillar is not ignorance — it is the discomfort of choosing one person clearly at the expense of the reassuring illusion of serving everyone.</strong> Every business that has achieved genuine product-market fit did so by getting specific enough to be irreplaceable to someone, not relevant to everyone.</div>
+        </div>
+        <div class="pb-grid">
+          <div class="state broken">
+            <div class="state-label">Broken State</div>
+            <div class="state-text">Target customer described as a broad category. Value proposition trying to address multiple different problems for multiple different people. Marketing generic because the audience is too broad to address specifically. Product decisions made by committee because nobody knows whose problem is being solved. Sales conversion low because nobody feels precisely spoken to.</div>
+          </div>
+          <div class="state aligned">
+            <div class="state-label">Aligned State</div>
+            <div class="state-text">The target customer is a specific person with a specific, known problem. The business knows why that person chooses them over alternatives — not in theory, but from evidence. Marketing speaks directly to that person and appears irrelevant to others. Product decisions are fast because the filter is clear.</div>
+          </div>
+        </div>
+        <div class="evidence-label">Evidence</div>
+        <div class="ev-cards">
+          <div class="ev-card feat">
+            <div class="ev-geo"><div class="ev-dot"></div>Kenya · Customer precision</div>
+            <div class="ev-name">M-Pesa</div>
+            <div class="ev-desc">Succeeded where Western mobile banking repeatedly failed because Safaricom understood precisely how Kenyans actually moved money — informally, through trust networks, in small amounts, without documentation. Western banks tried to import a model. M-Pesa built from a specific customer understanding of specific behavior. <strong>Customer clarity so precise it created national financial infrastructure.</strong></div>
+            <div class="ev-proof">Customer clarity so precise it became national infrastructure. Western banks failed trying to be universal.</div>
+          </div>
+          <div class="ev-card">
+            <div class="ev-geo"><div class="ev-dot"></div>India · Distribution precision</div>
+            <div class="ev-name">Frontier Markets</div>
+            <div class="ev-desc">Understood that rural Indian women didn't just need products — they needed a peer they already trusted to recommend those products. Customer clarity that precise restructured the entire delivery model. The insight about who the real customer was changed everything downstream.</div>
+            <div class="ev-proof">Customer insight restructured the entire business model.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GROWTH PILLARS -->
+    <div id="growth-pillars" class="tier-label growth r" style="margin-top:24px;">Growth Pillars — Activate as You Scale</div>
+    <p class="section-intro r" style="margin-bottom:16px;">Foundation pillars must hold before growth pillars can compound. These four activate as the business reaches the point where scale introduces new structural demands.</p>
+
+    <!-- P8 -->
+    <div class="pillar growth-p r" onclick="togglePillar(this)">
+      <div class="pillar-head">
+        <div class="pn">08</div>
+        <div class="pm-wrap">
+          <div class="pt">Growth · Pillar 8</div>
+          <div class="pname">Governance & Accountability Systems</div>
+          <div class="psub">The structures that make scale accountable rather than chaotic</div>
+        </div>
+        <div class="p-std">Structure before scale</div>
+        <div class="p-icon">+</div>
+      </div>
+      <div class="pillar-body">
+        <div class="principle-box">
+          <div class="pb-label">The Principle</div>
+          <div class="pb-text">Governance is not bureaucracy. It is the <strong>structural mechanism that ensures accountability scales with the business</strong>. Every organization that collapsed under its own growth failed here — not because the product was wrong or the market was bad, but because the governance structures didn't grow with the complexity. Accountability that works at 5 people breaks at 50. The question is whether you build the new structure before or after the breakdown.</div>
+        </div>
+        <div class="pb-grid">
+          <div class="state broken"><div class="state-label">Broken State</div><div class="state-text">Accountability is personal, not structural — it depends on individuals, not systems. Decision rights unclear. Hiring outpaces governance. Culture becomes harder to maintain as the team grows. The founders are surprised when the team of 30 doesn't operate like the team of 5.</div></div>
+          <div class="state aligned"><div class="state-label">Aligned State</div><div class="state-text">Decision rights documented and understood. Accountability structures scale with headcount. The governance model is designed for where the business is going, not just where it is. Leadership can honestly describe who decides what, and why.</div></div>
+        </div>
+        <div class="evidence-label">Evidence</div>
+        <div class="ev-cards">
+          <div class="ev-card feat">
+            <div class="ev-geo"><div class="ev-dot"></div>Spain · Cooperative governance</div>
+            <div class="ev-name">Mondragon</div>
+            <div class="ev-desc">Built worker-cooperative governance structures that held through the 2008 financial crisis — where competitors collapsed, Mondragon restructured internally without mass layoffs. The governance model was the resilience mechanism. It had been stress-tested across decades before the crisis arrived.</div>
+            <div class="ev-proof">Survived 2008 because governance was structural, not aspirational.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- P9 -->
+    <div class="pillar growth-p r" onclick="togglePillar(this)">
+      <div class="pillar-head">
+        <div class="pn">09</div>
+        <div class="pm-wrap">
+          <div class="pt">Growth · Pillar 9</div>
+          <div class="pname">Environmental & Social Regeneration</div>
+          <div class="psub">The business leaves its environment stronger than it found it</div>
+        </div>
+        <div class="p-std">Long-arc responsibility</div>
+        <div class="p-icon">+</div>
+      </div>
+      <div class="pillar-body">
+        <div class="principle-box"><div class="pb-label">The Principle</div><div class="pb-text">Sustainability is the floor, not the ceiling. The standard ICP sets here is <strong>regeneration</strong> — the operating principle that a business should leave its ecological and social environment measurably better than it found it. Not as CSR. Not as brand positioning. As a structural design decision that shapes how the business operates.</div></div>
+        <div class="pb-grid">
+          <div class="state broken"><div class="state-label">Broken State</div><div class="state-text">Environmental and social impact treated as externalities — costs to be minimized or offset with token programs. Sustainability as brand language, not operational reality. The gap between stated commitment and actual practice is visible and growing.</div></div>
+          <div class="state aligned"><div class="state-label">Aligned State</div><div class="state-text">Regeneration is designed into operations, not added on. Suppliers are measured for their social and environmental impact alongside quality and price. The business can point to measurable positive change in its environment — not aspirational statements, but evidence.</div></div>
+        </div>
+        <div class="evidence-label">Evidence</div>
+        <div class="ev-cards">
+          <div class="ev-card feat">
+            <div class="ev-geo"><div class="ev-dot"></div>Egypt · Desert regeneration</div>
+            <div class="ev-name">Sekem</div>
+            <div class="ev-desc">Began on desert land considered permanently depleted. Built soil fertility through biodynamic agriculture over four decades. Today one of Egypt's most fertile farms — on land that was written off when Abouleish arrived. Regeneration was the operating principle from year one. The land now proves what was possible.</div>
+            <div class="ev-proof">Desert to fertile farmland. Regeneration as operating principle from day one.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- P10 -->
+    <div class="pillar growth-p r" onclick="togglePillar(this)">
+      <div class="pillar-head">
+        <div class="pn">10</div>
+        <div class="pm-wrap">
+          <div class="pt">Growth · Pillar 10</div>
+          <div class="pname">Continuous Innovation & Adaptation</div>
+          <div class="psub">The system that turns daily experience into improved practice</div>
+        </div>
+        <div class="p-std">Learning system, not events</div>
+        <div class="p-icon">+</div>
+      </div>
+      <div class="pillar-body">
+        <div class="principle-box"><div class="pb-label">The Principle</div><div class="pb-text">Innovation is not a department, a hackathon, or an annual offsite. It is the organizational posture of <strong>continuous learning</strong> — the system that turns daily experience into improved practice. The businesses that adapt fastest are not the ones with the most creative people. They are the ones with the best feedback loops between what they do and what they learn from doing it.</div></div>
+        <div class="pb-grid">
+          <div class="state broken"><div class="state-label">Broken State</div><div class="state-text">Learning happens in events, not systems. Customer feedback collected but not systematically acted on. What worked last year assumed to work this year. Innovation is an aspiration the business talks about but has no structural mechanism to produce.</div></div>
+          <div class="state aligned"><div class="state-label">Aligned State</div><div class="state-text">A clear mechanism exists for turning customer and operational observation into product and process change. The feedback loop from experience to improvement is short and consistent. Experiments are small, frequent, and documented. Failure is data, not embarrassment.</div></div>
+        </div>
+        <div class="evidence-label">Evidence</div>
+        <div class="ev-cards">
+          <div class="ev-card feat">
+            <div class="ev-geo"><div class="ev-dot"></div>Kenya · Failed first hypothesis</div>
+            <div class="ev-name">M-Pesa</div>
+            <div class="ev-desc">Launched as an experiment in microfinance repayment. That hypothesis failed. But the feedback loop was short enough to see what users were actually doing — using it to send money to family members. Safaricom adapted. The product that became national infrastructure was not the product designed. <strong>Innovation as disciplined listening.</strong></div>
+            <div class="ev-proof">Initial hypothesis wrong. Adapted. Became national infrastructure. That is the innovation system.</div>
+          </div>
+          <div class="ev-card">
+            <div class="ev-geo"><div class="ev-dot"></div>Global · Structural honesty</div>
+            <div class="ev-name">Pixar Braintrust</div>
+            <div class="ev-desc">Built feedback sessions structurally separate from authority — people with no power over decisions provided honest critique; decision-makers were required to listen. The mechanism existed to overcome organizations' natural tendency to protect ideas rather than improve them.</div>
+            <div class="ev-proof">System designed to overcome the human tendency to protect bad ideas.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- P11 -->
+    <div class="pillar growth-p r" onclick="togglePillar(this)">
+      <div class="pillar-head">
+        <div class="pn">11</div>
+        <div class="pm-wrap">
+          <div class="pt">Growth · Pillar 11</div>
+          <div class="pname">Global Citizenship & Local Roots</div>
+          <div class="psub">Local identity as a source of global differentiation — not a constraint to overcome</div>
+        </div>
+        <div class="p-std">Roots as advantage</div>
+        <div class="p-icon">+</div>
+      </div>
+      <div class="pillar-body">
+        <div class="principle-box"><div class="pb-label">The Principle</div><div class="pb-text">Globalisation created the illusion that local identity is a limitation. The evidence suggests the opposite. <strong>The businesses that travel best are the ones most clearly rooted in where they come from.</strong> Local authenticity is not a constraint to overcome on the way to global relevance. It is the source of the differentiation that makes global relevance possible.</div></div>
+        <div class="pb-grid">
+          <div class="state broken"><div class="state-label">Broken State</div><div class="state-text">Local identity treated as a limitation — the business tries to appear less local to seem more credible globally. Cultural specificity diluted to reach a broader audience. What made the business genuinely different is sanded off in pursuit of universal appeal. The result is generic, easily replicated, and indistinguishable.</div></div>
+          <div class="state aligned"><div class="state-label">Aligned State</div><div class="state-text">The business is specifically, proudly rooted in where it comes from. Global positioning builds from — not despite — local identity. Cultural specificity is treated as IP, not as a liability. The further the business reaches, the more clearly it carries its origins.</div></div>
+        </div>
+        <div class="evidence-label">Evidence</div>
+        <div class="ev-cards">
+          <div class="ev-card feat">
+            <div class="ev-geo"><div class="ev-dot"></div>Egypt · Global from local roots</div>
+            <div class="ev-name">Sekem</div>
+            <div class="ev-desc">Sekem's global reach comes directly from the specificity of its Egyptian identity — biodynamic agriculture interpreted through the soil and culture of the Nile delta. It could not have come from anywhere else. <strong>Its local rootedness is the source of its global credibility, not a constraint on it.</strong> Every institution that recognises Sekem globally does so because of its specificity, not despite it.</div>
+            <div class="ev-proof">Globally credible because of local rootedness. Not despite it.</div>
+          </div>
+          <div class="ev-card">
+            <div class="ev-geo"><div class="ev-dot"></div>Brazil · Amazon as identity</div>
+            <div class="ev-name">Natura Cosméticos</div>
+            <div class="ev-desc">Built global brand on Amazon roots — biodiversity as IP, community relationships as supply chain, local knowledge as product innovation. The most locally specific thing about the business became the most globally compelling thing about it.</div>
+            <div class="ev-proof">Local identity became global brand differentiation. Amazon roots as global advantage.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ EVIDENCE BASE ══ -->
+<section id="evidence" class="std-section dark">
+  <div class="W">
+    <div class="section-eyebrow light r">Evidence base</div>
+    <h2 class="section-h on-dark r">ICP didn't invent these principles.<br><em>It named them.</em></h2>
+    <p class="section-intro on-dark r">Every pillar in the standard is grounded in real businesses from real geographies. Not Western frameworks repackaged. Not academic models tested on multinationals. Evidence from the contexts ICP is built to serve — businesses operating in conditions of constraint, informality, and systemic complexity.</p>
+
+    <div class="evidence-grid r">
+      <div class="ev-main featured">
+        <div class="ev-country"><div class="ev-country-dot"></div>Egypt · Founded 1977 · Primary reference</div>
+        <div class="ev-main-name">Sekem</div>
+        <div class="ev-tags"><span class="ev-tag">Rooted Purpose</span><span class="ev-tag">Ecosystem Integrity</span><span class="ev-tag">Environmental Regeneration</span><span class="ev-tag">Global & Local</span><span class="ev-tag">Culture of Ownership</span></div>
+        <div class="ev-story">A doctor returned from Europe to a patch of desert outside Cairo with one specific purpose and enough conviction to act on it before anyone else believed it was possible. Today Sekem is a global export brand, employs thousands, runs its own university and hospital, and grows some of Egypt's most sought-after organic produce — all on land that was considered permanently depleted when Ibrahim Abouleish arrived. <strong>Every ICP pillar visible and operating.</strong> A business that proves the standard is real.</div>
+        <div class="ev-proof-strip"><div class="ev-proof-text">ICP did not help build Sekem. Sekem proves the principles ICP is trying to name.</div></div>
+      </div>
+
+      <div class="ev-main">
+        <div class="ev-country"><div class="ev-country-dot"></div>India · Founded 1959</div>
+        <div class="ev-main-name">Lijjat Papad</div>
+        <div class="ev-tags"><span class="ev-tag">Leadership</span><span class="ev-tag">Culture of Ownership</span><span class="ev-tag">Systems</span></div>
+        <div class="ev-story">Seven women. Eighty borrowed rupees. A Mumbai rooftop. Equal ownership from day one — not as a perk, as a structure. <strong>No founder ceiling was ever built because no founder hierarchy was ever established.</strong> Today: 45,000 women, $160M+ annual revenue, six decades of continuous operation.</div>
+        <div class="ev-proof-strip"><div class="ev-proof-text">Started with less than $1. No founder ceiling. Six decades compounding.</div></div>
+      </div>
+
+      <div class="ev-main">
+        <div class="ev-country"><div class="ev-country-dot"></div>Kenya · Mobile infrastructure</div>
+        <div class="ev-main-name">M-Pesa</div>
+        <div class="ev-tags"><span class="ev-tag">Customer Clarity</span><span class="ev-tag">Financial Intelligence</span><span class="ev-tag">Innovation</span></div>
+        <div class="ev-story">Failed at its original hypothesis. Listened to what users actually did with it. Adapted. Became national financial infrastructure serving millions. <strong>Innovation as disciplined listening.</strong> Customer clarity so precise it created infrastructure where Western banks had repeatedly failed.</div>
+        <div class="ev-proof-strip"><div class="ev-proof-text">Initial hypothesis wrong. Adapted. National infrastructure. Three ICP pillars in one story.</div></div>
+      </div>
+
+      <div class="ev-main">
+        <div class="ev-country"><div class="ev-country-dot"></div>West Africa · Centuries old</div>
+        <div class="ev-main-name">The Tontine System</div>
+        <div class="ev-tags"><span class="ev-tag">Ecosystem Integrity</span><span class="ev-tag">Governance</span><span class="ev-tag">Culture</span></div>
+        <div class="ev-story">Community savings circles sustained for centuries with no institution, no legal contract — only mutual accountability and transparent participation. Repayment rates consistently exceeding formal banks. <strong>ICP's oldest proof.</strong> These principles are not Western. They are human.</div>
+        <div class="ev-proof-strip"><div class="ev-proof-text">The oldest proof ICP has. Centuries. No contract. Higher performance than banks.</div></div>
+      </div>
+
+      <div class="ev-main">
+        <div class="ev-country"><div class="ev-country-dot"></div>Bangladesh · Microfinance</div>
+        <div class="ev-main-name">Grameen Bank</div>
+        <div class="ev-tags"><span class="ev-tag">Culture of Ownership</span><span class="ev-tag">Rooted Purpose</span><span class="ev-tag">Customer Clarity</span></div>
+        <div class="ev-story">Built around one belief that became operational: poor women are trustworthy and creditworthy if given dignity and community accountability. That belief became hiring, product design, branch culture, and repayment structure. <strong>The internal culture reflected the external mission — fully lived, not performed.</strong></div>
+        <div class="ev-proof-strip"><div class="ev-proof-text">Culture as infrastructure. Repayment rates higher than traditional banks.</div></div>
+      </div>
+
+      <div class="ev-main">
+        <div class="ev-country"><div class="ev-country-dot"></div>India · Eye care at scale</div>
+        <div class="ev-main-name">Aravind Eye Care</div>
+        <div class="ev-tags"><span class="ev-tag">Rooted Purpose</span><span class="ev-tag">Financial Intelligence</span><span class="ev-tag">Innovation</span></div>
+        <div class="ev-story">Founded with one purpose: eliminate needless blindness in India. Unit economics so precisely understood it could offer free and subsidized care while remaining financially self-sustaining. <strong>One specific purpose, applied with financial discipline, built world-leading surgical efficiency.</strong></div>
+        <div class="ev-proof-strip"><div class="ev-proof-text">Free and profitable simultaneously. Purpose and financial discipline as one system.</div></div>
+      </div>
+    </div>
+
+    <div class="ev-refs r">
+      <div class="evr"><div class="evr-flag">🇧🇷</div><div class="evr-pillar">Pillars 9 + 11</div><div class="evr-name">Natura Cosméticos</div><div class="evr-note">Amazon roots as global brand identity</div></div>
+      <div class="evr"><div class="evr-flag">🇪🇸</div><div class="evr-pillar">Pillars 3 + 8</div><div class="evr-name">Mondragon</div><div class="evr-note">Survived 2008 through cooperative governance</div></div>
+      <div class="evr"><div class="evr-flag">🇳🇬</div><div class="evr-pillar">Pillars 4 + 5</div><div class="evr-name">Farmcrowdy</div><div class="evr-note">Ownership culture as distribution mechanism</div></div>
+      <div class="evr"><div class="evr-flag">🇸🇳</div><div class="evr-pillar">Pillars 1 + 4</div><div class="evr-name">Tostan</div><div class="evr-note">Success designed as eventual irrelevance</div></div>
+      <div class="evr"><div class="evr-flag">🇰🇪</div><div class="evr-pillar">Pillar 5</div><div class="evr-name">Zucchini Greengrocers</div><div class="evr-note">One principle. Thirty years. No other strategy</div></div>
+      <div class="evr"><div class="evr-flag">🇳🇬</div><div class="evr-pillar">Pillars 3 + 7</div><div class="evr-name">Andela</div><div class="evr-note">Leadership distribution as the product</div></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ ROADMAP ══ -->
+<section id="roadmap" class="std-section alt">
+  <div class="W">
+    <div class="section-eyebrow r">Build sequence</div>
+    <h2 class="section-h r">The honest roadmap.<br><em>Where we are. What comes next.</em></h2>
+    <p class="section-intro r">ICP is built in public. Every milestone, every deferral, and every honest limitation is documented here. The standard exists to be trusted — and trust is built through visibility, not through optimistic projections.</p>
+
+    <div class="roadmap-grid r">
+      <div class="rm-phase current">
+        <div class="rm-period">Now · Q1 2026</div>
+        <div class="rm-h">Orientation & First Founders</div>
+        <div class="rm-body">Prompt architecture complete. Kit system live. <strong>Founding Implementors entering the journey.</strong> Steward seats being filled. Standard being refined through real use inside Terra Bali and direct founder engagements.</div>
+        <ul class="rm-items">
+          <li class="rm-item">6-kit journey complete and deployed</li>
+          <li class="rm-item">First orientation calls running</li>
+          <li class="rm-item">Founding Implementors: seats open</li>
+          <li class="rm-item">Steward Phase 1 beginning</li>
+          <li class="rm-item">Standard v0.4 — this document</li>
+        </ul>
+      </div>
+      <div class="rm-phase">
+        <div class="rm-period">Mid 2026 · Q2–Q3</div>
+        <div class="rm-h">50 Founders, First Case Studies</div>
+        <div class="rm-body">50 Founding Implementors through the journey. <strong>First documented case studies published.</strong> Stewards producing field evidence. Standard begins moving from v0.4 toward v0.7.</div>
+        <ul class="rm-items">
+          <li class="rm-item">50 founders through the full journey</li>
+          <li class="rm-item">First 3 co-authored case studies published</li>
+          <li class="rm-item">Pillar refinements from field evidence</li>
+          <li class="rm-item">Standard version updated to v0.6–v0.7</li>
+        </ul>
+      </div>
+      <div class="rm-phase future">
+        <div class="rm-period">End 2026 · Q4</div>
+        <div class="rm-h">500 Founders, Institutional Case</div>
+        <div class="rm-body">500 founders. Real conversion data. Retention numbers. Documented transformation stories. <strong>The conversation with governments, development finance institutions, and foundations becomes a completely different conversation.</strong> Not "trust our vision" — "here is the evidence."</div>
+        <ul class="rm-items">
+          <li class="rm-item">500 founder goal — evidence base complete</li>
+          <li class="rm-item">Standard v1.0 with founding steward attribution</li>
+          <li class="rm-item">Institutional conversations open</li>
+          <li class="rm-item">Steward Phase 1 review and Phase 2 structure</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="deferred-box r">
+      <div class="db-icon">📌</div>
+      <div>
+        <div class="db-title">What is deliberately deferred — and why</div>
+        <div class="db-body">ICP's 5-pillar macro-architecture (Business Compass, Youth/Education, Community Systems, Talent Pipeline, Global Sustainability) spans a 25-year horizon. <strong>Only Pillar 1 — the Business Compass Standard — is active.</strong> Pillars 2–5 are not being built until Pillar 1 has proof. This is not a resource limitation disguised as a strategy. It is the strategy: attempting to build five pillars simultaneously with limited capital produces five weak foundations. One pillar built with proof produces the evidence base — and the institutional credibility — that makes every pillar after it possible.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ VERSION BLOCK ══ -->
+<section id="version" class="std-section">
+  <div class="W">
+    <div class="section-eyebrow r">Version history</div>
+    <h2 class="section-h r">This is a <em>living document.</em></h2>
+    <p class="section-intro r">The standard is updated as field evidence accumulates and as real-world use reveals where the current version is imprecise, incomplete, or wrong. Every version change is documented here.</p>
+
+    <div class="version-block r">
+      <div class="vb-head">
+        <div class="vb-badge">v0.4</div>
+        <div class="vb-meta"><strong>Current version</strong> · February 2026<br>First publicly documented version. All 11 pillars defined. Evidence base populated. Roadmap published.</div>
+        <div class="vb-sep"></div>
+        <div class="vb-date">Last updated Feb 2026</div>
+      </div>
+      <div class="vb-body">
+        v0.4 is the first version of the standard documented with sufficient depth to be genuinely useful as a reference. Pillars 1–7 (Foundation) are more fully developed than Pillars 8–11 (Growth) — the growth pillars will deepen as the founding stewards build field evidence from businesses at scale. <em>The standard will be updated to v0.5 when the first three Steward case studies are published.</em> v1.0 requires 50+ documented founder journeys, refined pillar definitions from field evidence, and founding steward sign-off. <strong>Every version change will be documented on this page with the rationale for what changed and why.</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ THE PROMISE ══ -->
+<section id="promise" class="std-section teal">
+  <div class="W">
+    <div class="section-eyebrow light r">What ICP promises</div>
+    <h2 class="section-h on-dark r">Four promises.<br><em>Nothing more.</em></h2>
+    <p class="section-intro on-dark r">ICP makes four specific promises. Every founder and steward should read these before engaging with the standard — and hold ICP accountable to them.</p>
+
+    <div class="promise-grid r">
+      <div class="prom">
+        <div class="prom-icon">🗺</div>
+        <div class="prom-title">A complete map of what's structurally missing</div>
+        <div class="prom-body">ICP will produce a <strong>specific, honest diagnostic</strong> of which foundations are solid and which are broken — for any business that goes through the kit journey honestly. Not a general assessment. Not vague feedback. A specific picture of what is missing and in what order it needs to be addressed.</div>
+      </div>
+      <div class="prom">
+        <div class="prom-icon">📄</div>
+        <div class="prom-title">Actionable working documents</div>
+        <div class="prom-body">The kit journey produces <strong>working documents you can use</strong> — Brand Compass, VMV, Economic Truth Summary, Brand Strategy, Operational Compass. Not insight to reflect on. Not a report to file. Documents that change how you make decisions, built to sit on your desk and be referenced.</div>
+      </div>
+      <div class="prom">
+        <div class="prom-icon">🌍</div>
+        <div class="prom-title">Evidence grounded in your context</div>
+        <div class="prom-body">Every pillar is backed by evidence from businesses that operated under <strong>real constraints in real geographies</strong> — not multinational case studies repackaged for emerging markets. ICP is not a Western framework adapted. It is a standard built from evidence that reflects the environments it serves.</div>
+      </div>
+      <div class="prom">
+        <div class="prom-icon">🔒</div>
+        <div class="prom-title">Complete transparency about where the standard is</div>
+        <div class="prom-body">ICP will always be honest about what version the standard is at, what is not yet fully developed, and what is being deferred. <strong>No overselling of a finished product that doesn't exist yet.</strong> The roadmap and version history on this page are updated as the standard evolves. You can see exactly what you're getting.</div>
+      </div>
+    </div>
+
+    <div class="not-promise r">
+      <div class="np-label">What ICP does not promise</div>
+      <ul class="np-list">
+        <li class="np-li">That completing the journey guarantees business success</li>
+        <li class="np-li">That ICP will build your foundations for you</li>
+        <li class="np-li">That the standard is complete — v0.4 is early and honest about it</li>
+        <li class="np-li">That ICP is the only valid framework for structural health</li>
+        <li class="np-li">Revenue or growth targets of any kind</li>
+        <li class="np-li">That the standard will not change — it will, and it should</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ BOTTOM CTAs ══ -->
+<section id="join" class="std-ctas">
+  <div class="W">
+    <div class="section-eyebrow r">Two ways to engage</div>
+    <h2 class="section-h r" style="margin-bottom:28px;">You've read the standard.<br><em>What comes next?</em></h2>
+    <div class="cta-row r">
+      <div class="cta-card dark">
+        <div class="cta-tag">For Founders</div>
+        <div class="cta-h">Start with a 45-minute orientation call.</div>
+        <div class="cta-body">Book a direct call — no cost, no pitch. Leave with a specific diagnostic of what's structurally missing, whether or not you continue. <strong>Founding Rate: $500/month for 6 months.</strong> 50 seats. Closes after the first 50.</div>
+        <a href="./implementors" class="btn-white">Implementor Path <span class="btn-icon">→</span></a>
+      </div>
+      <div class="cta-card earth-bg">
+        <div class="cta-tag">For Practitioners</div>
+        <div class="cta-h">Apply for one of five Steward seats.</div>
+        <div class="cta-body">Named founding contributor to Standard v1.0. Run kit conversations with your founders. Shape what the standard becomes. <strong>Three seats still available.</strong> Applications reviewed personally.</div>
+        <a href="./stewards" class="btn-dark">Steward Path <span class="btn-icon">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<footer>
+  <div class="f-logo">Inner<span>Compass</span> <span style="color:rgba(255,255,255,.22);font-weight:300;letter-spacing:.06em;font-size:10px;margin-left:2px">Project</span></div>
+  <div class="f-tagline">"The operating layer beneath every well-run business."</div>
+  <div class="f-meta">Standard v0.4 · February 2026</div>
+</footer>
+
+
+<script>
+// Scroll reveal
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.06 });
+document.querySelectorAll('.r').forEach(el => obs.observe(el));
+
+// TOC
+function toggleToc() {
+  document.getElementById('toc').classList.toggle('open');
+}
+
+// Active TOC link on scroll
+const sections = document.querySelectorAll('[id]');
+const tocLinks = document.querySelectorAll('.toc-a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 90) current = s.id;
+  });
+  tocLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+}, { passive:true });
+
+// Pillar accordion
+function togglePillar(el) {
+  const isOpen = el.classList.contains('open');
+  document.querySelectorAll('.pillar.open').forEach(p => p.classList.remove('open'));
+  if (!isOpen) el.classList.add('open');
+}
+</script>
+
+</body>
+</html>
