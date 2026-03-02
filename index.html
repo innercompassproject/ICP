@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Inner Compass Project — Find Your True North</title>
+<title>Inner Compass Project — The Operating Standard for Structurally Sound Business</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,300;0,6..12,400;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;1,6..12,300;1,6..12,400;1,6..12,700&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
 <style>
@@ -53,7 +53,6 @@ a { text-decoration:none; color:inherit; }
   padding: 0 48px;
   background: rgba(30,51,64,0);
   backdrop-filter: blur(0px);
-  transition: background .4s, backdrop-filter .4s;
   border-bottom: 1px solid transparent;
   transition: all .4s;
 }
@@ -91,7 +90,6 @@ a { text-decoration:none; color:inherit; }
 .nav-btn:hover { background: var(--earth-d); }
 
 /* ── OPENING CINEMATIC ────────────────────────────────── */
-/* Full viewport — dark teal — sets the tone before anything else loads */
 .cinematic {
   min-height: 100vh;
   background: var(--teal-dd);
@@ -102,7 +100,6 @@ a { text-decoration:none; color:inherit; }
   padding: 80px 48px;
 }
 
-/* subtle grain */
 .cinematic::before {
   content:'';
   position:absolute; inset:0;
@@ -111,7 +108,6 @@ a { text-decoration:none; color:inherit; }
   pointer-events:none; opacity:.5;
 }
 
-/* diagonal line grid — very subtle */
 .cinematic::after {
   content:'';
   position:absolute; inset:0;
@@ -131,7 +127,6 @@ a { text-decoration:none; color:inherit; }
   text-align:left;
 }
 
-/* THE OPENING LINE — huge, editorial, weighted */
 .cin-overline {
   font-family: 'Open Sans', sans-serif;
   font-size: 9.5px; font-weight:600;
@@ -143,7 +138,6 @@ a { text-decoration:none; color:inherit; }
 }
 .cin-overline-dot { width:4px; height:4px; background:var(--earth); border-radius:50%; }
 
-/* The big thesis line — Garamond for weight and age */
 .cin-statement {
   font-family: 'EB Garamond', Georgia, serif;
   font-size: clamp(36px, 6vw, 78px);
@@ -158,7 +152,6 @@ a { text-decoration:none; color:inherit; }
   color: var(--earth-lt);
 }
 
-/* Rule */
 .cin-rule {
   width: 48px; height:1px;
   background: rgba(205,133,63,.5);
@@ -194,7 +187,6 @@ a { text-decoration:none; color:inherit; }
   animation: scrollPulse 2.2s ease-in-out infinite 2s;
 }
 
-/* floating teal glow behind text */
 .cin-glow {
   position:absolute; top:-20%; right:-10%;
   width:70vw; height:70vw; max-width:700px; max-height:700px;
@@ -208,6 +200,108 @@ a { text-decoration:none; color:inherit; }
   pointer-events:none; z-index:1;
 }
 
+/* ── BLIND-SPOT DIAGNOSTIC STRIP ─────────────────────── */
+/* This section does the identity recognition work */
+.diagnostic {
+  background: var(--teal-d);
+  padding: 80px 0 72px;
+  position:relative; overflow:hidden;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+}
+.diagnostic::before {
+  content:'';
+  position:absolute; inset:0;
+  background: repeating-linear-gradient(
+    -45deg, transparent, transparent 38px,
+    rgba(255,255,255,.008) 38px, rgba(255,255,255,.008) 39px
+  );
+  pointer-events:none;
+}
+
+.diag-inner {
+  position:relative; z-index:1;
+  max-width:1140px; margin:0 auto; padding:0 80px;
+}
+
+.diag-label {
+  font-size:9px; letter-spacing:.28em; text-transform:uppercase;
+  font-weight:600; color:var(--earth-lt);
+  margin-bottom:44px;
+  display:flex; align-items:center; gap:10px;
+}
+.diag-label::before {
+  content:''; display:block;
+  width:20px; height:1.5px; background:var(--earth);
+}
+
+.diag-statements {
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:0;
+}
+
+.diag-item {
+  padding:24px 32px 24px 0;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  display:flex; align-items:flex-start; gap:16px;
+}
+.diag-item:nth-child(odd) {
+  padding-right:48px;
+  border-right: 1px solid rgba(255,255,255,.06);
+}
+.diag-item:nth-child(even) {
+  padding-left:48px; padding-right:0;
+}
+.diag-item:nth-last-child(-n+2) { border-bottom:none; }
+
+.diag-mark {
+  font-family:'Nunito Sans', sans-serif;
+  font-size:11px; font-weight:900;
+  color:var(--earth); opacity:.6;
+  flex-shrink:0; margin-top:2px;
+}
+
+.diag-text {
+  font-family:'EB Garamond', Georgia, serif;
+  font-size:clamp(17px,2vw,22px);
+  font-weight:400; font-style:italic;
+  line-height:1.45;
+  color:rgba(255,255,255,.72);
+}
+.diag-text strong {
+  font-style:normal; font-weight:500;
+  color:rgba(255,255,255,.92);
+}
+
+.diag-footer {
+  margin-top:44px;
+  padding-top:28px;
+  border-top:1px solid rgba(255,255,255,.06);
+  display:flex; align-items:center; justify-content:space-between;
+  flex-wrap:wrap; gap:16px;
+}
+
+.diag-footer-text {
+  font-size:13px; font-weight:300;
+  color:rgba(255,255,255,.3);
+  max-width:540px; line-height:1.7;
+}
+.diag-footer-text strong {
+  color:rgba(255,255,255,.6); font-weight:600;
+}
+
+.diag-cta {
+  font-size:10px; letter-spacing:.16em; text-transform:uppercase;
+  font-weight:700; color:rgba(255,255,255,.5);
+  border:1px solid rgba(255,255,255,.15);
+  padding:12px 22px;
+  transition:all .2s; white-space:nowrap;
+  display:flex; align-items:center; gap:8px;
+}
+.diag-cta:hover {
+  color:#fff; border-color:rgba(255,255,255,.4);
+}
+
 /* ── DRIFT STORY SECTION ──────────────────────────────── */
 .drift {
   background: var(--white);
@@ -216,7 +310,6 @@ a { text-decoration:none; color:inherit; }
   overflow:hidden;
 }
 
-/* oversized chapter number watermark */
 .drift-wm {
   position:absolute; top:-20px; right: -30px;
   font-family:'Nunito Sans', sans-serif;
@@ -282,6 +375,18 @@ a { text-decoration:none; color:inherit; }
 .drift-para strong { color:var(--ink); font-weight:700; }
 .drift-para em { color:var(--teal); font-style:italic; }
 
+/* structural punch line — short, declarative, hard */
+.punch {
+  font-family:'Nunito Sans', sans-serif;
+  font-size:15px; font-weight:900;
+  color:var(--teal-dd);
+  letter-spacing:.01em;
+  margin:28px 0;
+  padding-left:16px;
+  border-left:3px solid var(--earth);
+  line-height:1.4;
+}
+
 /* pull quote inside drift */
 .pull {
   margin:36px 0;
@@ -330,9 +435,23 @@ a { text-decoration:none; color:inherit; }
 .thesis-body {
   font-size:15px; font-weight:300; line-height:1.9;
   color:rgba(255,255,255,.5);
-  max-width:620px; margin:0 auto;
+  max-width:620px; margin:0 auto 28px;
 }
 .thesis-body strong { color:rgba(255,255,255,.78); font-weight:600; }
+
+/* standard positioning note */
+.thesis-standard-note {
+  display:inline-block;
+  font-size:11px; font-weight:600;
+  letter-spacing:.12em; text-transform:uppercase;
+  color:rgba(255,255,255,.35);
+  border:1px solid rgba(255,255,255,.12);
+  padding:10px 20px;
+  line-height:1.5;
+}
+.thesis-standard-note strong {
+  color:var(--earth-lt); font-weight:700;
+}
 
 /* ── ARCHITECTURE ─────────────────────────────────────── */
 .arch {
@@ -351,6 +470,12 @@ a { text-decoration:none; color:inherit; }
 .arch-sub {
   font-size:15px; font-weight:300; line-height:1.8;
   color:var(--muted); max-width:580px;
+  margin-bottom:12px;
+}
+.arch-sub-note {
+  font-size:12px; font-weight:600;
+  color:var(--teal);
+  font-style:italic;
 }
 
 /* 5 pillars horizontal strip */
@@ -443,6 +568,16 @@ a { text-decoration:none; color:inherit; }
 .doors-sub {
   font-size:15px; font-weight:300; line-height:1.82;
   color:rgba(255,255,255,.38);
+  margin-bottom:16px;
+}
+/* bilateral gravity note */
+.doors-bilateral {
+  font-size:11px; font-weight:600;
+  letter-spacing:.1em; text-transform:uppercase;
+  color:rgba(255,255,255,.22);
+  border-top:1px solid rgba(255,255,255,.07);
+  padding-top:16px;
+  display:inline-block;
 }
 
 .doors-grid {
@@ -470,7 +605,6 @@ a { text-decoration:none; color:inherit; }
   background:rgba(255,255,255,.05);
   border-color:rgba(255,255,255,.12);
 }
-/* hover shimmer */
 .door::before {
   content:''; position:absolute;
   top:0; left:-100%; width:60%; height:100%;
@@ -526,6 +660,19 @@ a { text-decoration:none; color:inherit; }
   font-size:11px; flex-shrink:0; margin-top:2px;
 }
 
+/* bilateral note within door */
+.door-bilateral-note {
+  font-size:11px; color:rgba(255,255,255,.22);
+  font-weight:600; letter-spacing:.06em;
+  text-transform:uppercase;
+  border-top:1px solid rgba(255,255,255,.07);
+  padding-top:14px; margin-bottom:20px;
+  line-height:1.55;
+}
+.door-bilateral-note span {
+  color:var(--earth-lt); font-weight:700;
+}
+
 .door-cta {
   display:inline-flex; align-items:center; gap:10px;
   padding:15px 30px;
@@ -552,7 +699,6 @@ a { text-decoration:none; color:inherit; }
 .door-cta:hover .door-cta-icon { transform:translateX(4px); }
 
 /* ── THE QUESTION ─────────────────────────────────────── */
-/* This is the moment that routes them — "Which describes you?" */
 .question {
   background:var(--teal-dd);
   padding:0 0 110px;
@@ -651,8 +797,13 @@ a { text-decoration:none; color:inherit; }
 .transp-h em { font-style:italic; font-weight:300; color:var(--teal); }
 .transp-body {
   font-size:14.5px; font-weight:300; line-height:1.85; color:var(--muted);
+  margin-bottom:8px;
 }
 .transp-body strong { color:var(--ink); font-weight:600; }
+.transp-body-note {
+  font-size:12px; font-style:italic; color:var(--soft);
+  line-height:1.7; margin-bottom:0;
+}
 .transp-links { display:flex; gap:3px; margin-top:24px; flex-wrap:wrap; }
 .transp-a {
   font-size:10px; letter-spacing:.14em; text-transform:uppercase;
@@ -727,6 +878,12 @@ footer {
   .nav { padding:0 20px; }
   .nav-links { display:none; }
   .W { padding:0 24px; }
+  .diag-inner { padding:0 24px; }
+  .diag-statements { grid-template-columns:1fr; }
+  .diag-item { padding:20px 0 !important; border-right:none !important; }
+  .diag-item:nth-child(even) { padding-left:0 !important; }
+  .diag-item:nth-last-child(-n+2) { border-bottom:1px solid rgba(255,255,255,.06); }
+  .diag-item:last-child { border-bottom:none; }
   .drift-grid { grid-template-columns:1fr; gap:40px; }
   .drift-left { position:static; }
   .pillars-strip { grid-template-columns:1fr 1fr; }
@@ -740,6 +897,7 @@ footer {
   .thesis-inner { padding:0 24px; }
   .doors { padding:72px 0; }
   .door { padding:40px 28px; }
+  .diagnostic { padding:60px 0; }
 }
 @media(max-width:600px){
   .pillars-strip { grid-template-columns:1fr; }
@@ -757,12 +915,12 @@ footer {
   <div class="nav-logo">Inner<span>Compass</span></div>
   <div class="nav-sep"></div>
   <div class="nav-links">
-    <a href="./standard" class="nav-a">The Standard</a>
-    <a href="./build" class="nav-a">The Build</a>
-    <a href="./implementors" class="nav-a">Implementors</a>
-    <a href="./stewards" class="nav-a">Stewards</a>
+    <a href="icp_standard.html" class="nav-a">The Standard</a>
+    <a href="icp_build.html" class="nav-a">The Build</a>
+    <a href="icp_implementors.html" class="nav-a">Implementors</a>
+    <a href="icp_stewards.html" class="nav-a">Stewards</a>
   </div>
-  <a href="./implementors" class="nav-btn">Explore Access</a>
+  <a href="icp_implementors.html" class="nav-btn">Explore Access</a>
 </nav>
 
 
@@ -783,7 +941,7 @@ footer {
     <p class="cin-body">
       Most businesses don't collapse.<br>
       They drift — <strong>slowly, invisibly,</strong> while working harder than ever.<br><br>
-      ICP is the operating layer built to stop that.
+      ICP is the operating standard built to name what is structurally missing — and to give founders the architecture to fix it.
     </p>
   </div>
   <div class="cin-scroll">
@@ -793,7 +951,58 @@ footer {
 </section>
 
 
-<!-- ══ 02 — THE DRIFT ════════════════════════════════════ -->
+<!-- ══ 02 — BLIND-SPOT DIAGNOSTIC ═══════════════════════ -->
+<!-- Identity recognition. The right founder reads this and stops. -->
+<section class="diagnostic">
+  <div class="diag-inner">
+    <div class="diag-label r">If you think in systems, this will resonate.</div>
+    <div class="diag-statements">
+
+      <div class="diag-item r d1">
+        <div class="diag-mark">01</div>
+        <div class="diag-text">Your growth is compounding. <strong>Your clarity isn't.</strong></div>
+      </div>
+
+      <div class="diag-item r d2">
+        <div class="diag-mark">02</div>
+        <div class="diag-text">Your team executes. <strong>Your structure doesn't.</strong></div>
+      </div>
+
+      <div class="diag-item r d3">
+        <div class="diag-mark">03</div>
+        <div class="diag-text">You can't scale what you haven't <strong>structurally defined.</strong></div>
+      </div>
+
+      <div class="diag-item r d4">
+        <div class="diag-mark">04</div>
+        <div class="diag-text">Most founders believe they have clarity. <strong>They have ambition.</strong></div>
+      </div>
+
+      <div class="diag-item r d5">
+        <div class="diag-mark">05</div>
+        <div class="diag-text">Misalignment compounds. <strong>Quietly.</strong></div>
+      </div>
+
+      <div class="diag-item r d5">
+        <div class="diag-mark">06</div>
+        <div class="diag-text">If you are looking for coaching or a programme, <strong>this is not it.</strong></div>
+      </div>
+
+    </div>
+
+    <div class="diag-footer r">
+      <div class="diag-footer-text">
+        ICP is not a framework you consume. It is a <strong>standard you are evaluated against</strong> — and that you evaluate. Read the full standard before deciding anything.
+      </div>
+      <a href="icp_standard.html" class="diag-cta">
+        Read the Standard <span>→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ 03 — THE DRIFT ════════════════════════════════════ -->
 <section class="drift">
   <div class="drift-wm">DRIFT</div>
   <div class="W">
@@ -816,20 +1025,26 @@ footer {
         <p class="drift-para r d1">
           A company begins with clarity. A founder sees something others don't. A team forms around a shared belief. Then growth begins — revenue increases, headcount expands, opportunities appear everywhere.
         </p>
+
+        <div class="punch r d2">Effort is not the problem. Structure is.</div>
+
         <p class="drift-para r d2">
-          And slowly, almost invisibly, <strong>something shifts.</strong> Decisions become reactive. Trade-offs become transactional. Purpose becomes language instead of leverage. The organization is optimizing. But it is no longer oriented.
+          And slowly, almost invisibly, <strong>something shifts.</strong> Decisions become reactive. Trade-offs become transactional. Purpose becomes language instead of leverage. The organisation is optimizing. But it is no longer oriented.
         </p>
         <p class="drift-para r d3">
           <em>That is drift.</em> It is not a crisis event. It is a structural failure that compounds quietly, year on year, until the gap between where the business is and where it was built to go becomes impossible to close without starting again.
         </p>
         <div class="pull r d3">
-          <div class="pull-text">"The problem is never effort. Most founders are working incredibly hard — with no clear picture of what specifically is broken, and no structured path to fix it."</div>
+          <div class="pull-text">"The problem is never effort. Most founders are working harder than ever — with no structured picture of what specifically is broken, and no disciplined path to fix it in the right order."</div>
         </div>
+
+        <div class="punch r d4">This is not a training programme. It is a standard.</div>
+
         <p class="drift-para r d4">
-          The Inner Compass Project was built as a <strong>long-horizon response to this structural problem.</strong> Not as a training program. Not as a consultancy. Not as a movement with a hashtag. As the early formation of an operating standard — a framework rigorous enough to tell any founder, anywhere, exactly what is missing from their foundation and what to do about it, in the right order.
+          The Inner Compass Project was built as a <strong>long-horizon response to this structural problem.</strong> Not as a consultancy. Not as a coaching offer. Not as a movement. As the early formation of an operating standard — a framework rigorous enough to tell any founder, anywhere, exactly what is missing from their foundation and what to build first.
         </p>
         <p class="drift-para r d5">
-          ICP doesn't work because it invented new principles. It works because it <strong>names what already exists</strong> in every business that has lasted — and makes those principles accessible to founders who have never had a map before.
+          ICP doesn't work because it invented new principles. It works because it <strong>names what already exists</strong> in every business that has lasted — and makes those principles accessible to founders who have never had a complete diagnostic map before.
         </p>
       </div>
 
@@ -838,7 +1053,7 @@ footer {
 </section>
 
 
-<!-- ══ 03 — THESIS STRIP ══════════════════════════════════ -->
+<!-- ══ 04 — THESIS STRIP ══════════════════════════════════ -->
 <section class="thesis">
   <div class="thesis-inner r">
     <div class="thesis-eyebrow">The foundational insight</div>
@@ -847,13 +1062,17 @@ footer {
       <strong>It is structural.</strong>
     </h2>
     <p class="thesis-body">
-      A system is aligned when purpose filters real decisions. When incentives reinforce long-term value. When strategy constrains opportunity instead of chasing it. When growth <strong>strengthens foundations instead of weakening them.</strong> When these four conditions hold — drift slows. When they break — drift accelerates.
+      A system is aligned when purpose filters real decisions. When incentives reinforce long-term value. When strategy constrains opportunity instead of chasing it. When growth <strong>strengthens foundations instead of weakening them.</strong> When these conditions hold — drift slows. When they break — drift compounds.
     </p>
+    <div class="thesis-standard-note r">
+      ICP is a <strong>standard</strong> — not a programme, not a platform, not a community.<br>
+      It is designed to be evaluated, studied, and applied. Not consumed.
+    </div>
   </div>
 </section>
 
 
-<!-- ══ 04 — ARCHITECTURE ══════════════════════════════════ -->
+<!-- ══ 05 — ARCHITECTURE ══════════════════════════════════ -->
 <section class="arch">
   <div class="W">
     <div class="arch-head r">
@@ -861,9 +1080,10 @@ footer {
       <h2 class="arch-h">
         A 5-pillar system.<br>
         <em>Built sequentially.<br>
-        Proof before scale.</em>
+        Evidence before expansion.</em>
       </h2>
-      <p class="arch-sub">ICP is not a single product. It is a long-horizon architecture. Each pillar activates when the previous one has proof. Right now, only one pillar is active.</p>
+      <p class="arch-sub">ICP is not a single product. It is a long-horizon architecture. Each pillar activates when the previous one has proof. Right now, only one pillar is active — by design.</p>
+      <p class="arch-sub-note">Standards before scale. Foundation before expansion. This is the discipline.</p>
     </div>
 
     <div class="pillars-strip r">
@@ -872,12 +1092,12 @@ footer {
         <div class="pill-num">01</div>
         <div class="pill-label">Pillar One · Live</div>
         <div class="pill-name">Business Compass</div>
-        <div class="pill-desc">The operating standard for structurally sound MSMEs. 11 diagnostic pillars. AI-guided kit system. Evidence base from 20+ countries.</div>
+        <div class="pill-desc">The operating standard for structurally sound MSMEs. 11 diagnostic pillars. AI-guided kit architecture in development. Early evidence forming across 20+ countries.</div>
       </div>
       <div class="pill deferred">
         <div class="pill-num">02</div>
         <div class="pill-label">Pillar Two · Deferred</div>
-        <div class="pill-name">Youth & Education</div>
+        <div class="pill-name">Youth &amp; Education</div>
         <div class="pill-desc">Introducing structured entrepreneurial thinking before the business begins — schools, vocational programs, early-stage foundations.</div>
         <div class="pill-horizon">Activates after Pillar 1 proof</div>
       </div>
@@ -905,14 +1125,14 @@ footer {
     </div>
 
     <div class="arch-note r">
-      <strong>Why sequence matters:</strong> Attempting to build all five pillars simultaneously with limited capital produces five weak foundations. Pillar 1 built with proof produces the evidence base — and the credibility — that makes every pillar after it possible.
+      <strong>Why sequence matters:</strong> Attempting to build all five pillars simultaneously with limited capital produces five weak foundations. Pillar 1 built with evidence produces the credibility — and the proof — that makes every pillar after it structurally possible.
     </div>
   </div>
 </section>
 
 
-<!-- ══ 05 — THE TWO DOORS ═════════════════════════════════ -->
-<section class="doors" id="join">
+<!-- ══ 06 — THE TWO DOORS ═════════════════════════════════ -->
+<section class="doors" id="access">
   <div class="W">
 
     <div class="doors-top r">
@@ -920,7 +1140,8 @@ footer {
       <h2 class="doors-h">
         Which describes you?
       </h2>
-      <p class="doors-sub">ICP is in a disciplined build phase. There are currently two structured pathways — one for founders building businesses, one for practitioners helping build the standard itself.</p>
+      <p class="doors-sub">ICP is in a disciplined build phase. There are currently two structured pathways — one for founders building businesses, one for practitioners helping shape the standard itself.</p>
+      <div class="doors-bilateral">Orientation is mutual evaluation. You assess the standard. The standard assesses you.</div>
     </div>
 
     <div class="doors-grid r">
@@ -929,17 +1150,20 @@ footer {
       <div class="door">
         <div class="door-num">1</div>
         <div class="door-tag">Founder · Operator · Builder</div>
-        <h3 class="door-title">You're building a business.<br>Something structural feels off.</h3>
+        <h3 class="door-title">You're building a business.<br>Something structural is off.</h3>
         <p class="door-body">
-          You're working hard. Revenue might even be growing. But decisions feel reactive. The team isn't moving the way it should. The brand doesn't fully reflect what you've built. There's a gap between the business you're running and the business you set out to build — and you've never had a <strong>complete map of what's structurally missing.</strong>
+          This is for founders who already suspect their foundation has gaps — who feel the gap between the business they're running and the business they set out to build, but have never had <strong>a diagnostic map of what is specifically missing and what to fix first.</strong> Not a programme. Not a coaching relationship. A structural evaluation and a guided path to fixing what is broken.
         </p>
         <ul class="door-gets">
-          <li>A guided AI kit journey through your brand, values, model, and strategy</li>
+          <li>A guided kit journey through brand, values, model, and strategy — when the interface is ready</li>
           <li>Specific outputs: Brand Compass, VMV document, Business Model Reality, Brand Strategy</li>
-          <li>A clear picture of which ICP pillars are broken and what to fix first</li>
-          <li>Founding Rate access — the rate that closes after the first 50 founders</li>
+          <li>A clear picture of which ICP pillars are broken and the right sequence to fix them</li>
+          <li>Founding Rate — $500/mo × 6 months — the rate that reflects v0.4 status, not full build</li>
         </ul>
-        <a href="./implementors" class="door-cta primary">
+        <div class="door-bilateral-note">
+          The orientation call is bilateral. <span>You are evaluating the standard.</span> We are evaluating structural readiness.
+        </div>
+        <a href="icp_implementors.html" class="door-cta primary">
           Explore the Implementor Path <span class="door-cta-icon">→</span>
         </a>
       </div>
@@ -947,18 +1171,21 @@ footer {
       <!-- DOOR 2 — STEWARD -->
       <div class="door">
         <div class="door-num">2</div>
-        <div class="door-tag">Mentor · Practitioner · Ecosystem Builder</div>
+        <div class="door-tag">Practitioner · Ecosystem Builder · Systems Thinker</div>
         <h3 class="door-title">You work with founders.<br>You think in systems.</h3>
         <p class="door-body">
-          You've seen the same structural failures ICP names — across the businesses you mentor, advise, or build programs for. You're not looking for another certification or partner program. You want <strong>a meaningful role in building something that outlasts any individual engagement.</strong> Five seats. Real contribution. Your name on what gets built.
+          This is for practitioners who have seen the structural failures ICP names — across the businesses they advise, mentor, or build programs for. Not another certification. Not a partner program. <strong>A founding role in building something that outlasts any individual engagement.</strong> Five seats. Real contribution. Your name on what gets built.
         </p>
         <ul class="door-gets">
-          <li>Named Steward role — founding contributor to ICP Standard v1.0</li>
-          <li>Full access to the kit system to run with your community</li>
-          <li>Co-authorship on case studies that shape the standard</li>
-          <li>6–8 hours/week — structured, not open-ended. Most of it accelerates your own work.</li>
+          <li>Named Founding Steward — cited in ICP Standard v1.0 documentation permanently</li>
+          <li>Full access to kit architecture to validate with your own network</li>
+          <li>Co-authorship weight on case studies that shape the standard's evidence base</li>
+          <li>6–8 hours/week · 12-month bilateral commitment · structured, not open-ended</li>
         </ul>
-        <a href="./stewards" class="door-cta secondary">
+        <div class="door-bilateral-note">
+          Five seats. Not cohorts. <span>Attribution is permanent.</span> Dilution destroys standards.
+        </div>
+        <a href="icp_stewards.html" class="door-cta secondary">
           Explore the Steward Path <span class="door-cta-icon">→</span>
         </a>
       </div>
@@ -966,14 +1193,14 @@ footer {
     </div>
 
     <div class="question r">
-      <p class="q-text">If you're not sure which you are — <strong>start with the Standard.</strong> Read it. Then you'll know.</p>
+      <p class="q-text">If you're not sure which you are — <strong>start with the Standard.</strong> Read it in full. Then you'll know.</p>
     </div>
 
   </div>
 </section>
 
 
-<!-- ══ 06 — EVIDENCE TEASER ══════════════════════════════ -->
+<!-- ══ 07 — EVIDENCE TEASER ══════════════════════════════ -->
 <section class="ev-teaser">
   <div class="W">
     <div class="ev-top r">
@@ -982,7 +1209,7 @@ footer {
         these principles.<br>
         <em>It named them.</em>
       </h2>
-      <a href="./standard#evidence" class="ev-link">
+      <a href="icp_standard.html#evidence" class="ev-link">
         Full evidence base →
       </a>
     </div>
@@ -1006,9 +1233,9 @@ footer {
         <div class="evc-body">Community savings circles sustained for centuries. No institution. No legal contract. Repayment rates exceeding formal banks. ICP's oldest proof.</div>
       </div>
       <div class="evc">
-        <div class="evc-geo"><div class="evc-dot"></div>Kenya</div>
+        <div class="evc-geo"><div class="evc-dot"></div>Kenya · Early 2000s</div>
         <div class="evc-name">M-Pesa</div>
-        <div class="evc-tags"><span class="evc-tag">Customer Clarity</span><span class="evc-tag">Innovation</span></div>
+        <div class="evc-tags"><span class="evc-tag">Customer Clarity</span><span class="evc-tag">Adaptation</span></div>
         <div class="evc-body">Failed at its original hypothesis. Listened to what users actually did. Adapted. Became national financial infrastructure. Innovation as disciplined listening.</div>
       </div>
     </div>
@@ -1016,7 +1243,7 @@ footer {
 </section>
 
 
-<!-- ══ 07 — TRANSPARENCY STRIP ═══════════════════════════ -->
+<!-- ══ 08 — TRANSPARENCY STRIP ═══════════════════════════ -->
 <section class="transp">
   <div class="W">
     <div class="transp-inner r">
@@ -1027,30 +1254,33 @@ footer {
           <em>published openly.</em>
         </h2>
         <p class="transp-body">
-          ICP is a standard being built in public. The pillars, the evidence, the roadmap, what's being deferred and why — all of it is documented and available. <strong>Trust is built through transparency, not through claims.</strong> Read the full standard before deciding anything.
+          ICP is a standard being built in public. The pillars, the evidence, the roadmap, what is being deferred and why — all of it is documented and available. <strong>Trust is load-bearing here. It is built through transparency, not through claims.</strong>
+        </p>
+        <p class="transp-body-note">
+          The kits are not complete. The interface is in development. The evidence base is forming, not finished. Founding Implementors and Stewards enter at v0.4 status — which is accurately what it is.
         </p>
         <div class="transp-links">
-          <a href="./standard" class="transp-a">The Standard →</a>
-          <a href="./build" class="transp-a">The Roadmap →</a>
-          <a href="./standard#evidence" class="transp-a">Evidence Base →</a>
+          <a href="icp_standard.html" class="transp-a">The Standard →</a>
+          <a href="icp_build.html" class="transp-a">The Build →</a>
+          <a href="icp_standard.html#evidence" class="transp-a">Evidence Base →</a>
         </div>
       </div>
       <div class="transp-right">
         <div class="t-stat">
           <div class="t-stat-n">v0.4</div>
-          <div class="t-stat-l">Current version. Living document. Moving toward v1.0 through real-world use.</div>
+          <div class="t-stat-l">Current version. Living document. Moving toward v1.0 through real-world implementation.</div>
         </div>
         <div class="t-stat">
           <div class="t-stat-n">11</div>
-          <div class="t-stat-l">Diagnostic pillars. 7 foundation, 4 growth. All publicly documented.</div>
+          <div class="t-stat-l">Diagnostic pillars. 7 foundation, 4 growth. All publicly documented in the Standard.</div>
         </div>
         <div class="t-stat">
-          <div class="t-stat-n">500</div>
-          <div class="t-stat-l">Founder goal by end 2026. Starting inside Terra Bali. No invented timelines.</div>
+          <div class="t-stat-n">50</div>
+          <div class="t-stat-l">Founding Implementor target before v1.0 locks. Quality of proof over volume of signups.</div>
         </div>
         <div class="t-stat">
           <div class="t-stat-n">5</div>
-          <div class="t-stat-l">Founding Steward seats. Named contributors to Standard v1.0. Applications open.</div>
+          <div class="t-stat-l">Founding Steward seats. All available. Named in Standard v1.0 documentation permanently.</div>
         </div>
       </div>
     </div>
