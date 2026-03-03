@@ -122,6 +122,43 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(26,29,24,0.9
 .badge-deferred{background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.18)}
 .badge-long{background:rgba(205,133,63,0.1);color:rgba(205,133,63,0.45)}
 
+/* MILESTONE ROADMAP */
+.roadmap{margin:3rem 0}
+.milestone{display:grid;grid-template-columns:28px 1fr auto;gap:0;border-bottom:1px solid var(--rule-dark);cursor:pointer;transition:background 0.15s}
+.milestone:hover{background:rgba(255,255,255,0.015)}
+.milestone:last-child{border-bottom:none}
+.ms-spine{display:flex;flex-direction:column;align-items:center;padding:1.8rem 0 0;position:relative}
+.ms-node{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:0.15rem}
+.ms-line{flex:1;width:1px;background:rgba(255,255,255,0.07);margin-top:6px;min-height:20px}
+.ms-body{padding:1.8rem 1.8rem 1.8rem 1.2rem;flex:1}
+.ms-meta{display:flex;align-items:center;gap:0.8rem;margin-bottom:0.5rem;flex-wrap:wrap}
+.ms-tag{font-size:0.57rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;padding:0.18rem 0.55rem}
+.ms-tag-done{background:rgba(85,107,47,0.2);color:#8aab5a}
+.ms-tag-active{background:rgba(205,133,63,0.15);color:var(--peru)}
+.ms-tag-queued{background:rgba(58,96,115,0.2);color:rgba(58,96,115,0.9)}
+.ms-tag-deferred{background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.22)}
+.ms-period{font-size:0.65rem;color:rgba(255,255,255,0.2);letter-spacing:0.06em}
+.ms-title{font-family:'Nunito Sans',sans-serif;font-weight:700;font-size:0.95rem;color:rgba(255,255,255,0.72);margin-bottom:0.3rem;line-height:1.3}
+.ms-sub{font-size:0.76rem;color:rgba(255,255,255,0.28);line-height:1.6}
+.ms-toggle{padding:1.8rem 0 1.8rem 0.5rem;display:flex;align-items:flex-start;justify-content:flex-end;min-width:32px}
+.ms-icon{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;flex-shrink:0;transition:transform 0.2s}
+.ms-icon-done{background:var(--olive);color:#fff}
+.ms-icon-active{background:var(--peru);color:#fff}
+.ms-icon-queued{border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.25)}
+.ms-icon-deferred{border:1px solid rgba(255,255,255,0.07);color:rgba(255,255,255,0.15)}
+.ms-detail{display:none;padding:0 1.8rem 2rem 3.4rem}
+.ms-detail.open{display:block}
+.ms-detail p{font-size:0.8rem;color:rgba(255,255,255,0.32);line-height:1.9;margin-bottom:1rem}
+.ms-detail p:last-child{margin-bottom:0}
+.ms-checklist{list-style:none;margin:0.8rem 0 0}
+.ms-checklist li{display:flex;align-items:flex-start;gap:0.7rem;font-size:0.76rem;color:rgba(255,255,255,0.28);line-height:1.7;padding:0.3rem 0}
+.ms-check{width:14px;height:14px;border-radius:50%;flex-shrink:0;margin-top:0.2rem;display:flex;align-items:center;justify-content:center;font-size:0.55rem}
+.ms-check-done{background:rgba(85,107,47,0.3);color:#8aab5a}
+.ms-check-active{background:rgba(205,133,63,0.2);color:var(--peru)}
+.ms-check-todo{border:1px solid rgba(255,255,255,0.1)}
+.ms-note{margin-top:1rem;padding:0.9rem 1.2rem;background:rgba(58,96,115,0.08);border-left:2px solid rgba(58,96,115,0.4);font-size:0.75rem;color:rgba(255,255,255,0.3);line-height:1.7}
+.milestone.open .ms-icon{transform:rotate(45deg)}
+
 /* FOLLOW */
 #follow{background:var(--bg-dark);padding:7rem 0 6rem;border-top:1px solid var(--rule-dark)}
 .follow-inner{max-width:560px}
@@ -347,37 +384,164 @@ footer{background:var(--bg-dark);border-top:1px solid var(--rule-dark);padding:1
     <div class="prose">
       <span class="chapter-label-light">Current status — no rounding up</span>
       <h2>We are in the early stages of what a 25-year infrastructure project looks like.</h2>
-      <p>This is not a startup trying to appear further along than it is. This is a standards-building project that understands its position in the arc of its own development. The figures below represent structural completion estimates — not confidence metrics, not market progress, not fundraising narrative. They are honest assessments of where each layer of the build currently sits.</p>
+      <p>This is not a startup trying to appear further along than it is. This is a standards-building project that understands its position in the arc of its own development. What follows is the full milestone sequence — what is done, what is actively being built, what is queued, and what is deliberately deferred. Each entry is clickable. Each one says what it is and what it is not yet.</p>
     </div>
 
-    <div class="progress-stack">
-      <div class="progress-item">
-        <div class="progress-label-row"><span class="progress-name">Standard conceptual architecture</span><span class="progress-pct">65%</span></div>
-        <div class="progress-track"><div class="progress-fill" style="width:65%"></div></div>
+    <div class="roadmap">
+
+      <!-- 1: Standard v0.4 — DONE -->
+      <div class="milestone" onclick="toggleMilestone(this)">
+        <div class="ms-spine"><div class="ms-node" style="background:var(--olive)"></div><div class="ms-line"></div></div>
+        <div class="ms-body">
+          <div class="ms-meta"><span class="ms-tag ms-tag-done">Complete</span><span class="ms-period">Feb 2026</span></div>
+          <div class="ms-title">ICP Standard Definition — v0.4</div>
+          <div class="ms-sub">11 pillars defined, evidence base populated, publicly documented</div>
+        </div>
+        <div class="ms-toggle"><div class="ms-icon ms-icon-done">✓</div></div>
       </div>
-      <div class="progress-item">
-        <div class="progress-label-row"><span class="progress-name">Kit prompt architecture</span><span class="progress-pct">40%</span></div>
-        <div class="progress-track"><div class="progress-fill" style="width:40%"></div></div>
+      <div class="ms-detail">
+        <p>All 11 pillars have complete definitions, broken/aligned states, operating principles, and supporting evidence from real businesses across 20+ countries. v0.4 is the first version complete enough to be genuinely useful as a reference document — not just internally, but for founders, practitioners, and institutions evaluating whether to engage. Growth Pillars (8–11) are less evidenced than Foundation Pillars (1–7) — documented honestly in the standard itself.</p>
+        <ul class="ms-checklist">
+          <li><div class="ms-check ms-check-done">✓</div><span>7 Foundation Pillars — fully defined with real-world evidence</span></li>
+          <li><div class="ms-check ms-check-done">✓</div><span>4 Growth Pillars — defined; evidence base will deepen through steward field work</span></li>
+          <li><div class="ms-check ms-check-done">✓</div><span>Evidence base — 6 primary, 6 secondary references; 20+ countries</span></li>
+          <li><div class="ms-check ms-check-done">✓</div><span>Standard page publicly available with version history and update commitment</span></li>
+        </ul>
       </div>
-      <div class="progress-item">
-        <div class="progress-label-row"><span class="progress-name">Kit interface build</span><span class="progress-pct">15%</span></div>
-        <div class="progress-track"><div class="progress-fill" style="width:15%"></div></div>
+
+      <!-- 2: Kit Architecture — DONE -->
+      <div class="milestone" onclick="toggleMilestone(this)">
+        <div class="ms-spine"><div class="ms-node" style="background:var(--olive)"></div><div class="ms-line"></div></div>
+        <div class="ms-body">
+          <div class="ms-meta"><span class="ms-tag ms-tag-done">Prompt Architecture Complete</span><span class="ms-period">Feb 2026</span></div>
+          <div class="ms-title">6-Kit Journey Architecture</div>
+          <div class="ms-sub">Prompt architecture structured. Interface and field proof: in build. Not yet complete.</div>
+        </div>
+        <div class="ms-toggle"><div class="ms-icon ms-icon-done">✓</div></div>
       </div>
-      <div class="progress-item">
-        <div class="progress-label-row"><span class="progress-name">Field implementation evidence</span><span class="progress-pct">8%</span></div>
-        <div class="progress-track"><div class="progress-fill" style="width:8%"></div></div>
+      <div class="ms-detail">
+        <p>The kit system exists as complete, structured prompt architecture — six connected conversation designs that take a founder from raw intuition to four working output documents. The kits are not yet a deployed interface. Prompt architecture and interface build are distinct stages. Field-proven status is pending across all six — this column will remain empty until the first founders complete the journey.</p>
       </div>
-      <div class="progress-item">
-        <div class="progress-label-row"><span class="progress-name">Overall v1.0 structural completion</span><span class="progress-pct" style="color:var(--peru)">~14%</span></div>
-        <div class="progress-track"><div class="progress-fill" style="width:14%;background:var(--peru)"></div></div>
+
+      <!-- 3: Interface Build — ACTIVE -->
+      <div class="milestone" onclick="toggleMilestone(this)">
+        <div class="ms-spine"><div class="ms-node" style="background:var(--peru)"></div><div class="ms-line"></div></div>
+        <div class="ms-body">
+          <div class="ms-meta"><span class="ms-tag ms-tag-active">In Build</span><span class="ms-period">Q1–Q2 2026</span></div>
+          <div class="ms-title">Kit Interface &amp; Delivery Layer</div>
+          <div class="ms-sub">Prompt architecture is structured. The interface that delivers it is in development.</div>
+        </div>
+        <div class="ms-toggle"><div class="ms-icon ms-icon-active">→</div></div>
       </div>
+      <div class="ms-detail">
+        <p>The interface is the layer between the prompt architecture and the founder. The kits exist as complete conversation designs — they are not yet deployed in a way that a founder can access independently. This is the current primary build focus. Kit journeys open to founding implementors when the interface is ready.</p>
+        <ul class="ms-checklist">
+          <li><div class="ms-check ms-check-done">✓</div><span>Prompt architecture for 6 kits — structured and complete</span></li>
+          <li><div class="ms-check ms-check-active">→</div><span><strong style="color:rgba(255,255,255,0.5)">Interface build</strong> — in active development, target Q2 2026</span></li>
+          <li><div class="ms-check ms-check-todo"></div><span>Steward facilitator access — configured separately from founder access</span></li>
+          <li><div class="ms-check ms-check-todo"></div><span>Output document generation — Brand Compass, VMV, Business Model Reality, Brand Strategy</span></li>
+        </ul>
+      </div>
+
+      <!-- 4: Founder Journeys — ACTIVE -->
+      <div class="milestone" onclick="toggleMilestone(this)">
+        <div class="ms-spine"><div class="ms-node" style="background:var(--peru)"></div><div class="ms-line"></div></div>
+        <div class="ms-body">
+          <div class="ms-meta"><span class="ms-tag ms-tag-active">In Progress</span><span class="ms-period">Q1 2026 onward</span></div>
+          <div class="ms-title">Founding Implementor Journeys — 50 Target</div>
+          <div class="ms-sub">0 of 50 journeys complete. Orientation calls open now.</div>
+        </div>
+        <div class="ms-toggle"><div class="ms-icon ms-icon-active">→</div></div>
+      </div>
+      <div class="ms-detail">
+        <p>The Founding Implementor cohort is the primary evidence base for v1.0. Fifty completed journeys — with output documents and structured observations — is what earns v1.0. This number is honest: zero journeys are complete at time of writing. Orientation calls are open. Kit journeys open when the interface is ready.</p>
+        <ul class="ms-checklist">
+          <li><div class="ms-check ms-check-active">→</div><span><strong style="color:rgba(255,255,255,0.5)">Orientation calls</strong> — open now. 45-minute structural diagnostic.</span></li>
+          <li><div class="ms-check ms-check-todo"></div><span>Full kit journeys — open when interface is ready, Q2 2026</span></li>
+          <li><div class="ms-check ms-check-todo"></div><span>Target: 50 completed journeys with output documents by end 2026</span></li>
+        </ul>
+      </div>
+
+      <!-- 5: Steward Phase 1 — ACTIVE -->
+      <div class="milestone" onclick="toggleMilestone(this)">
+        <div class="ms-spine"><div class="ms-node" style="background:var(--peru)"></div><div class="ms-line"></div></div>
+        <div class="ms-body">
+          <div class="ms-meta"><span class="ms-tag ms-tag-active">In Progress</span><span class="ms-period">Q1 2026 — Q4 2026</span></div>
+          <div class="ms-title">Steward Phase 1 — 5 Founding Seats</div>
+          <div class="ms-sub">0 of 5 seats filled. All applications open.</div>
+        </div>
+        <div class="ms-toggle"><div class="ms-icon ms-icon-active">→</div></div>
+      </div>
+      <div class="ms-detail">
+        <p>Five founding contributors running kit conversations inside their own communities, documenting what holds and what breaks, shaping the standard through field evidence. The standard at v1.0 will be materially different because of what stewards bring back from the field. Every pillar definition is still being tested. No seats are currently filled. All five are open to applications.</p>
+        <ul class="ms-checklist">
+          <li><div class="ms-check ms-check-done">✓</div><span>Steward role formally defined and documented</span></li>
+          <li><div class="ms-check ms-check-active">→</div><span><strong style="color:rgba(255,255,255,0.5)">Applications open</strong> — all 5 of 5 seats available</span></li>
+          <li><div class="ms-check ms-check-todo"></div><span>Phase 1 launch — all five seats filled, bilateral agreements signed</span></li>
+          <li><div class="ms-check ms-check-todo"></div><span>Monthly refinement calls — through Q4 2026</span></li>
+          <li><div class="ms-check ms-check-todo"></div><span>12-month formal review — end 2026</span></li>
+        </ul>
+      </div>
+
+      <!-- 6: Case Studies — QUEUED -->
+      <div class="milestone" onclick="toggleMilestone(this)">
+        <div class="ms-spine"><div class="ms-node" style="background:rgba(58,96,115,0.7)"></div><div class="ms-line"></div></div>
+        <div class="ms-body">
+          <div class="ms-meta"><span class="ms-tag ms-tag-queued">Queued</span><span class="ms-period">Q2–Q3 2026</span></div>
+          <div class="ms-title">First Published Case Studies</div>
+          <div class="ms-sub">Co-authored field evidence from founder journeys and steward observations</div>
+        </div>
+        <div class="ms-toggle"><div class="ms-icon ms-icon-queued">+</div></div>
+      </div>
+      <div class="ms-detail">
+        <p>Case studies are the currency of institutional trust. Each one documents which pillars held, which broke, what changed, and what the standard needs to say more precisely. The first three are co-authored with founding stewards — published publicly under both names. Not testimonials. Structured field evidence that becomes citable by institutions.</p>
+        <ul class="ms-checklist">
+          <li><div class="ms-check ms-check-todo"></div><span>Structured case study template — pillar diagnostic, kit process, outputs, what changed</span></li>
+          <li><div class="ms-check ms-check-todo"></div><span>First 3 case studies — target Q3 2026</span></li>
+          <li><div class="ms-check ms-check-todo"></div><span>Published on evidence base — publicly citable under co-author names</span></li>
+        </ul>
+      </div>
+
+      <!-- 7: v1.0 — QUEUED -->
+      <div class="milestone" onclick="toggleMilestone(this)">
+        <div class="ms-spine"><div class="ms-node" style="background:rgba(58,96,115,0.7)"></div><div class="ms-line"></div></div>
+        <div class="ms-body">
+          <div class="ms-meta"><span class="ms-tag ms-tag-queued">Queued</span><span class="ms-period">Q4 2026</span></div>
+          <div class="ms-title">ICP Standard v1.0</div>
+          <div class="ms-sub">Three conditions. All three must be true simultaneously.</div>
+        </div>
+        <div class="ms-toggle"><div class="ms-icon ms-icon-queued">+</div></div>
+      </div>
+      <div class="ms-detail">
+        <p>v1.0 is not a milestone ICP declares. It is a milestone the evidence earns. Three conditions must all be true simultaneously — not two of three. There is no arbitrary date. The version number moves when the work says it moves.</p>
+        <ul class="ms-checklist">
+          <li><div class="ms-check ms-check-todo"></div><span><strong style="color:rgba(255,255,255,0.4)">50+ completed founder journeys</strong> — with documented output documents</span></li>
+          <li><div class="ms-check ms-check-todo"></div><span><strong style="color:rgba(255,255,255,0.4)">Founding steward sign-off</strong> — all 11 pillar definitions confirmed as field-tested</span></li>
+          <li><div class="ms-check ms-check-todo"></div><span><strong style="color:rgba(255,255,255,0.4)">Published evidence base</strong> — case studies publicly available and citable</span></li>
+        </ul>
+        <div class="ms-note">v1.0 carries founding contributor attribution permanently. Stewards and founding implementors are named in the standard document. That naming compounds.</div>
+      </div>
+
+      <!-- 8: Institutional — DEFERRED -->
+      <div class="milestone" onclick="toggleMilestone(this)">
+        <div class="ms-spine"><div class="ms-node" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15)"></div></div>
+        <div class="ms-body">
+          <div class="ms-meta"><span class="ms-tag ms-tag-deferred">Deferred — 2027+</span><span class="ms-period">After v1.0</span></div>
+          <div class="ms-title">Institutional Engagement</div>
+          <div class="ms-sub">Governments, development finance bodies, foundations — after the evidence is public</div>
+        </div>
+        <div class="ms-toggle"><div class="ms-icon ms-icon-deferred">+</div></div>
+      </div>
+      <div class="ms-detail">
+        <p>Institutional engagement becomes viable after v1.0 evidence is public. These institutions make decisions on proof, not potential. Arriving before the evidence exists is worse than not arriving — it creates an impression of premature ambition rather than structural readiness. The 2026 build is about earning the right to that conversation. Not having it.</p>
+      </div>
+
     </div>
 
-    <div class="punch">14% complete. This is a good time to be at the table — if you are the kind of person who understands what it means to shape a foundation rather than inhabit one.</div>
+    <div class="punch">This is a good time to be at the table — if you are the kind of person who understands what it means to shape a foundation rather than inhabit one.</div>
 
     <div class="prose">
       <p>Founding implementors who engage at v0.4 will be structurally cited in v1.0 documentation. The standard will record who helped build the floor — not just who arrived after it was finished. The financial rate reflects the build stage. The institutional positioning reflects the contribution made. These are different things.</p>
-      <p>The target before v1.0 is 50 founding implementors — not as a market number, but as an evidence number. Fifty serious implementations across diverse MSME contexts generates enough structural data to validate, challenge, and refine the standard before it is positioned as stable. Beyond 50, we would be scaling assumptions rather than scaling evidence.</p>
     </div>
 
     <div class="scene-marker" style="margin-top:4rem">
@@ -505,5 +669,15 @@ footer{background:var(--bg-dark);border-top:1px solid var(--rule-dark);padding:1
   </div>
 </footer>
 
+
+<script>
+function toggleMilestone(el) {
+  var detail = el.nextElementSibling;
+  if (!detail || !detail.classList.contains('ms-detail')) return;
+  var isOpen = detail.classList.contains('open');
+  el.classList.toggle('open', !isOpen);
+  detail.classList.toggle('open', !isOpen);
+}
+</script>
 </body>
 </html>
