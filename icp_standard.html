@@ -36,7 +36,7 @@
 }
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,300;0,6..12,400;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;1,6..12,300;1,6..12,400;1,6..12,700&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Nunito+Sans:ital,opsz,wght@0,6..12,300;0,6..12,400;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;1,6..12,300;1,6..12,400;1,6..12,700&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
 <style>
 
 :root {
@@ -81,7 +81,7 @@ a{text-decoration:none;color:inherit;}
 .hero-inner{position:relative;}
 .hero-pre{font-size:9px;letter-spacing:.28em;text-transform:uppercase;font-weight:700;color:var(--earth-lt);display:flex;align-items:center;gap:10px;margin-bottom:22px;opacity:0;animation:fadeUp .6s ease forwards .1s;}
 .hero-pre::before{content:'';display:block;width:20px;height:1.5px;background:var(--earth);}
-.hero-h{font-family:'Nunito Sans',sans-serif;font-size:clamp(36px,5.5vw,66px);font-weight:900;line-height:1.05;color:#fff;margin-bottom:24px;opacity:0;animation:fadeUp .9s ease forwards .25s;}
+.hero-h{font-family:'Lora','Nunito Sans',sans-serif;font-size:clamp(36px,5.5vw,66px);font-weight:700;line-height:1.05;color:#fff;margin-bottom:24px;opacity:0;animation:fadeUp .9s ease forwards .25s;}
 .hero-h em{font-style:italic;font-weight:300;color:rgba(205,133,63,.85);}
 .hero-standfirst{font-family:'EB Garamond',serif;font-size:19px;font-style:italic;line-height:1.75;color:rgba(255,255,255,.5);max-width:600px;opacity:0;animation:fadeUp .8s ease forwards .4s;}
 .hero-standfirst strong{font-style:normal;font-weight:500;color:rgba(255,255,255,.75);}
@@ -102,7 +102,7 @@ a{text-decoration:none;color:inherit;}
 .section-eyebrow::before{content:'';display:block;width:20px;height:1.5px;background:var(--earth);}
 .section-eyebrow.light{color:var(--earth-lt);}
 .section-eyebrow.light::before{background:var(--earth-lt);}
-.section-h{font-family:'Nunito Sans',sans-serif;font-size:clamp(26px,3.5vw,42px);font-weight:900;line-height:1.07;color:var(--teal-dd);margin-bottom:14px;}
+.section-h{font-family:'Lora','Nunito Sans',sans-serif;font-size:clamp(26px,3.5vw,42px);font-weight:700;line-height:1.07;color:var(--teal-dd);margin-bottom:14px;}
 .section-h.on-dark{color:#fff;}
 .section-h em{font-style:italic;font-weight:300;color:var(--teal);}
 .section-h.on-dark em{color:var(--earth-lt);}
@@ -153,7 +153,7 @@ a{text-decoration:none;color:inherit;}
 .pillar.open .pillar-body{display:block;}
 
 /* ── DIAGNOSTIC PUNCH ── */
-.d-punch{font-family:'Nunito Sans',sans-serif;font-size:14px;font-weight:900;color:rgba(30,51,64,.68);border-left:3px solid var(--earth);padding:12px 16px;margin:14px 0 22px;line-height:1.45;background:rgba(205,133,63,.04);}
+.d-punch{font-family:'Lora','Nunito Sans',sans-serif;font-size:15px;font-weight:600;font-style:italic;color:rgba(30,51,64,.72);border-left:3px solid var(--earth);padding:12px 16px;margin:14px 0 22px;line-height:1.5;background:rgba(205,133,63,.04);}
 
 /* ── PRINCIPLE ── */
 .principle-box{padding:20px 22px;background:rgba(58,96,115,.04);border:1px solid rgba(58,96,115,.09);margin-bottom:18px;}
@@ -378,8 +378,9 @@ footer{background:var(--teal-dd);padding:28px 40px;display:flex;align-items:cent
   <div class="nav-logo">Inner<span>Compass</span><span class="nav-project">Project</span></div>
   <div class="nav-sep"></div>
   <div class="nav-links">
+    <a href="index.html" class="nav-a">Home</a>
+    <a href="icp_build.html" class="nav-a">The Story</a>
     <a href="icp_standard.html" class="nav-a active">The Standard</a>
-    <a href="icp_build.html" class="nav-a">The Build</a>
     <a href="icp_implementors.html" class="nav-a">Implementors</a>
     <a href="icp_stewards.html" class="nav-a">Stewards</a>
   </div>
@@ -399,7 +400,7 @@ footer{background:var(--teal-dd);padding:28px 40px;display:flex;align-items:cent
     </div>
     <div class="hero-note">
       <div class="hero-note-eyebrow">This is a reference document</div>
-      <div class="hero-note-body">Designed to be studied, not skimmed. Not marketing copy. It documents the architecture — including what is incomplete, what is deferred, and what the evidence currently supports. Read it in full before deciding anything about ICP.</div>
+      <div class="hero-note-body">It is designed to be studied, not skimmed. Evaluated, not consumed. It documents the architecture — including what is incomplete, what is deferred, and what the evidence currently supports. The right reader will study it before engaging. The wrong reader will skim it and move on. Both outcomes are appropriate.</div>
     </div>
   </div>
 </section>
@@ -1641,20 +1642,21 @@ footer{background:var(--teal-dd);padding:28px 40px;display:flex;align-items:cent
 <!-- ══ CTAs ══ -->
 <section id="join" class="std-ctas">
   <div class="W">
-    <div class="section-eyebrow light r">Two ways to engage</div>
-    <h2 class="section-h on-dark r" style="margin-bottom:28px;">You've read the standard.<br><em>What's the appropriate next step?</em></h2>
-    <div class="cta-row r">
-      <div class="cta-card dark">
-        <div class="cta-tag">For Founders</div>
-        <div class="cta-h">A 45-minute orientation call — mutual evaluation.</div>
-        <div class="cta-body">Book a direct call — no cost, no pitch. You assess whether ICP is the right structural tool. ICP assesses whether this is the right moment for your business. You leave with a diagnostic regardless. <strong>Founding Rate: $500/month × 6 months. 50 seats. Closes after the first 50.</strong></div>
-        <a href="icp_implementors.html" class="btn-white">Implementor Path →</a>
+    <div class="section-eyebrow light r">What comes next</div>
+    <h2 class="section-h on-dark r" style="margin-bottom:16px;">You have seen the architecture.<br><em>The diagnostic is the next step.</em></h2>
+    <p style="font-size:15px;font-weight:300;color:rgba(255,255,255,.4);line-height:1.8;max-width:600px;margin-bottom:36px;" class="r">The standard names the structural principles. The diagnostic maps which ones are holding in your business and which ones are not. 44 questions. 15 minutes. A radar chart of your structural shape — specific enough to bring to an orientation call, or to decide whether the call is right.</p>
+    <div class="r" style="display:flex;gap:16px;flex-wrap:wrap;align-items:center;">
+      <a href="icp_implementors.html#diagnostic" style="display:inline-flex;align-items:center;gap:8px;padding:16px 32px;background:var(--earth);color:#fff;font-family:'Nunito Sans',sans-serif;font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;transition:background .2s;" onmouseover="this.style.background='#b8722e'" onmouseout="this.style.background='#CD853F'">Run the Structural Diagnostic →</a>
+      <a href="icp_build.html" style="display:inline-flex;align-items:center;gap:8px;padding:16px 32px;border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.45);font-family:'Nunito Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;transition:all .2s;" onmouseover="this.style.borderColor='rgba(255,255,255,.25)';this.style.color='rgba(255,255,255,.7)'" onmouseout="this.style.borderColor='rgba(255,255,255,.12)';this.style.color='rgba(255,255,255,.45)'">Read the Full Story →</a>
+    </div>
+    <div class="r" style="margin-top:36px;display:flex;gap:24px;flex-wrap:wrap;">
+      <div style="padding:20px 24px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);flex:1;min-width:240px;">
+        <div style="font-size:9px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:rgba(255,255,255,.3);margin-bottom:8px;">For Founders</div>
+        <div style="font-size:14px;color:rgba(255,255,255,.55);line-height:1.6;font-weight:300;">Founding Rate: $500/month × 6 months. 50 seats. A 45-minute orientation call — mutual evaluation — is the entry point. <a href="icp_implementors.html" style="color:var(--earth-lt);font-weight:600;">Implementor path →</a></div>
       </div>
-      <div class="cta-card earth-bg">
-        <div class="cta-tag">For Practitioners</div>
-        <div class="cta-h">Apply for one of five Steward seats.</div>
-        <div class="cta-body">Named founding contributor to Standard v1.0. Shape what the standard becomes. <strong>All five seats available. Applications reviewed personally.</strong></div>
-        <a href="icp_stewards.html" class="btn-dark">Steward Path →</a>
+      <div style="padding:20px 24px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);flex:1;min-width:240px;">
+        <div style="font-size:9px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:rgba(255,255,255,.3);margin-bottom:8px;">For Practitioners</div>
+        <div style="font-size:14px;color:rgba(255,255,255,.55);line-height:1.6;font-weight:300;">Five founding steward seats. Shape what v1.0 says. Named permanently as founding contributor. <a href="icp_stewards.html" style="color:var(--earth-lt);font-weight:600;">Steward path →</a></div>
       </div>
     </div>
   </div>
@@ -1665,8 +1667,8 @@ footer{background:var(--teal-dd);padding:28px 40px;display:flex;align-items:cent
   <div class="f-tagline">"The operating layer beneath every well-run business."</div>
   <div class="f-links">
     <a href="index.html" class="f-a">Home</a>
+    <a href="icp_build.html" class="f-a">The Story</a>
     <a href="icp_standard.html" class="f-a">Standard</a>
-    <a href="icp_build.html" class="f-a">Build</a>
     <a href="icp_implementors.html" class="f-a">Implementors</a>
     <a href="icp_stewards.html" class="f-a">Stewards</a>
   </div>
